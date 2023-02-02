@@ -6,12 +6,25 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <!--Google Font-->
+    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600' />
+    <!-- Mobile specific meta -->
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone-no">
+    <link href="./css/plugins.css" rel="stylesheet">
+    <link href="./css/style.css" rel="stylesheet">
   </head>
   <body>
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
+    
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+  
+  <script src="./js/jquery.js"></script>
+  <script src="./js/plugins.js"></script>
+  <script src="./js/plugins2.js"></script>
+  <script src="./js/custom.js"></script>
 </html>
