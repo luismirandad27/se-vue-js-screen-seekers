@@ -115,24 +115,12 @@ export default {
     },
     logout() {
       this.$store.dispatch('auth/logout');
-      this.$router.push('/');
+      this.$router.push('/').then(()=>{this.$router.go()});
     }
   },
   computed: {
     loggedIn() {
-      
       var loggedInValue = this.$store.state.auth.status.loggedIn;
-      /*
-      const fileName = './js/plugin.js';
-      const existingScript = document.querySelector(`script[src='${fileName}']`);
-      if (existingScript) {
-        existingScript.remove();
-      }
-      const script = document.createElement('script');
-      script.src = fileName;
-      script.async = false;
-      document.body.appendChild(script);
-      */
       return loggedInValue;
     }
   }
