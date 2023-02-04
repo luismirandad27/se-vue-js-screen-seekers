@@ -1,5 +1,5 @@
 <template>
-    <header class="ht-header">
+  <header class="ht-header">
     <div class="container">
       <nav class="navbar navbar-default navbar-custom">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -12,7 +12,8 @@
               <span></span>
             </div>
           </div>
-          <a href="index-2.html"><img class="logo" src="../../public/images/logo1.png" alt="" width="119" height="58"></a>
+          <a href="index-2.html"><img class="logo" src="../../public/images/logo1.png" alt="" width="119"
+              height="58"></a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
@@ -93,24 +94,47 @@
               </ul>
             </li>
             <li><a href="#">Help</a></li>
-            <li class="loginLink"><a @click="login">LOG In</a></li>
+            <li v-if="!loggedIn" class="loginLink"><a @click="login">LOG In</a></li>
+            <li v-if="loggedIn" class="loginLink"><a @click="logout">LOG Out</a></li>
           </ul>
         </div>
         <!-- /.navbar-collapse -->
       </nav>
     </div>
-  </header>    
+  </header>
 </template>
 
 <script>
 
-export default{
-    name: 'Header',
-    methods:{
-        login(){
-            alert("hello");
-            this.$router.push('/login');
-        }
+
+export default {
+  name: 'Header',
+  methods: {
+    login() {
+      this.$router.push('/login');
+    },
+    logout() {
+      this.$store.dispatch('auth/logout');
+      this.$router.push('/');
     }
+  },
+  computed: {
+    loggedIn() {
+      
+      var loggedInValue = this.$store.state.auth.status.loggedIn;
+      /*
+      const fileName = './js/plugin.js';
+      const existingScript = document.querySelector(`script[src='${fileName}']`);
+      if (existingScript) {
+        existingScript.remove();
+      }
+      const script = document.createElement('script');
+      script.src = fileName;
+      script.async = false;
+      document.body.appendChild(script);
+      */
+      return loggedInValue;
+    }
+  }
 }
 </script>

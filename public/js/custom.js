@@ -226,6 +226,7 @@ $(function(){
 	    }
 	  ]
 	});
+	console.log("hello");
 	//slider for home v3 and home v2, twitter slider home 1, 2
 	var singleItem = $('.slider-single-item');
 	singleItem.slick({
@@ -442,9 +443,10 @@ $(function(){
         }
     });
 	//==js for login and sign up
+	var signupLink = $(".signupLink");
 	/*
 	var loginLink = $(".loginLink");
-	var signupLink = $(".signupLink");
+	
 	var loginct = $( "#login-content" );
 	var signupct= $("#signup-content");
 	var loginWrap = $(".login-wrapper");

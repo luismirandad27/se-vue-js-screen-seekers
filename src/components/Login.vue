@@ -68,18 +68,19 @@ export default {
   },
   computed: {
     loggedIn() {
-      var isLoggedIn = this.$store.state.auth.status.loggedIn;
-      return isLoggedIn;
+      return this.$store.state.auth.status.loggedIn;
     },
   },
   methods: {
     handleLogin(e) {
       e.preventDefault();
+      alert("handleLogin method");
       this.user = new User(this.username, "", this.password);
       if (this.user.username && this.user.password) {
         this.$store.dispatch("auth/login", this.user).then(
           () => {
-            console.log("login successful");
+            alert("login successful");
+            this.$router.push('/userDashboard')
           },
           (error) => {
             alert(error.response && error.response.data) ||
@@ -88,10 +89,7 @@ export default {
           }
         );
       }
-    },
-    handleLogout() {
-      this.$store.dispatch("auth/logout");
-    },
+    }
   },
 };
 </script>

@@ -135,11 +135,6 @@ export default {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
     }
-  },
-  mounted(){
-    if(this.loggedIn){
-      this.$router.push({name:'MainUserPage'});
-    }
   }
 }
 </script>
