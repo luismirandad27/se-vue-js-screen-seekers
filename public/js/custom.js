@@ -442,6 +442,7 @@ $(function(){
         }
     });
 	//==js for login and sign up
+	/*
 	var loginLink = $(".loginLink");
 	var signupLink = $(".signupLink");
 	var loginct = $( "#login-content" );
@@ -466,7 +467,7 @@ $(function(){
 				}, 350);
 			}	
 		});
-    });
+    });*/
     //pop up for signup form
     signupLink.on('click', function(event){
     	event.preventDefault();
