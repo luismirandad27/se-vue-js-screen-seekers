@@ -74,13 +74,11 @@ export default {
   methods: {
     handleLogin(e) {
       e.preventDefault();
-      alert("handleLogin method");
       this.user = new User(this.username, "", this.password);
       if (this.user.username && this.user.password) {
         this.$store.dispatch("auth/login", this.user).then(
           () => {
-            alert("login successful");
-            this.$router.push('/userDashboard')
+            this.$router.push('/userMainPage')//.then(()=>{this.$router.go()})
           },
           (error) => {
             alert(error.response && error.response.data) ||
@@ -90,6 +88,6 @@ export default {
         );
       }
     }
-  },
+  }
 };
 </script>
