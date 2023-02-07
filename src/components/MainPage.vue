@@ -9,8 +9,8 @@
           <a href="#"><i class="ion-social-googleplus"></i></a>
           <a href="#"><i class="ion-social-youtube"></i></a>
         </div>
-        <div class="slick-multiItemSlider">
-          <div class="movie-item">
+        <Splide :options="splideOptions" aria-label="My Favorite Images">
+          <SplideSlide class="movie-item">
             <div class="mv-img">
               <a href="#"><img src="images/uploads/slider1.jpg" alt="" width="285" height="437"></a>
             </div>
@@ -21,8 +21,8 @@
               <h6><a href="#">Interstellar</a></h6>
               <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
             </div>
-          </div>
-          <div class="movie-item">
+          </SplideSlide>
+          <SplideSlide class="movie-item">
             <div class="mv-img">
               <a href="#"><img src="images/uploads/slider2.jpg" alt="" width="285" height="437"></a>
             </div>
@@ -33,8 +33,8 @@
               <h6><a href="#">The revenant</a></h6>
               <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
             </div>
-          </div>
-          <div class="movie-item">
+          </SplideSlide>
+          <SplideSlide class="movie-item">
             <div class="mv-img">
               <a href="#"><img src="images/uploads/slider3.jpg" alt="" width="285" height="437"></a>
             </div>
@@ -45,8 +45,8 @@
               <h6><a href="#">Die hard</a></h6>
               <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
             </div>
-          </div>
-          <div class="movie-item">
+          </SplideSlide>
+          <SplideSlide class="movie-item">
             <div class="mv-img">
               <a href="#"><img src="images/uploads/slider4.jpg" alt="" width="285" height="437"></a>
             </div>
@@ -57,8 +57,8 @@
               <h6><a href="#">The walk</a></h6>
               <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
             </div>
-          </div>
-          <div class="movie-item">
+          </SplideSlide>
+          <SplideSlide class="movie-item">
             <div class="mv-img">
               <a href="#"><img src="images/uploads/slider1.jpg" alt="" width="285" height="437"></a>
             </div>
@@ -69,8 +69,8 @@
               <h6><a href="#">Interstellar</a></h6>
               <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
             </div>
-          </div>
-          <div class="movie-item">
+          </SplideSlide>
+          <SplideSlide class="movie-item">
             <div class="mv-img">
               <a href="#"><img src="images/uploads/slider2.jpg" alt="" width="285" height="437"></a>
             </div>
@@ -81,8 +81,8 @@
               <h6><a href="#">The revenant</a></h6>
               <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
             </div>
-          </div>
-          <div class="movie-item">
+          </SplideSlide>
+          <SplideSlide class="movie-item">
             <div class="mv-img">
               <img src="images/uploads/slider3.jpg" alt="" width="285" height="437">
             </div>
@@ -93,8 +93,8 @@
               <h6><a href="#">Die hard</a></h6>
               <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
             </div>
-          </div>
-          <div class="movie-item">
+          </SplideSlide>
+          <SplideSlide class="movie-item">
             <div class="mv-img">
               <img src="images/uploads/slider4.jpg" alt="" width="285" height="437">
             </div>
@@ -105,8 +105,8 @@
               <h6><a href="#">The walk</a></h6>
               <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
             </div>
-          </div>
-          <div class="movie-item">
+          </SplideSlide>
+          <SplideSlide class="movie-item">
             <div class="mv-img">
               <img src="images/uploads/slider3.jpg" alt="" width="285" height="437">
             </div>
@@ -117,26 +117,45 @@
               <h6><a href="#">Die hard</a></h6>
               <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
             </div>
-          </div>
-        </div>
+          </SplideSlide>
+        </Splide>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { Splide, SplideSlide } from '@splidejs/vue-splide';
+// Default theme
+import '@splidejs/vue-splide/css';
+
+// or other themes
+import '@splidejs/vue-splide/css/skyblue';
+import '@splidejs/vue-splide/css/sea-green';
+
+// or only core styles
+import '@splidejs/vue-splide/css/core';
 
 export default {
   name: 'MainPage',
+  components:{
+    Splide,
+    SplideSlide,
+  },
   data(){
-    return {};
+    return {
+      splideOptions:{
+        "type":"loop",
+        "perPage":4,
+        "interval":2000,
+        "autoplay":true
+      }
+    };
   },
   computed:{
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
     }
-  }
+  },
 }
 </script>
-
-

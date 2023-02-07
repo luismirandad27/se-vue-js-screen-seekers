@@ -190,7 +190,8 @@ $(function(){
 	});
 	//main slider home 1
 	var multiItemSlider = $('.slick-multiItemSlider');
-	multiItemSlider.slick({
+	console.log(multiItemSlider);
+	multiItemSlider.not('.slick-initialized').slick({
 		infinite: true,
 		slidesToShow: 4,
 		slidesToScroll: 4,

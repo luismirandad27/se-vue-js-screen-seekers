@@ -894,6 +894,7 @@
 </template>
   
 <script>
+
 export default {
   name: "UserMainPage",
 };

@@ -154,9 +154,8 @@
     </div>
   </header>
 </template>
-
+ 
 <script>
-
 export default {
   name: "Header",
   computed: {
@@ -171,8 +170,8 @@ export default {
     },
     logout() {
       this.$store.dispatch("auth/logout");
-      this.$router.push('/').then(()=>{this.$router.go()});
-    }
-  }
+      this.$router.push("/");
+    },
+  },
 };
 </script>

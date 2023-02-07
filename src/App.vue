@@ -8,8 +8,8 @@
       <span></span>
     </div>
   </div>
--->
-  <Header />
+  -->
+  <Header/>
   <router-view></router-view>
   <Footer />
 </template>
@@ -22,9 +22,15 @@ import Footer from "./components/Footer";
 export default {
   name: "App",
   components: {
-    Header,
     Footer,
+    Header
   },
+  computed: {
+    loggedIn() {
+      var loggedInValue = this.$store.state.auth.status.loggedIn;
+      return loggedInValue;
+    },
+  }
 };
 </script>
 
