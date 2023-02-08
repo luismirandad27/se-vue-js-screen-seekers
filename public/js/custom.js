@@ -1,3 +1,4 @@
+//preloading for page
 $(window).on('load', function() { // makes sure the whole site is loaded 
 	var status = $('#status');
 	var preloader = $('#preloader');
@@ -11,7 +12,7 @@ $(window).on('load', function() { // makes sure the whole site is loaded
 			vidDefer[i].setAttribute('src',vidDefer[i].getAttribute('data-src'));
 		} 
 	}
-});
+})
 $(function(){
 	'use strict';
 	// js for dropdown menu
@@ -190,8 +191,7 @@ $(function(){
 	});
 	//main slider home 1
 	var multiItemSlider = $('.slick-multiItemSlider');
-	console.log(multiItemSlider);
-	multiItemSlider.not('.slick-initialized').slick({
+	multiItemSlider.slick({
 		infinite: true,
 		slidesToShow: 4,
 		slidesToScroll: 4,
@@ -226,7 +226,6 @@ $(function(){
 	    }
 	  ]
 	});
-	
 	//slider for home v3 and home v2, twitter slider home 1, 2
 	var singleItem = $('.slider-single-item');
 	singleItem.slick({
@@ -443,10 +442,8 @@ $(function(){
         }
     });
 	//==js for login and sign up
-	var signupLink = $(".signupLink");
-	/*
 	var loginLink = $(".loginLink");
-	
+	var signupLink = $(".signupLink");
 	var loginct = $( "#login-content" );
 	var signupct= $("#signup-content");
 	var loginWrap = $(".login-wrapper");
@@ -469,7 +466,7 @@ $(function(){
 				}, 350);
 			}	
 		});
-    });*/
+    });
     //pop up for signup form
     signupLink.on('click', function(event){
     	event.preventDefault();

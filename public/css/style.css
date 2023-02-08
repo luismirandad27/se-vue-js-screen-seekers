@@ -6844,30 +6844,31 @@ p.ceb-single {
   text-transform: uppercase;
 }
 .overlay {
-  /*bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  bottom: 0;
   left: 0;
   position: fixed;
   top: 0;
   width: 100%;
   height: 100%;
   z-index: 999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  */
-  background: url('../images/uploads/slider-bg.jpg') repeat;
-  background-position: center;
-  text-align: center;
-  background-size: cover;
-  position: relative;
-  padding-top: 150px;
-  padding-bottom: 50px;
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  -webkit-opacity: 0;
+  opacity: 0;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+  filter: alpha(opacity=0);
   display: -webkit-flex;
   display: -moz-box;
   display: -ms-flexbox;
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
+  -webkit-transition: all 0.35s ease-out;
+  -moz-transition: all 0.35s ease-out;
+  -o-transition: all 0.35s ease-out;
+  transition: all 0.35s ease-out;
 }
 .overlay.openform {
   -moz-opacity: 1;
@@ -6972,6 +6973,7 @@ p.ceb-single {
   font-size: 14px;
   color: #222222;
   font-weight: bold;
+  text-transform: lowercase;
   margin-top: 10px;
   height: 42px;
   border: 1px solid #e1e1e1;
@@ -6981,6 +6983,7 @@ p.ceb-single {
   font-size: 14px;
   color: #222222;
   font-weight: bold;
+  text-transform: lowercase;
 }
 .overlay .login-content button {
   font-family: 'Dosis', sans-serif;

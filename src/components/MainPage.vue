@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="social-link">
-          <p>Follow us: </p>
+          <p>Follow us:</p>
           <a href="#"><i class="ion-social-facebook"></i></a>
           <a href="#"><i class="ion-social-twitter"></i></a>
           <a href="#"><i class="ion-social-googleplus"></i></a>
@@ -12,7 +12,13 @@
         <Splide :options="splideOptions" aria-label="My Favorite Images">
           <SplideSlide class="movie-item">
             <div class="mv-img">
-              <a href="#"><img src="images/uploads/slider1.jpg" alt="" width="285" height="437"></a>
+              <a href="#"
+                ><img
+                  src="images/uploads/slider1.jpg"
+                  alt=""
+                  width="285"
+                  height="437"
+              /></a>
             </div>
             <div class="title-in">
               <div class="cate">
@@ -24,7 +30,13 @@
           </SplideSlide>
           <SplideSlide class="movie-item">
             <div class="mv-img">
-              <a href="#"><img src="images/uploads/slider2.jpg" alt="" width="285" height="437"></a>
+              <a href="#"
+                ><img
+                  src="images/uploads/slider2.jpg"
+                  alt=""
+                  width="285"
+                  height="437"
+              /></a>
             </div>
             <div class="title-in">
               <div class="cate">
@@ -36,7 +48,13 @@
           </SplideSlide>
           <SplideSlide class="movie-item">
             <div class="mv-img">
-              <a href="#"><img src="images/uploads/slider3.jpg" alt="" width="285" height="437"></a>
+              <a href="#"
+                ><img
+                  src="images/uploads/slider3.jpg"
+                  alt=""
+                  width="285"
+                  height="437"
+              /></a>
             </div>
             <div class="title-in">
               <div class="cate">
@@ -48,11 +66,18 @@
           </SplideSlide>
           <SplideSlide class="movie-item">
             <div class="mv-img">
-              <a href="#"><img src="images/uploads/slider4.jpg" alt="" width="285" height="437"></a>
+              <a href="#"
+                ><img
+                  src="images/uploads/slider4.jpg"
+                  alt=""
+                  width="285"
+                  height="437"
+              /></a>
             </div>
             <div class="title-in">
               <div class="cate">
-                <span class="blue"><a href="#">Sci-fi</a></span> <span class="orange"><a href="#">advanture</a></span>
+                <span class="blue"><a href="#">Sci-fi</a></span>
+                <span class="orange"><a href="#">advanture</a></span>
               </div>
               <h6><a href="#">The walk</a></h6>
               <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
@@ -60,7 +85,13 @@
           </SplideSlide>
           <SplideSlide class="movie-item">
             <div class="mv-img">
-              <a href="#"><img src="images/uploads/slider1.jpg" alt="" width="285" height="437"></a>
+              <a href="#"
+                ><img
+                  src="images/uploads/slider1.jpg"
+                  alt=""
+                  width="285"
+                  height="437"
+              /></a>
             </div>
             <div class="title-in">
               <div class="cate">
@@ -72,7 +103,13 @@
           </SplideSlide>
           <SplideSlide class="movie-item">
             <div class="mv-img">
-              <a href="#"><img src="images/uploads/slider2.jpg" alt="" width="285" height="437"></a>
+              <a href="#"
+                ><img
+                  src="images/uploads/slider2.jpg"
+                  alt=""
+                  width="285"
+                  height="437"
+              /></a>
             </div>
             <div class="title-in">
               <div class="cate">
@@ -84,7 +121,12 @@
           </SplideSlide>
           <SplideSlide class="movie-item">
             <div class="mv-img">
-              <img src="images/uploads/slider3.jpg" alt="" width="285" height="437">
+              <img
+                src="images/uploads/slider3.jpg"
+                alt=""
+                width="285"
+                height="437"
+              />
             </div>
             <div class="title-in">
               <div class="cate">
@@ -96,11 +138,17 @@
           </SplideSlide>
           <SplideSlide class="movie-item">
             <div class="mv-img">
-              <img src="images/uploads/slider4.jpg" alt="" width="285" height="437">
+              <img
+                src="images/uploads/slider4.jpg"
+                alt=""
+                width="285"
+                height="437"
+              />
             </div>
             <div class="title-in">
               <div class="cate">
-                <span class="blue"><a href="#">Sci-fi</a></span> <span class="orange"><a href="#">advanture</a></span>
+                <span class="blue"><a href="#">Sci-fi</a></span>
+                <span class="orange"><a href="#">advanture</a></span>
               </div>
               <h6><a href="#">The walk</a></h6>
               <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
@@ -108,7 +156,12 @@
           </SplideSlide>
           <SplideSlide class="movie-item">
             <div class="mv-img">
-              <img src="images/uploads/slider3.jpg" alt="" width="285" height="437">
+              <img
+                src="images/uploads/slider3.jpg"
+                alt=""
+                width="285"
+                height="437"
+              />
             </div>
             <div class="title-in">
               <div class="cate">
@@ -125,6 +178,7 @@
 </template>
 
 <script>
+import $ from 'jquery';
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 // Default theme
 import '@splidejs/vue-splide/css';
@@ -148,7 +202,8 @@ export default {
         "type":"loop",
         "perPage":4,
         "interval":2000,
-        "autoplay":true
+        "autoplay":true,
+        "arrows":false
       }
     };
   },
@@ -157,5 +212,35 @@ export default {
       return this.$store.state.auth.status.loggedIn;
     }
   },
+  methods:{
+    restartLogInForm(){
+      var loginLink = $(".loginLink");
+      var loginct = $( "#login-content" );
+      var loginWrap = $(".login-wrapper");
+      var overlay = $(".overlay");
+      loginWrap.each( function(){
+        $(this).wrap('<div class="overlay"></div>')
+      });
+        //pop up for login form
+        loginLink.on('click', function(event){
+          event.preventDefault();
+          loginct.parents(overlay).addClass("openform");
+        $(document).on('click', function(e){
+        var target = $(e.target);
+        if ($(target).hasClass("overlay")){
+            $(target).find(loginct).each( function(){
+              $(this).removeClass("openform");
+            });
+            setTimeout( function(){
+              $(target).removeClass("openform");
+            }, 350);
+          }	
+        });
+        });
+    }
+  },
+  mounted(){
+    this.restartLogInForm();
+  }
 }
 </script>

@@ -2,8 +2,8 @@
   <div class="slider sliderv2">
 	<div class="container">
 		<div class="row">
-	    	<div class="slider-single-item">
-	    		<div class="movie-item">
+	    	<Splide :options="splideOptionsTop">
+	    		<SplideSlide class="movie-item">
 	    			<div class="row">
 	    				<div class="col-md-8 col-sm-12 col-xs-12">
 	    					<div class="title-in">
@@ -47,8 +47,8 @@
 			    			</div>
 		    			</div>
 	    			</div>	
-	    		</div>
-	    		<div class="movie-item">
+	    		</SplideSlide>
+	    		<SplideSlide class="movie-item">
 	    			<div class="row">
 	    				<div class="col-md-8 col-sm-12 col-xs-12">
 	    					<div class="title-in">
@@ -57,8 +57,8 @@
 			    					<span class="yell"><a href="#">Action</a></span>
 			    					<span class="orange"><a href="#">advanture</a></span>
 			    				</div>
-			    				<h1><a href="#">guardians of the<br>
-								galaxy <span>2015</span></a></h1>
+			    				<h1><a href="#">Avengers Endgame<br>
+								<span>2021</span></a></h1>
 								<div class="social-btn">
 									<a href="#" class="parent-btn"><i class="ion-play"></i> Watch Trailer</a>
 									<a href="#" class="parent-btn"><i class="ion-heart"></i> Add to Favorite</a>
@@ -93,8 +93,8 @@
 			    			</div>
 		    			</div>
 	    			</div>	
-	    		</div>
-	    	</div>
+	    		</SplideSlide>
+	    	</Splide>
 	    </div>
 	</div>
 </div>
@@ -894,9 +894,39 @@
 </template>
   
 <script>
+import { Splide, SplideSlide } from '@splidejs/vue-splide';
+// Default theme
+import '@splidejs/vue-splide/css';
+
+// or other themes
+import '@splidejs/vue-splide/css/skyblue';
+import '@splidejs/vue-splide/css/sea-green';
+
+// or only core styles
+import '@splidejs/vue-splide/css/core';
 
 export default {
   name: "UserMainPage",
+  components:{
+	Splide,
+	SplideSlide
+  },
+  data(){
+	return {
+		splideOptionsTop:{
+			"type":"loop",
+			"perPage":1,
+			"interval":2000,
+			"autoplay":true,
+			"arrows":false
+		}
+	}
+  },
+  computed:{
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    }
+  }
 };
 </script>
   
