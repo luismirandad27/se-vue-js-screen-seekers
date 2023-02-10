@@ -1,51 +1,50 @@
 <template>
   <!--login form popup-->
-  <div v-if="!loggedIn">
-    <div class="login-wrapper" id="login-content">
-      <div class="login-content">
-        <a href="#" class="close">x</a>
-        <h3>Login</h3>
-        <form @submit="handleLogin">
-          <div class="row">
-            <label for="username">
-              Username:
-              <input
-                type="text"
-                name="username"
-                v-model="username"
-                id="username"
-              />
-            </label>
-          </div>
+  <div class="login-wrapper" id="login-content">
+    <div class="login-content">
+      <a href="#" class="close">x</a>
+      <h3>Login</h3>
+      <form @submit="handleLogin">
+        <div class="row">
+          <label for="username">
+            Username:
+            <input
+              type="text"
+              name="username"
+              v-model="username"
+              id="username"
+            />
+          </label>
+        </div>
 
-          <div class="row">
-            <label for="password">
-              Password:
-              <input
-                type="password"
-                name="password"
-                v-model="password"
-                id="password"
-              />
-            </label>
-          </div>
-          <div class="row">
-            <div class="remember">
-              <div>
-                <input type="checkbox" name="remember" value="Remember me" /><span
-                  >Remember me</span
-                >
-              </div>
-              <a href="#">Forget password ?</a>
+        <div class="row">
+          <label for="password">
+            Password:
+            <input
+              type="password"
+              name="password"
+              v-model="password"
+              id="password"
+            />
+          </label>
+        </div>
+        <div class="row">
+          <div class="remember">
+            <div>
+              <input type="checkbox" name="remember" value="Remember me" /><span
+                >Remember me</span
+              >
             </div>
+            <a href="#">Forget password ?</a>
           </div>
-          <div class="row">
-            <button type="submit">Login</button>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div class="row">
+          <button type="submit">Login</button>
+        </div>
+      </form>
     </div>
   </div>
+
   <!--end of login form popup-->
   <header class="ht-header">
     <div class="container">
@@ -193,8 +192,18 @@
               <!--<a @click="login">LOG In</a>-->
               <a>LOG In</a>
             </li>
-            <li v-if="loggedIn" class="loginLink">
-              <a @click="logout">LOG Out</a>
+            <li class="dropdown first" v-if="loggedIn">
+              <a
+                class="btn btn-default dropdown-toggle lv1"
+                data-toggle="dropdown"
+                data-hover="dropdown"
+              >
+                Hi, {{ currentUser.username }} <i class="fa fa-angle-down" aria-hidden="true"></i>
+              </a>
+              <ul class="dropdown-menu level1">
+                <li><a href="landing.html">My Account</a></li>
+                <li><a @click="logout">LOG Out</a></li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -206,7 +215,7 @@
  
 <script>
 import User from "../models/user";
-import $ from 'jquery';
+import $ from "jquery";
 
 export default {
   name: "Header",
@@ -215,6 +224,9 @@ export default {
       var loggedInValue = this.$store.state.auth.status.loggedIn;
       return loggedInValue;
     },
+    currentUser(){
+      return  this.$store.state.auth.user;
+    }
   },
   methods: {
     handleLogin(e) {
@@ -223,8 +235,8 @@ export default {
       if (this.user.username && this.user.password) {
         this.$store.dispatch("auth/login", this.user).then(
           () => {
-            const objOverlayLogin = $('.openform');
-            objOverlayLogin.removeClass('openform');
+            const objOverlayLogin = $(".openform");
+            objOverlayLogin.removeClass("openform");
             this.$router.push("/userMainPage");
           },
           (error) => {
@@ -239,6 +251,75 @@ export default {
       this.$store.dispatch("auth/logout");
       this.$router.push("/");
     },
+    addingOverlay(){
+      var loginWrap = $(".login-wrapper");
+      loginWrap.each(function () {
+          $(this).wrap('<div class="overlay"></div>');
+        });
+    },
+    addingLoginClickListener(){
+      var loginLink = $(".loginLink");
+      var loginct = $("#login-content");
+      var overlay = $(".overlay");
+
+      //pop up for login form
+      loginLink.on("click", function (event) {
+        event.preventDefault();
+        loginct.parent(overlay).addClass("openform");
+        $(document).on("click", function (e) {
+          var target = $(e.target);
+          if ($(target).hasClass("overlay")) {
+            $(target)
+              .find(loginct)
+              .each(function () {
+                $(this).removeClass("openform");
+              });
+            setTimeout(function () {
+              $(target).removeClass("openform");
+            }, 350);
+          }
+        });
+      });
+    },
+    addingDropdownMenu(){
+      /* eslint-disable */
+      var windowWidth = $(window).width();
+      if(windowWidth > 1024){
+        var dropdown = $( '.dropdown');
+        dropdown.hover(
+              function(){
+                  $(this).children('.dropdown-menu').fadeIn(300);
+              },
+              function(){
+                  $(this).children('.dropdown-menu').fadeOut(300);
+              }
+          );	   
+      }else{
+        var dropdownClick = $('.navbar a.dropdown-toggle');
+        dropdownClick.on('click', function(e) {
+          var $el = $(this);
+          var $parent = $(this).offsetParent(".dropdown-menu");
+          var $open = $('.nav li.open');
+          $(this).parent("li").toggleClass('open');
+
+          if(!$parent.parent().hasClass('nav')) {
+            $el.next().css({"top": $el[0].offsetTop, "left": $parent.outerWidth() - 4});
+          }
+          $open.not($(this).parents("li")).removeClass("open");
+          return false;
+        });
+      }
+      /* eslint-enable */
+    }
   },
+  mounted(){
+    this.addingOverlay();
+    this.addingLoginClickListener();
+    this.addingDropdownMenu();
+  },
+  updated(){
+    this.addingLoginClickListener();
+    this.addingDropdownMenu();
+  }
 };
 </script>
