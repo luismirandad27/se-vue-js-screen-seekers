@@ -15,7 +15,7 @@
             <div class="mv-img">
               <a href="#"
                 ><img
-                  :src="movie.posterImage"
+                  :src="$MOVIE_PHOTOS_URL + '/' + movie.id + '/' +movie.posterImage"
                   alt=""
                   width="285"
                   height="437"
