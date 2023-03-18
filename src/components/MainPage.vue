@@ -9,165 +9,23 @@
           <a href="#"><i class="ion-social-googleplus"></i></a>
           <a href="#"><i class="ion-social-youtube"></i></a>
         </div>
-        <Splide :options="splideOptions" aria-label="My Favorite Images">
-          <SplideSlide class="movie-item">
+        <!-- Setting a if condition to mount the splide AFTER the getRandomMovie finish-->
+        <Splide v-if="randomMovies.length > 0" :options="splideOptions" aria-label="My Favorite Images">
+          <SplideSlide class="movie-item" v-for="(movie,index) in randomMovies" :key="index" >
             <div class="mv-img">
               <a href="#"
                 ><img
-                  src="images/uploads/slider1.jpg"
+                  :src="movie.posterImage"
                   alt=""
                   width="285"
                   height="437"
               /></a>
             </div>
             <div class="title-in">
-              <div class="cate">
-                <span class="blue"><a href="#">Sci-fi</a></span>
+              <div class="cate" v-for="(genre, index) in movie.genre" :key="index">
+                <span class="blue"><a href="#">{{genre}}</a></span>
               </div>
-              <h6><a href="#">Interstellar</a></h6>
-              <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
-            </div>
-          </SplideSlide>
-          <SplideSlide class="movie-item">
-            <div class="mv-img">
-              <a href="#"
-                ><img
-                  src="images/uploads/slider2.jpg"
-                  alt=""
-                  width="285"
-                  height="437"
-              /></a>
-            </div>
-            <div class="title-in">
-              <div class="cate">
-                <span class="yell"><a href="#">action</a></span>
-              </div>
-              <h6><a href="#">The revenant</a></h6>
-              <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
-            </div>
-          </SplideSlide>
-          <SplideSlide class="movie-item">
-            <div class="mv-img">
-              <a href="#"
-                ><img
-                  src="images/uploads/slider3.jpg"
-                  alt=""
-                  width="285"
-                  height="437"
-              /></a>
-            </div>
-            <div class="title-in">
-              <div class="cate">
-                <span class="green"><a href="#">comedy</a></span>
-              </div>
-              <h6><a href="#">Die hard</a></h6>
-              <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
-            </div>
-          </SplideSlide>
-          <SplideSlide class="movie-item">
-            <div class="mv-img">
-              <a href="#"
-                ><img
-                  src="images/uploads/slider4.jpg"
-                  alt=""
-                  width="285"
-                  height="437"
-              /></a>
-            </div>
-            <div class="title-in">
-              <div class="cate">
-                <span class="blue"><a href="#">Sci-fi</a></span>
-                <span class="orange"><a href="#">advanture</a></span>
-              </div>
-              <h6><a href="#">The walk</a></h6>
-              <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
-            </div>
-          </SplideSlide>
-          <SplideSlide class="movie-item">
-            <div class="mv-img">
-              <a href="#"
-                ><img
-                  src="images/uploads/slider1.jpg"
-                  alt=""
-                  width="285"
-                  height="437"
-              /></a>
-            </div>
-            <div class="title-in">
-              <div class="cate">
-                <span class="blue"><a href="#">Sci-fi</a></span>
-              </div>
-              <h6><a href="#">Interstellar</a></h6>
-              <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
-            </div>
-          </SplideSlide>
-          <SplideSlide class="movie-item">
-            <div class="mv-img">
-              <a href="#"
-                ><img
-                  src="images/uploads/slider2.jpg"
-                  alt=""
-                  width="285"
-                  height="437"
-              /></a>
-            </div>
-            <div class="title-in">
-              <div class="cate">
-                <span class="yell"><a href="#">action</a></span>
-              </div>
-              <h6><a href="#">The revenant</a></h6>
-              <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
-            </div>
-          </SplideSlide>
-          <SplideSlide class="movie-item">
-            <div class="mv-img">
-              <img
-                src="images/uploads/slider3.jpg"
-                alt=""
-                width="285"
-                height="437"
-              />
-            </div>
-            <div class="title-in">
-              <div class="cate">
-                <span class="green"><a href="#">comedy</a></span>
-              </div>
-              <h6><a href="#">Die hard</a></h6>
-              <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
-            </div>
-          </SplideSlide>
-          <SplideSlide class="movie-item">
-            <div class="mv-img">
-              <img
-                src="images/uploads/slider4.jpg"
-                alt=""
-                width="285"
-                height="437"
-              />
-            </div>
-            <div class="title-in">
-              <div class="cate">
-                <span class="blue"><a href="#">Sci-fi</a></span>
-                <span class="orange"><a href="#">advanture</a></span>
-              </div>
-              <h6><a href="#">The walk</a></h6>
-              <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
-            </div>
-          </SplideSlide>
-          <SplideSlide class="movie-item">
-            <div class="mv-img">
-              <img
-                src="images/uploads/slider3.jpg"
-                alt=""
-                width="285"
-                height="437"
-              />
-            </div>
-            <div class="title-in">
-              <div class="cate">
-                <span class="green"><a href="#">comedy</a></span>
-              </div>
-              <h6><a href="#">Die hard</a></h6>
+              <h6><a href="#">{{ movie.title }}</a></h6>
               <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
             </div>
           </SplideSlide>
@@ -178,7 +36,7 @@
 </template>
 
 <script>
-//import $ from 'jquery';
+/* eslint-disable */
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 // Default theme
 import '@splidejs/vue-splide/css';
@@ -189,6 +47,10 @@ import '@splidejs/vue-splide/css/sea-green';
 
 // or only core styles
 import '@splidejs/vue-splide/css/core';
+
+// importing Movie Service
+import MovieService from '@/services/movie.service.js';
+import Movie from '@/models/movie';
 
 export default {
   name: 'MainPage',
@@ -204,10 +66,37 @@ export default {
         "interval":2000,
         "autoplay":true,
         "arrows":false
-      }
+      },
+      randomMovies:[]
     };
   },
   methods:{
+    getRandomMovies(){
+      //handle get random movies api method
+      const movieService = new MovieService();
+
+      movieService.getRandomMovies().then((response)=>{
+        
+        //To translate into a Movie object, we can use response.map
+        this.randomMovies = response.map((movieData)=>{
+          return new Movie(
+            movieData.id,
+            movieData.title, 
+            movieData.genre.split(","), 
+            movieData.releaseDate, 
+            movieData.length, 
+            movieData.synopsis, 
+            movieData.classificationRating,
+            movieData.movieTrailerLink, 
+            movieData.isInTheaters, 
+            movieData.whereToWatch,
+            movieData.posterImage,
+            movieData.trailerImage
+          );
+        });
+
+      });
+    }
   },
   computed:{
     loggedIn() {
@@ -216,7 +105,9 @@ export default {
     currentUser(){
       return  this.$store.state.auth.user;
     }
-  }
-  
+  },
+  mounted(){
+    this.getRandomMovies();
+  },
 }
 </script>
