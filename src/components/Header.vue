@@ -141,8 +141,8 @@
               class="logo"
               src="../../public/images/logo1.png"
               alt=""
-              width="119"
-              height="58"
+              width="200"
+              height="200"
           /></a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -159,13 +159,8 @@
                 class="btn btn-default dropdown-toggle lv1"
                 data-toggle="dropdown"
               >
-                Home <i class="fa fa-angle-down" aria-hidden="true"></i>
+                Home
               </a>
-              <ul class="dropdown-menu level1">
-                <li><a href="index-2.html">Home 01</a></li>
-                <li><a href="homev2.html">Home 02</a></li>
-                <li><a href="homev3.html">Home 03</a></li>
-              </ul>
             </li>
             <li class="dropdown first">
               <a
@@ -173,26 +168,8 @@
                 data-toggle="dropdown"
                 data-hover="dropdown"
               >
-                movies<i class="fa fa-angle-down" aria-hidden="true"></i>
+                movies
               </a>
-              <ul class="dropdown-menu level1">
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                    >Movie grid<i class="ion-ios-arrow-forward"></i
-                  ></a>
-                  <ul class="dropdown-menu level2">
-                    <li><a href="moviegrid.html">Movie grid</a></li>
-                    <li>
-                      <a href="moviegridfw.html">movie grid full width</a>
-                    </li>
-                  </ul>
-                </li>
-                <li><a href="movielist.html">Movie list</a></li>
-                <li><a href="moviesingle.html">Movie single</a></li>
-                <li class="it-last">
-                  <a href="seriessingle.html">Series single</a>
-                </li>
-              </ul>
             </li>
             <li class="dropdown first">
               <a
@@ -200,67 +177,12 @@
                 data-toggle="dropdown"
                 data-hover="dropdown"
               >
-                celebrities <i class="fa fa-angle-down" aria-hidden="true"></i>
+                my watchlists
               </a>
-              <ul class="dropdown-menu level1">
-                <li><a href="celebritygrid01.html">celebrity grid 01</a></li>
-                <li><a href="celebritygrid02.html">celebrity grid 02 </a></li>
-                <li><a href="celebritylist.html">celebrity list</a></li>
-                <li class="it-last">
-                  <a href="celebritysingle.html">celebrity single</a>
-                </li>
-              </ul>
-            </li>
-            <li class="dropdown first">
-              <a
-                class="btn btn-default dropdown-toggle lv1"
-                data-toggle="dropdown"
-                data-hover="dropdown"
-              >
-                news <i class="fa fa-angle-down" aria-hidden="true"></i>
-              </a>
-              <ul class="dropdown-menu level1">
-                <li><a href="bloglist.html">blog List</a></li>
-                <li><a href="bloggrid.html">blog Grid</a></li>
-                <li class="it-last">
-                  <a href="blogdetail.html">blog Detail</a>
-                </li>
-              </ul>
-            </li>
-            <li class="dropdown first">
-              <a
-                class="btn btn-default dropdown-toggle lv1"
-                data-toggle="dropdown"
-                data-hover="dropdown"
-              >
-                community <i class="fa fa-angle-down" aria-hidden="true"></i>
-              </a>
-              <ul class="dropdown-menu level1">
-                <li><a href="userfavoritegrid.html">user favorite grid</a></li>
-                <li><a href="userfavoritelist.html">user favorite list</a></li>
-                <li><a href="userprofile.html">user profile</a></li>
-                <li class="it-last"><a href="userrate.html">user rate</a></li>
-              </ul>
             </li>
           </ul>
           <ul class="nav navbar-nav flex-child-menu menu-right">
-            <li class="dropdown first">
-              <a
-                class="btn btn-default dropdown-toggle lv1"
-                data-toggle="dropdown"
-                data-hover="dropdown"
-              >
-                pages <i class="fa fa-angle-down" aria-hidden="true"></i>
-              </a>
-              <ul class="dropdown-menu level1">
-                <li><a href="landing.html">Landing</a></li>
-                <li><a href="404.html">404 Page</a></li>
-                <li class="it-last">
-                  <a href="comingsoon.html">Coming soon</a>
-                </li>
-              </ul>
-            </li>
-            <li><a href="#">Help</a></li>
+            <li><a href="#">About Us</a></li>
             <li v-if="!loggedIn" class="loginLink"><a>LOG In</a></li>
             <li v-if="!loggedIn" class="btn signupLink">
               <a href="#">sign up</a>
@@ -275,7 +197,7 @@
                 <i class="fa fa-angle-down" aria-hidden="true"></i>
               </a>
               <ul class="dropdown-menu level1">
-                <li><a href="landing.html">My Account</a></li>
+                <li><a @click="goToUserProfile">My Account</a></li>
                 <li><a @click="logout">LOG Out</a></li>
               </ul>
             </li>
@@ -326,13 +248,21 @@ export default {
       e.preventDefault();
       if(this.passwordSignup == this.password2Signup){
         this.newUser = new User(this.usernameSignup, this.emailSignup, this.passwordSignup);
-        console.log(this.newUser);
         this.$store.dispatch("auth/register",this.newUser).then(
           (response) => {
-              alert(response);
+              const objOverlaySignup = $(".openform");
+              objOverlaySignup.removeClass("openform");
+              //now, let's signin
+              this.$store.dispatch("auth/login", this.newUser).then(
+                () => {
+                  this.$router.push("/userProfilePage");
+                },
+                (error) => {
+                  console.log(error);
+                }
+              );
           },
           (error) => {
-            this.restartSignupForm();
             document.getElementById("alert-dialog-signup").classList.remove("close");
             document.getElementById("alert-dialog-signup").innerText = error.response.data.message;
           }
@@ -431,6 +361,9 @@ export default {
           return false;
         });
       }
+    },
+    goToUserProfile(){
+      this.$router.push("/userProfilePage")
     }
   },
   mounted() {

@@ -13,6 +13,7 @@ const app =
 
 //Setting up a constant property
 app.config.globalProperties.$MOVIE_PHOTOS_URL = "http://localhost:8080/resources/movie-photos";
+app.config.globalProperties.$USER_PHOTOS_URL = "http://localhost:8080/resources";
 
 app.use(router)
     .use(store)
