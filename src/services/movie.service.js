@@ -15,4 +15,4 @@ class MovieService{
     }
 }
 
-export default MovieService;
+export default new MovieService();

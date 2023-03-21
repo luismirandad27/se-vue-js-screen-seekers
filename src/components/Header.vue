@@ -150,7 +150,7 @@
           class="collapse navbar-collapse flex-parent"
           id="bs-example-navbar-collapse-1"
         >
-          <ul class="nav navbar-nav flex-child-menu menu-left">
+          <ul v-if="!isAdmin" class="nav navbar-nav flex-child-menu menu-left">
             <li class="hidden">
               <a href="#page-top"></a>
             </li>
@@ -171,13 +171,35 @@
                 movies
               </a>
             </li>
-            <li class="dropdown first">
+            <li v-if="loggedIn" class="dropdown first">
               <a
                 class="btn btn-default dropdown-toggle lv1"
                 data-toggle="dropdown"
                 data-hover="dropdown"
               >
                 my watchlists
+              </a>
+            </li>
+          </ul>
+          <ul v-if="isAdmin" class="nav navbar-nav flex-child-menu menu-left">
+            <li class="hidden">
+              <a href="#page-top"></a>
+            </li>
+            <li class="dropdown first">
+              <a
+                class="btn btn-default dropdown-toggle lv1"
+                data-toggle="dropdown"
+              >
+                Home
+              </a>
+            </li>
+            <li class="dropdown first">
+              <a
+                class="btn btn-default dropdown-toggle lv1"
+                data-toggle="dropdown"
+                data-hover="dropdown"
+              >
+                movies administration
               </a>
             </li>
           </ul>
@@ -224,6 +246,13 @@ export default {
     currentUser() {
       return this.$store.state.auth.user;
     },
+    isAdmin(){
+      if( this.currentUser != null)
+        return this.$store.state.auth.user.roles.includes('ROLE_ADMIN');
+      else
+        return false;
+    }
+    
   },
   methods: {
     handleLogin(e) {
@@ -367,6 +396,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$store.state.auth.user);
     this.addingOverlay();
     this.addingLoginClickListener();
     this.addingSignupClickListener();
