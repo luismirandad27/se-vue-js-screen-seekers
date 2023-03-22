@@ -16,7 +16,6 @@
             />
           </label>
         </div>
-
         <div class="row">
           <label for="password">
             Password:
@@ -136,14 +135,14 @@
               <span></span>
             </div>
           </div>
-          <a href="index-2.html"
-            ><img
+          <router-link to="/">
+          <img
               class="logo"
               src="../../public/images/logo1.png"
               alt=""
               width="200"
               height="200"
-          /></a>
+          /></router-link>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div
@@ -155,9 +154,17 @@
               <a href="#page-top"></a>
             </li>
             <li class="dropdown first">
-              <a
+              <a v-if="loggedIn"
                 class="btn btn-default dropdown-toggle lv1"
                 data-toggle="dropdown"
+                @click="$router.push('/userMainPage')"
+              >
+                Home
+              </a>
+              <a v-if="!loggedIn"
+                class="btn btn-default dropdown-toggle lv1"
+                data-toggle="dropdown"
+                @click="$router.push('/')"
               >
                 Home
               </a>
@@ -238,6 +245,16 @@ import $ from "jquery";
 
 export default {
   name: "Header",
+  data(){
+    return{
+      username:"",
+      usernameSignup:"",
+      password:"",
+      passwordSignup:"",
+      password2Signup:"",
+      emailSignup:""
+    }
+  },
   computed: {
     loggedIn() {
       var loggedInValue = this.$store.state.auth.status.loggedIn;
@@ -396,7 +413,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$store.state.auth.user);
     this.addingOverlay();
     this.addingLoginClickListener();
     this.addingSignupClickListener();

@@ -8352,6 +8352,7 @@ footer.full-width-ft .ft-copyright {
 }
 
 .modal-header h3 {
+  font-family: 'Dosis', sans-serif;
   margin: 0;
 }
 
@@ -8363,7 +8364,10 @@ footer.full-width-ft .ft-copyright {
 }
 
 .modal-body {
+  display: flex;
+  align-items: center;
   padding: 10px;
+  height: 60px;
 }
 
 .modal-body p{
@@ -8376,11 +8380,13 @@ footer.full-width-ft .ft-copyright {
 }
 
 .modal-header-success {
-  background-color: #c8e6c9; /* a soft shade of green */
+  background-color: #006400; /* a soft shade of green */
+  color: #ffffff;
 }
 
 .modal-header-error {
-  background-color: #ffcdd2; /* a soft shade of red */
+  background-color: #dd003f; /* a soft shade of red */
+  color: #ffffff;
 }
 
 

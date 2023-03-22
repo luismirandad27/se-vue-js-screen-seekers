@@ -4,8 +4,7 @@
       :title="modalTitle"
       :status="modalStatus"
       v-if="isModalOpen"
-      @close="closeModal"
-    >
+      @close="closeModal">
       <p>{{ modalMessage }}</p>
     </modal>
   </transition>
@@ -23,7 +22,7 @@
               }}
             </h1>
             <ul class="breadcumb">
-              <li class="active"><a href="#">Home</a></li>
+              <li class="active"><router-link to="/userMainPage">Home</router-link></li>
               <li><span class="ion-ios-arrow-right"></span>Profile</li>
             </ul>
           </div>
@@ -54,15 +53,15 @@
             <div class="user-fav">
               <p>Account Details</p>
               <ul>
-                <li class="active"><a href="userprofile.html">Profile</a></li>
-                <li><a href="userfavoritelist.html">Favorite movies</a></li>
-                <li><a href="userrate.html">Rated movies</a></li>
+                <li class="active"><router-link to="/userProfilePage">Profile</router-link></li>
+                <li><a href="userfavoritelist.html">Recomendations!</a></li>
+                <li><a href="userrate.html">Rated Movies</a></li>
+                <li><a href="userrate.html">My Watchlists</a></li>
               </ul>
             </div>
             <div class="user-fav">
               <p>Others</p>
               <ul>
-                <li><a href="#">Change password</a></li>
                 <li><a href="#">Log out</a></li>
               </ul>
             </div>
@@ -110,7 +109,7 @@
               </div>
               <div class="row">
                 <div class="col-md-6 form-it">
-                  <label>Date Of Birth</label>
+                  <label>Date Of Birth (MM/DD/YYYY)</label>
                   <input
                     type="text"
                     placeholder="Your Date of Birth"
@@ -177,6 +176,7 @@
                     type="password"
                     placeholder="**********"
                     v-model="oldPassword"
+                    required
                   />
                 </div>
               </div>
@@ -187,6 +187,7 @@
                     type="text"
                     placeholder="***************"
                     v-model="newPassword"
+                    required
                   />
                 </div>
               </div>
@@ -197,6 +198,7 @@
                     type="text"
                     placeholder="***************"
                     v-model="newPassword2"
+                    required
                   />
                 </div>
               </div>
@@ -325,9 +327,24 @@ export default {
       const dateString = inputElements[4].value;
 
       if (dateString != "") {
-        const date = new Date(dateString);
-        const formattedDate = date.toISOString();
-        updatedUser.setDateOfBirth(formattedDate);
+
+        //validate if it's in the right format
+        const dateRegex = /^(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])\/\d{4}$/;;
+        const isValid = dateRegex.test(dateString);
+        
+        if (isValid){
+          const date = new Date(dateString);
+          const formattedDate = date.toISOString();
+          updatedUser.setDateOfBirth(formattedDate);
+        }else{
+          this.modalTitle = "Error!";
+          this.modalMessage = "Birth of Date is not in the correct format!";
+          this.modalStatus = "error";
+          this.isModalOpen = true;
+          return;
+        }
+
+        
       } else {
         updatedUser.setDateOfBirth(null);
       }
@@ -392,6 +409,13 @@ export default {
     closeModal() {
       this.isModalOpen = false;
     },
+    validateDate(){
+      const dateRegex = /^(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])\/\d{4}$/;;
+      const isValid = dateRegex.test(this.user.dateOfBirth);
+      if (!isValid){
+        console.log("NOT VALID!")
+      }
+    }
   },
   created() {
     this.getUserProfileInfo();
