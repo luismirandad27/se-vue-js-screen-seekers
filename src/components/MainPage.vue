@@ -2,34 +2,39 @@
   <div class="slider movie-items">
     <div class="container">
       <div class="row">
-        <div class="social-link">
-          <p>Follow us:</p>
-          <a href="#"><i class="ion-social-facebook"></i></a>
-          <a href="#"><i class="ion-social-twitter"></i></a>
-          <a href="#"><i class="ion-social-googleplus"></i></a>
-          <a href="#"><i class="ion-social-youtube"></i></a>
+        <div class="title-hd">
+          <h2>in theaters now</h2>
         </div>
+      </div>
+      <div class="row">
         <!-- Setting a if condition to mount the splide AFTER the getRandomMovie finish-->
         <Splide
-          v-if="randomMovies.length > 0"
+          v-if="inTheatersMovies.length > 0"
           :options="splideOptions"
           aria-label="My Favorite Images"
         >
           <SplideSlide
             class="movie-item"
-            v-for="(movie, index) in randomMovies"
+            v-for="(movie, index) in inTheatersMovies"
             :key="index"
           >
             <div class="mv-img">
-              <a href="#"
-                ><img
+              <a href="#">
+                <img v-if="movie.posterImage != null"
                   :src="
                     $MOVIE_PHOTOS_URL + '/' + movie.id + '/' + movie.posterImage
                   "
                   alt=""
                   width="285"
-                  height="437"
-              /></a>
+                  height="437"/>
+                <img v-if="movie.posterImage == null"
+                  :src="
+                    $MOVIE_PHOTOS_URL + '/poster-template.jpeg'
+                  "
+                  alt=""
+                  width="285"
+                  height="437"/>
+              </a>
             </div>
             <div class="title-in">
               <div
@@ -44,7 +49,62 @@
               <h6>
                 <a href="#">{{ movie.title }}</a>
               </h6>
-              <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
+            </div>
+          </SplideSlide>
+        </Splide>
+      </div>
+    </div>
+  </div>
+  <div class="movie-items">
+    <div class="container">
+      <div class="row">
+        <div class="title-hd">
+          <h2>now Streaming</h2>
+        </div>
+      </div>
+      <div class="row">
+        <!-- Setting a if condition to mount the splide AFTER the getRandomMovie finish-->
+        <Splide
+          v-if="inStreamingMovies.length > 0"
+          :options="splideOptions"
+          aria-label="My Favorite Images"
+        >
+          <SplideSlide
+            class="movie-item"
+            v-for="(movie, index) in inStreamingMovies"
+            :key="index"
+          >
+            <div class="mv-img">
+              <a href="#">
+                <img v-if="movie.posterImage != null"
+                  :src="
+                    $MOVIE_PHOTOS_URL + '/' + movie.id + '/' + movie.posterImage
+                  "
+                  alt=""
+                  width="285"
+                  height="437"/>
+                <img v-if="movie.posterImage == null"
+                  :src="
+                    $MOVIE_PHOTOS_URL + '/poster-template.jpeg'
+                  "
+                  alt=""
+                  width="285"
+                  height="437"/>
+              </a>
+            </div>
+            <div class="title-in">
+              <div
+                class="cate"
+                v-for="(genre, index) in movie.genre"
+                :key="index"
+              >
+                <span class="blue"
+                  ><a href="#">{{ genre }}</a></span
+                >
+              </div>
+              <h6>
+                <a href="#">{{ movie.title }}</a>
+              </h6>
             </div>
           </SplideSlide>
         </Splide>
@@ -86,16 +146,20 @@ export default {
         autoplay: true,
         arrows: false,
       },
-      randomMovies: [],
+      inTheatersMovies: [],
+      inStreamingMovies: [],
     };
   },
   methods: {
-    getRandomMovies() {
+    getAllMovies() {
       //handle get random movies api method
-      MovieService.getRandomMovies().then((response) => {
-
+      MovieService.getAllMovies().then((response) => {
+        
+        const inTheatersData = response.content.filter(movieData=>movieData.isInTheaters === true);
+        const inStreamingData = response.content.filter(movieData=>movieData.isInStreaming === true);
+        
         //To translate into a Movie object, we can use response.map
-        this.randomMovies = response.map((movieData) => {
+        this.inTheatersMovies = inTheatersData.map((movieData) => {
           return new Movie(
             movieData.id,
             movieData.title,
@@ -106,11 +170,33 @@ export default {
             movieData.classificationRating,
             movieData.movieTrailerLink,
             movieData.isInTheaters,
+            movieData.isInStreaming,
+            movieData.isComingSoon,
             movieData.whereToWatch,
             movieData.posterImage,
             movieData.trailerImage
           );
         });
+
+        this.inStreamingMovies = inStreamingData.map((movieData) => {
+          return new Movie(
+            movieData.id,
+            movieData.title,
+            movieData.genre.split(","),
+            movieData.releaseDate,
+            movieData.length,
+            movieData.synopsis,
+            movieData.classificationRating,
+            movieData.movieTrailerLink,
+            movieData.isInTheaters,
+            movieData.isInStreaming,
+            movieData.isComingSoon,
+            movieData.whereToWatch,
+            movieData.posterImage,
+            movieData.trailerImage
+          );
+        });
+
       });
     },
   },
@@ -123,7 +209,7 @@ export default {
     },
   },
   mounted() {
-    this.getRandomMovies();
+    this.getAllMovies();
   },
 };
 </script>

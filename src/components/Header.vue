@@ -140,8 +140,8 @@
               class="logo"
               src="../../public/images/logo1.png"
               alt=""
-              width="200"
-              height="200"
+              width="107"
+              height="60"
           /></router-link>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
