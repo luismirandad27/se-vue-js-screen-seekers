@@ -12,7 +12,7 @@
                     <td>TItle</td>
                 </tr>
                 <tr v-for="movie in result.content" :key="movie.id">
-                    <td>{{ movie.id }}</td>
+                    <td><router-link :to="'/adminPage/'+movie.id">{{ movie.id }}</router-link></td>
                      <td>{{ movie.title }}</td>
                      
                 </tr>
