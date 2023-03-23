@@ -62,7 +62,7 @@
             <div class="user-fav">
               <p>Others</p>
               <ul>
-                <li><a href="#">Log out</a></li>
+                <li><a @click="logout()">Log out</a></li>
               </ul>
             </div>
           </div>
@@ -415,6 +415,10 @@ export default {
       if (!isValid){
         console.log("NOT VALID!")
       }
+    },
+    logout() {
+      this.$store.dispatch("auth/logout");
+      this.$router.push("/");
     }
   },
   created() {

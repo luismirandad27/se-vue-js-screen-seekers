@@ -20,20 +20,22 @@
           >
             <div class="mv-img">
               <a href="#">
-                <img v-if="movie.posterImage != null"
+                <img
+                  v-if="movie.posterImage != null"
                   :src="
                     $MOVIE_PHOTOS_URL + '/' + movie.id + '/' + movie.posterImage
                   "
                   alt=""
                   width="285"
-                  height="437"/>
-                <img v-if="movie.posterImage == null"
-                  :src="
-                    $MOVIE_PHOTOS_URL + '/poster-template.jpeg'
-                  "
+                  height="437"
+                />
+                <img
+                  v-if="movie.posterImage == null"
+                  src="../../public/images/poster-template.jpeg"
                   alt=""
                   width="285"
-                  height="437"/>
+                  height="437"
+                />
               </a>
             </div>
             <div class="title-in">
@@ -76,20 +78,22 @@
           >
             <div class="mv-img">
               <a href="#">
-                <img v-if="movie.posterImage != null"
+                <img
+                  v-if="movie.posterImage != null"
                   :src="
                     $MOVIE_PHOTOS_URL + '/' + movie.id + '/' + movie.posterImage
                   "
                   alt=""
                   width="285"
-                  height="437"/>
-                <img v-if="movie.posterImage == null"
-                  :src="
-                    $MOVIE_PHOTOS_URL + '/poster-template.jpeg'
-                  "
+                  height="437"
+                />
+                <img
+                  v-if="movie.posterImage == null"
+                  src="../../public/images/poster-template.jpeg"
                   alt=""
                   width="285"
-                  height="437"/>
+                  height="437"
+                />
               </a>
             </div>
             <div class="title-in">
@@ -108,6 +112,67 @@
             </div>
           </SplideSlide>
         </Splide>
+      </div>
+    </div>
+  </div>
+  <div class="trailers">
+    <div class="container">
+      <div class="row ipad-width">
+        <div class="col-md-12">
+          <div class="title-hd">
+            <h2>Coming Soon</h2>
+            <a href="#" class="viewall"
+              >View all <i class="ion-ios-arrow-right"></i
+            ></a>
+          </div>
+          <div class="videos">
+            <Splide
+              ref="previewSplide"
+              :options="previewOptions"
+              class="video-ft"
+            >
+              <SplideSlide
+                v-for="(item, index) in inComminSoonMovies"
+                :key="index"
+              >
+                <iframe class="item-video" :src="item.movieTrailerLink" />
+              </SplideSlide>
+            </Splide>
+            <Splide
+              ref="thumbnailSplide"
+              :options="thumbnailOptions"
+              class="thumb-ft"
+            >
+              <SplideSlide
+                v-for="(item, index) in inComminSoonMovies"
+                :key="index"
+                class="item"
+              >
+                <div class="trailer-img">
+                  <img
+                    v-if="item.trailerImage != null"
+                    :src="
+                      $MOVIE_PHOTOS_URL +
+                      '/' +
+                      item.id +
+                      '/' +
+                      item.trailerImage
+                    "
+                    alt=""
+                  />
+                  <img
+                    v-if="item.trailerImage == null"
+                    src="../../public/images/trailer-template.jpeg"
+                    alt=""
+                  />
+                </div>
+                <div class="trailer-infor">
+                  <h4 class="desc">{{ item.title }}</h4>
+                </div>
+              </SplideSlide>
+            </Splide>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -135,7 +200,7 @@ export default {
   components: {
     Splide,
     SplideSlide,
-    MovieService
+    MovieService,
   },
   data() {
     return {
@@ -146,18 +211,52 @@ export default {
         autoplay: true,
         arrows: false,
       },
+      previewOptions: {
+        width: "100%",
+        heightRatio: 0.6,
+        arrows: false,
+        pagination: false,
+        drag: false,
+        rewind: true,
+        sync: "thumbnailSplide",
+      },
+      thumbnailOptions: {
+        type: "slide",
+        width: "100%",
+        perPage: 3,
+        perMove: 1,
+        focus: "center",
+        heightRatio: 0.6,
+        arrows: true,
+        drag: true,
+        pagination: false,
+        direction: "ttb", // vertical direction
+        sync: "previewSplide", // sync with the main slider,
+        arrow: {
+          prev: ".splide__arrow--prev",
+          next: ".splide__arrow--next",
+        },
+      },
       inTheatersMovies: [],
       inStreamingMovies: [],
+      inComminSoonMovies: [],
+      activeSlide: 0, // initialize the active slide index
     };
   },
   methods: {
     getAllMovies() {
       //handle get random movies api method
       MovieService.getAllMovies().then((response) => {
-        
-        const inTheatersData = response.content.filter(movieData=>movieData.isInTheaters === true);
-        const inStreamingData = response.content.filter(movieData=>movieData.isInStreaming === true);
-        
+        const inTheatersData = response.content.filter(
+          (movieData) => movieData.isInTheaters === true
+        );
+        const inStreamingData = response.content.filter(
+          (movieData) => movieData.isInStreaming === true
+        );
+        const inComingSoonData = response.content.filter(
+          (movieData) => movieData.isComingSoon === true
+        );
+
         //To translate into a Movie object, we can use response.map
         this.inTheatersMovies = inTheatersData.map((movieData) => {
           return new Movie(
@@ -197,6 +296,41 @@ export default {
           );
         });
 
+        this.inComminSoonMovies = inComingSoonData.map((movieData) => {
+          return new Movie(
+            movieData.id,
+            movieData.title,
+            movieData.genre.split(","),
+            movieData.releaseDate,
+            movieData.length,
+            movieData.synopsis,
+            movieData.classificationRating,
+            movieData.movieTrailerLink,
+            movieData.isInTheaters,
+            movieData.isInStreaming,
+            movieData.isComingSoon,
+            movieData.whereToWatch,
+            movieData.posterImage,
+            movieData.trailerImage
+          );
+        });
+      });
+    },
+    configuringThumbnailSplide() {
+      const previewSplide = this.$refs.previewSplide.splide;
+      const prevArrow = document.querySelector(
+        ".thumb-ft .splide__arrow--prev"
+      );
+      const nextArrow = document.querySelector(
+        ".thumb-ft .splide__arrow--next"
+      );
+
+      prevArrow.addEventListener("click", () => {
+        previewSplide.go("-1");
+      });
+
+      nextArrow.addEventListener("click", () => {
+        previewSplide.go("+1");
       });
     },
   },
@@ -210,6 +344,7 @@ export default {
   },
   mounted() {
     this.getAllMovies();
+    this.configuringThumbnailSplide();
   },
 };
 </script>
