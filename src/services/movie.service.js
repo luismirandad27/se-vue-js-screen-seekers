@@ -13,6 +13,16 @@ class MovieService{
             throw error;
         }
     }
+    async getAllMovies() {
+        try {
+            const response = await axios.get(API_URL + "movies", {params: {title: ""}});
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+    
 }
 
 export default new MovieService();

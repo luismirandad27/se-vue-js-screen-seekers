@@ -4524,6 +4524,15 @@ ul {
   border-top: 1px solid #405266;
   border-bottom: 1px solid #405266;
 }
+
+.topbar-filter-sort{
+  display:flex; 
+  direction:row; 
+  gap:10px; 
+  align-items: center;
+}
+
+
 @media (max-width: 767px) {
   .topbar-filter {
     display: flex;
@@ -4849,7 +4858,8 @@ ul {
 }
 .trailers .trailer-img {
   width: 100px;
-  max-height: 57px;
+  height: 57px;
+  object-fit: cover;
   overflow: hidden;
 }
 .trailers .trailer-img img {
@@ -4885,6 +4895,7 @@ ul {
 }
 .trailers .videos .video-ft {
   width: 65%;
+  padding: 0px;
 }
 @media (max-width: 991px) {
   .trailers .videos .video-ft {
@@ -4914,42 +4925,42 @@ ul {
     overflow: hidden;
   }
 }
-.trailers .videos .thumb-ft .slick-arrow {
+.trailers .videos .thumb-ft .splide__arrow {
   position: absolute;
 }
-.trailers .videos .thumb-ft .slick-prev {
+.trailers .videos .thumb-ft .splide__arrow--prev {
   top: 10px;
-  left: 45%;
+  left: 50%;
 }
-.trailers .videos .thumb-ft .slick-next {
+.trailers .videos .thumb-ft .splide__arrow--next {
   top: 95%;
   right: 50%;
 }
-.trailers .videos .thumb-ft .slick-list {
+.trailers .videos .thumb-ft .splide__list {
   height: 100% !important;
 }
-.trailers .videos .thumb-ft .slick-prev::before {
+.trailers .videos .thumb-ft .splide__arrow--prev::before {
   content: '\f126';
   font-family: "Ionicons";
   font-size: 24px;
 }
-.trailers .videos .thumb-ft .slick-next::before {
+.trailers .videos .thumb-ft .splide__arrow--next::before {
   content: '\f123';
   font-family: "Ionicons";
   font-size: 24px;
 }
-.trailers .videos .thumb-ft .slick-next::before:hover {
+.trailers .videos .thumb-ft .splide__arrow--next::before:hover {
   color: #dcf836;
 }
-.trailers .videos .thumb-ft .slick-track .slick-slide {
+.trailers .videos .thumb-ft li {
   display: flex;
   flex-direction: row;
   padding: 15px;
 }
-.trailers .videos .thumb-ft .slick-track .slick-slide .trailer-infor {
+.trailers .videos .thumb-ft .trailer-infor {
   margin-left: 15px;
 }
-.trailers .videos .thumb-ft .slick-track .slick-current {
+.trailers .videos .thumb-ft .splide__track .splide__slide.is-active {
   background-color: #1c3d5d;
 }
 @media (max-width: 991px) {
@@ -5619,6 +5630,14 @@ ul {
   justify-content: center;
   height: 445px;
 }
+
+
+
+
+.hero .movies {
+  text-align: center;
+}
+
 .hero .hero-ct {
   padding-top: 170px;
 }
@@ -7058,7 +7077,7 @@ p.ceb-single {
   text-align: center;
   background-size: cover;
   position: relative;
-  padding-top: 200px;
+  padding-top: 150px;
   padding-bottom: 50px;
   display: -webkit-flex;
   display: -moz-box;
@@ -7541,6 +7560,7 @@ p.ceb-single {
   color: #9ca9b7;
   padding-left: 15px;
 }
+
 .buster-light .topbar-filter p {
   color: #9ca9b7;
   padding-left: 15px;
@@ -8352,6 +8372,7 @@ footer.full-width-ft .ft-copyright {
 }
 
 .modal-header h3 {
+  font-family: 'Dosis', sans-serif;
   margin: 0;
 }
 
@@ -8363,7 +8384,10 @@ footer.full-width-ft .ft-copyright {
 }
 
 .modal-body {
+  display: flex;
+  align-items: center;
   padding: 10px;
+  height: 60px;
 }
 
 .modal-body p{
@@ -8376,14 +8400,58 @@ footer.full-width-ft .ft-copyright {
 }
 
 .modal-header-success {
-  background-color: #c8e6c9; /* a soft shade of green */
+  background-color: #3CB371; /* a soft shade of green */
+  color: #ffffff;
 }
 
 .modal-header-error {
-  background-color: #ffcdd2; /* a soft shade of red */
+  background-color: #dd003f; /* a soft shade of red */
+  color: #ffffff;
 }
 
+.modal-header-info {
+  background-color: #0077be; /* a soft shade of blue */
+  color: #ffffff;
+}
 
+.modal-header-confirmation {
+  background-color: #dd003f; /* a soft shade of blue */
+  color: #ffffff;
+}
 
+a{
+  cursor: pointer;
+}
 
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
 
+.modal-buttons button {
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-left:10px;
+}
+
+.modal-confirm {
+  background-color: #007bff;
+  border: none;
+  color: #ffffff;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.modal-cancel {
+  background-color: #6c757d;
+  border: none;
+  color: #ffffff;
+  padding: 8px 16px;
+  cursor: pointer;
+}

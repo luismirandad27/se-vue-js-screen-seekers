@@ -2,34 +2,41 @@
   <div class="slider movie-items">
     <div class="container">
       <div class="row">
-        <div class="social-link">
-          <p>Follow us:</p>
-          <a href="#"><i class="ion-social-facebook"></i></a>
-          <a href="#"><i class="ion-social-twitter"></i></a>
-          <a href="#"><i class="ion-social-googleplus"></i></a>
-          <a href="#"><i class="ion-social-youtube"></i></a>
+        <div class="title-hd">
+          <h2>in theaters now</h2>
         </div>
+      </div>
+      <div class="row">
         <!-- Setting a if condition to mount the splide AFTER the getRandomMovie finish-->
         <Splide
-          v-if="randomMovies.length > 0"
+          v-if="inTheatersMovies.length > 0"
           :options="splideOptions"
           aria-label="My Favorite Images"
         >
           <SplideSlide
             class="movie-item"
-            v-for="(movie, index) in randomMovies"
+            v-for="(movie, index) in inTheatersMovies"
             :key="index"
           >
             <div class="mv-img">
-              <a href="#"
-                ><img
+              <a href="#">
+                <img
+                  v-if="movie.posterImage != null"
                   :src="
                     $MOVIE_PHOTOS_URL + '/' + movie.id + '/' + movie.posterImage
                   "
                   alt=""
                   width="285"
                   height="437"
-              /></a>
+                />
+                <img
+                  v-if="movie.posterImage == null"
+                  src="../../public/images/poster-template.jpeg"
+                  alt=""
+                  width="285"
+                  height="437"
+                />
+              </a>
             </div>
             <div class="title-in">
               <div
@@ -44,10 +51,128 @@
               <h6>
                 <a href="#">{{ movie.title }}</a>
               </h6>
-              <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
             </div>
           </SplideSlide>
         </Splide>
+      </div>
+    </div>
+  </div>
+  <div class="movie-items">
+    <div class="container">
+      <div class="row">
+        <div class="title-hd">
+          <h2>now Streaming</h2>
+        </div>
+      </div>
+      <div class="row">
+        <!-- Setting a if condition to mount the splide AFTER the getRandomMovie finish-->
+        <Splide
+          v-if="inStreamingMovies.length > 0"
+          :options="splideOptions"
+          aria-label="My Favorite Images"
+        >
+          <SplideSlide
+            class="movie-item"
+            v-for="(movie, index) in inStreamingMovies"
+            :key="index"
+          >
+            <div class="mv-img">
+              <a href="#">
+                <img
+                  v-if="movie.posterImage != null"
+                  :src="
+                    $MOVIE_PHOTOS_URL + '/' + movie.id + '/' + movie.posterImage
+                  "
+                  alt=""
+                  width="285"
+                  height="437"
+                />
+                <img
+                  v-if="movie.posterImage == null"
+                  src="../../public/images/poster-template.jpeg"
+                  alt=""
+                  width="285"
+                  height="437"
+                />
+              </a>
+            </div>
+            <div class="title-in">
+              <div
+                class="cate"
+                v-for="(genre, index) in movie.genre"
+                :key="index"
+              >
+                <span class="blue"
+                  ><a href="#">{{ genre }}</a></span
+                >
+              </div>
+              <h6>
+                <a href="#">{{ movie.title }}</a>
+              </h6>
+            </div>
+          </SplideSlide>
+        </Splide>
+      </div>
+    </div>
+  </div>
+  <div class="trailers">
+    <div class="container">
+      <div class="row ipad-width">
+        <div class="col-md-12">
+          <div class="title-hd">
+            <h2>Coming Soon</h2>
+            <a href="#" class="viewall"
+              >View all <i class="ion-ios-arrow-right"></i
+            ></a>
+          </div>
+          <div class="videos">
+            <Splide
+              ref="previewSplide"
+              :options="previewOptions"
+              class="video-ft"
+            >
+              <SplideSlide
+                v-for="(item, index) in inComminSoonMovies"
+                :key="index"
+              >
+                <iframe class="item-video" :src="item.movieTrailerLink" />
+              </SplideSlide>
+            </Splide>
+            <Splide
+              ref="thumbnailSplide"
+              :options="thumbnailOptions"
+              class="thumb-ft"
+            >
+              <SplideSlide
+                v-for="(item, index) in inComminSoonMovies"
+                :key="index"
+                class="item"
+              >
+                <div class="trailer-img">
+                  <img
+                    v-if="item.trailerImage != null"
+                    :src="
+                      $MOVIE_PHOTOS_URL +
+                      '/' +
+                      item.id +
+                      '/' +
+                      item.trailerImage
+                    "
+                    alt=""
+                  />
+                  <img
+                    v-if="item.trailerImage == null"
+                    src="../../public/images/trailer-template.jpeg"
+                    alt=""
+                  />
+                </div>
+                <div class="trailer-infor">
+                  <h4 class="desc">{{ item.title }}</h4>
+                </div>
+              </SplideSlide>
+            </Splide>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -75,7 +200,7 @@ export default {
   components: {
     Splide,
     SplideSlide,
-    MovieService
+    MovieService,
   },
   data() {
     return {
@@ -86,16 +211,55 @@ export default {
         autoplay: true,
         arrows: false,
       },
-      randomMovies: [],
+      previewOptions: {
+        width: "100%",
+        heightRatio: 0.6,
+        arrows: false,
+        pagination: false,
+        drag: false,
+        rewind: true,
+        sync: "thumbnailSplide",
+      },
+      thumbnailOptions: {
+        type: "slide",
+        width: "100%",
+        perPage: 3,
+        perMove: 1,
+        focus: "center",
+        heightRatio: 0.6,
+        arrows: true,
+        drag: true,
+        pagination: false,
+        direction: "ttb", // vertical direction
+        sync: "previewSplide", // sync with the main slider,
+        arrow: {
+          prev: ".splide__arrow--prev",
+          next: ".splide__arrow--next",
+        },
+      },
+      inTheatersMovies: [],
+      inStreamingMovies: [],
+      inComminSoonMovies: [],
+      activeSlide: 0, // initialize the active slide index
     };
   },
   methods: {
-    getRandomMovies() {
+    getAllMovies() {
       //handle get random movies api method
-      MovieService.getRandomMovies().then((response) => {
+      MovieService.getAllMovies().then((response) => {
+
+        const inTheatersData = response.content.filter(
+          (movieData) => movieData.isInTheaters === true
+        );
+        const inStreamingData = response.content.filter(
+          (movieData) => movieData.isInStreaming === true
+        );
+        const inComingSoonData = response.content.filter(
+          (movieData) => movieData.isComingSoon === true
+        );
 
         //To translate into a Movie object, we can use response.map
-        this.randomMovies = response.map((movieData) => {
+        this.inTheatersMovies = inTheatersData.map((movieData) => {
           return new Movie(
             movieData.id,
             movieData.title,
@@ -106,11 +270,70 @@ export default {
             movieData.classificationRating,
             movieData.movieTrailerLink,
             movieData.isInTheaters,
+            movieData.isInStreaming,
+            movieData.isComingSoon,
             movieData.whereToWatch,
             movieData.posterImage,
             movieData.trailerImage
           );
         });
+
+        this.inStreamingMovies = inStreamingData.map((movieData) => {
+          return new Movie(
+            movieData.id,
+            movieData.title,
+            movieData.genre.split(","),
+            movieData.releaseDate,
+            movieData.length,
+            movieData.synopsis,
+            movieData.classificationRating,
+            movieData.movieTrailerLink,
+            movieData.isInTheaters,
+            movieData.isInStreaming,
+            movieData.isComingSoon,
+            movieData.whereToWatch,
+            movieData.posterImage,
+            movieData.trailerImage
+          );
+        });
+
+        this.inComminSoonMovies = inComingSoonData.map((movieData) => {
+          return new Movie(
+            movieData.id,
+            movieData.title,
+            movieData.genre.split(","),
+            movieData.releaseDate,
+            movieData.length,
+            movieData.synopsis,
+            movieData.classificationRating,
+            movieData.movieTrailerLink,
+            movieData.isInTheaters,
+            movieData.isInStreaming,
+            movieData.isComingSoon,
+            movieData.whereToWatch,
+            movieData.posterImage,
+            movieData.trailerImage
+          );
+        });
+
+        console.log(this.inComminSoonMovies);
+      });
+    },
+    configuringThumbnailSplide() {
+      const previewSplide = this.$refs.previewSplide.splide;
+      const prevArrow = document.querySelector(
+        ".thumb-ft .splide__arrow--prev"
+      );
+      const nextArrow = document.querySelector(
+        ".thumb-ft .splide__arrow--next"
+      );
+
+      prevArrow.addEventListener("click", () => {
+        previewSplide.go("-1");
+      });
+
+      nextArrow.addEventListener("click", () => {
+        previewSplide.go("+1");
       });
     },
   },
@@ -123,7 +346,8 @@ export default {
     },
   },
   mounted() {
-    this.getRandomMovies();
+    this.getAllMovies();
+    this.configuringThumbnailSplide();
   },
 };
 </script>
