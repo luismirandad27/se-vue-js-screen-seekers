@@ -4,7 +4,8 @@
       :title="modalTitle"
       :status="modalStatus"
       v-if="isModalOpen"
-      @close="closeModal">
+      @close="closeModal"
+    >
       <p>{{ modalMessage }}</p>
     </modal>
   </transition>
@@ -22,7 +23,9 @@
               }}
             </h1>
             <ul class="breadcumb">
-              <li class="active"><router-link to="/userMainPage">Home</router-link></li>
+              <li class="active">
+                <router-link to="/userMainPage">Home</router-link>
+              </li>
               <li><span class="ion-ios-arrow-right"></span>Profile</li>
             </ul>
           </div>
@@ -53,10 +56,16 @@
             <div class="user-fav">
               <p>Account Details</p>
               <ul>
-                <li class="active"><router-link to="/userProfilePage">Profile</router-link></li>
-                <li><a href="userfavoritelist.html">Recomendations!</a></li>
+                <li class="active">
+                  <router-link to="/userProfilePage">Profile</router-link>
+                </li>
+                <li>
+                  <a @click="goToRecommendations()">Recomendations!</a>
+                </li>
                 <li><a href="userrate.html">Rated Movies</a></li>
-                <li><a href="userrate.html">My Watchlists</a></li>
+                <li>
+                  <a href="userrate.html">My Watchlists</a>
+                </li>
               </ul>
             </div>
             <div class="user-fav">
@@ -169,7 +178,7 @@
             </form>
             <form @submit="handleChangePassword">
               <div class="row">
-				<h4>02. Change password</h4>
+                <h4>02. Change password</h4>
                 <div class="col-md-6 form-it">
                   <label>Old Password</label>
                   <input
@@ -219,6 +228,9 @@
 import UserService from "@/services/user.service.js";
 import User from "@/models/user";
 
+import MovieService from "@/services/movie.service";
+import MovieRecommendation from "@/components/MovieRecommendation.vue";
+
 // importing Modal Vue Component
 import Modal from "@/components/Modal.vue";
 
@@ -227,6 +239,8 @@ export default {
   components: {
     UserService,
     Modal,
+    MovieRecommendation,
+    MovieService
   },
   data() {
     return {
@@ -239,7 +253,7 @@ export default {
       isModalOpen: false,
       modalTitle: "",
       modalMessage: "",
-      modalStatus: "",
+      modalStatus: ""
     };
   },
   methods: {
@@ -327,24 +341,22 @@ export default {
       const dateString = inputElements[4].value;
 
       if (dateString != "") {
-
         //validate if it's in the right format
-        const dateRegex = /^(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])\/\d{4}$/;;
+        const dateRegex =
+          /^(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])\/\d{4}$/;
         const isValid = dateRegex.test(dateString);
-        
-        if (isValid){
+
+        if (isValid) {
           const date = new Date(dateString);
           const formattedDate = date.toISOString();
           updatedUser.setDateOfBirth(formattedDate);
-        }else{
+        } else {
           this.modalTitle = "Error!";
           this.modalMessage = "Birth of Date is not in the correct format!";
           this.modalStatus = "error";
           this.isModalOpen = true;
           return;
         }
-
-        
       } else {
         updatedUser.setDateOfBirth(null);
       }
@@ -384,13 +396,12 @@ export default {
         ).then(
           (response) => {
             this.modalTitle = "Success!";
-            this.modalMessage =
-              "User password has been changed successfully!";
+            this.modalMessage = "User password has been changed successfully!";
             this.modalStatus = "success";
             this.isModalOpen = true;
-			this.oldPassword = "";
-			this.newPassword = "";
-			this.newPassword2 = "";
+            this.oldPassword = "";
+            this.newPassword = "";
+            this.newPassword2 = "";
             console.log(response);
           },
           (error) => {
@@ -409,20 +420,34 @@ export default {
     closeModal() {
       this.isModalOpen = false;
     },
-    validateDate(){
-      const dateRegex = /^(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])\/\d{4}$/;;
+    validateDate() {
+      const dateRegex = /^(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])\/\d{4}$/;
       const isValid = dateRegex.test(this.user.dateOfBirth);
-      if (!isValid){
-        console.log("NOT VALID!")
+      if (!isValid) {
+        console.log("NOT VALID!");
       }
     },
     logout() {
       this.$store.dispatch("auth/logout");
       this.$router.push("/");
+    },
+    goToRecommendations() {
+      
+      this.userId = this.$store.state.auth.user.id;
+      
+      UserService.getRecommendationsByUser(this.userId).then((response) => {
+        
+        if (response.content.length > 0){
+          this.$router.push("/myRecommendations");
+        }else{
+          console.log("ERROR");
+        }
+        
+      });
     }
   },
   created() {
-    this.getUserProfileInfo();
+    this.getUserProfileInfo()
   },
 };
 </script>

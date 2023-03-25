@@ -4524,6 +4524,15 @@ ul {
   border-top: 1px solid #405266;
   border-bottom: 1px solid #405266;
 }
+
+.topbar-filter-sort{
+  display:flex; 
+  direction:row; 
+  gap:10px; 
+  align-items: center;
+}
+
+
 @media (max-width: 767px) {
   .topbar-filter {
     display: flex;
@@ -5621,6 +5630,14 @@ ul {
   justify-content: center;
   height: 445px;
 }
+
+
+
+
+.hero .movies {
+  text-align: center;
+}
+
 .hero .hero-ct {
   padding-top: 170px;
 }
@@ -7543,6 +7560,7 @@ p.ceb-single {
   color: #9ca9b7;
   padding-left: 15px;
 }
+
 .buster-light .topbar-filter p {
   color: #9ca9b7;
   padding-left: 15px;

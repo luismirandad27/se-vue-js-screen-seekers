@@ -22,6 +22,7 @@ class MovieService{
             throw error;
         }
     }
+    
 }
 
 export default new MovieService();

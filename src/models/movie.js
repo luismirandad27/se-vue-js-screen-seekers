@@ -17,5 +17,9 @@ export default class Movie{
             this.posterImage = posterImage;
             this.trailerImage = trailerImage;
          }
+   
+   setAvgRating(avgRating){
+            this.avgRating = avgRating;
+        }
 
 }

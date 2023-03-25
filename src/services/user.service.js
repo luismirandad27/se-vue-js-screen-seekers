@@ -72,7 +72,42 @@ class UserService {
             throw new Error('Failed to update user password');
         }
     }
+    async getRecommendationsByUser(userId, page, size){
+        try {
 
+            const response = await axios.get(API_URL + `users/${userId}/recommend`, {
+                headers:{
+                    'Content-Type': 'application/json',
+                    'Authorization': authHeader().Authorization
+                },
+                params:{
+                    page: page,
+                    size: size
+                }
+            });
+            
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+    async getRatingByMovie(movieId){
+        try {
+            const response = await axios.get(API_URL + `users/ratings/${movieId}`, 
+                    {
+                        headers:{
+                        'Content-Type': 'application/json',
+                        'Authorization': authHeader().Authorization
+                        }
+                    });
+
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 export default new UserService();
