@@ -8400,7 +8400,7 @@ footer.full-width-ft .ft-copyright {
 }
 
 .modal-header-success {
-  background-color: #006400; /* a soft shade of green */
+  background-color: #3CB371; /* a soft shade of green */
   color: #ffffff;
 }
 
@@ -8409,7 +8409,49 @@ footer.full-width-ft .ft-copyright {
   color: #ffffff;
 }
 
+.modal-header-info {
+  background-color: #0077be; /* a soft shade of blue */
+  color: #ffffff;
+}
 
+.modal-header-confirmation {
+  background-color: #dd003f; /* a soft shade of blue */
+  color: #ffffff;
+}
 
+a{
+  cursor: pointer;
+}
 
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
 
+.modal-buttons button {
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-left:10px;
+}
+
+.modal-confirm {
+  background-color: #007bff;
+  border: none;
+  color: #ffffff;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.modal-cancel {
+  background-color: #6c757d;
+  border: none;
+  color: #ffffff;
+  padding: 8px 16px;
+  cursor: pointer;
+}

@@ -247,6 +247,7 @@ export default {
     getAllMovies() {
       //handle get random movies api method
       MovieService.getAllMovies().then((response) => {
+
         const inTheatersData = response.content.filter(
           (movieData) => movieData.isInTheaters === true
         );
@@ -314,6 +315,8 @@ export default {
             movieData.trailerImage
           );
         });
+
+        console.log(this.inComminSoonMovies);
       });
     },
     configuringThumbnailSplide() {

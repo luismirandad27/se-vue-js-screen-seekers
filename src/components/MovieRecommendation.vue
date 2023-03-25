@@ -24,23 +24,11 @@
             </p>
           </div>
           <div class="flex-wrap-movielist">
-            <div
-              class="movie-item-style-2 movie-item-style-1"
-              v-for="(movie, index) in moviesList"
-              :key="index"
-            >
-              <img
-                v-if="movie.posterImage != null"
-                :src="
-                  $MOVIE_PHOTOS_URL + '/' + movie.id + '/' + movie.posterImage
-                "
-                alt=""
-              />
-              <img
-                v-if="movie.posterImage == null"
-                src="../../public/images/poster-template.jpeg"
-                alt=""
-              />
+            <div class="movie-item-style-2 movie-item-style-1" v-for="(movie, index) in moviesList" :key="index">
+              <img v-if="movie.posterImage != null" :src="
+                $MOVIE_PHOTOS_URL + '/' + movie.id + '/' + movie.posterImage
+              " alt="" />
+              <img v-if="movie.posterImage == null" src="../../public/images/poster-template.jpeg" alt="" />
               <div class="hvr-inner">
                 <a href="moviesingle.html">
                   Read more <i class="ion-android-arrow-dropright"></i>
@@ -58,41 +46,24 @@
           </div>
           <div class="topbar-filter">
             <label>Movies per page:</label>
-            <select
-              v-model="size"
-              @change="getRecommendations(page, size)"
-            >
+            <select v-model="size" @change="getRecommendations(page, size)">
               <option value="10">10 Movies</option>
               <option value="20">20 Movies</option>
             </select>
             <div v-if="totalPages <= 10" class="pagination2">
               <span>Page {{ page + 1 }} of {{ totalPages }}:</span>
-              <a
-                v-for="n in totalPages"
-                :key="n"
-                :class="{ active: n === page + 1 }"
-                @click="getRecommendations(n - 1, size)"
-              >
+              <a v-for="n in totalPages" :key="n" :class="{ active: n === page + 1 }"
+                @click="getRecommendations(n - 1, size)">
                 {{ n }}
               </a>
               <a href="#"><i class="ion-arrow-right-b"></i></a>
             </div>
             <div v-if="totalPages > 10" class="pagination2">
               <span>Page {{ page + 1 }} of {{ totalPages }}:</span>
-              <a
-                v-for="n in 8"
-                :key="n"
-                :class="{ active: n === page + 1 }"
-                @click="getRecommendations(n - 1, size)"
-                >{{ n }}</a
-              >
+              <a v-for="n in 8" :key="n" :class="{ active: n === page + 1 }" @click="getRecommendations(n - 1, size)">{{ n
+              }}</a>
               <a>...</a>
-              <a
-                v-for="n in 2"
-                :key="n"
-                @click="getRecommendations(n - 1, size)"
-                >{{ totalPages - 2 + n }}</a
-              >
+              <a v-for="n in 2" :key="n" @click="getRecommendations(n - 1, size)">{{ totalPages - 2 + n }}</a>
               <a href="#"><i class="ion-arrow-right-b"></i></a>
             </div>
           </div>
@@ -128,7 +99,9 @@ export default {
         size
       ).then(
         async (response) => {
-            this.totalPages = response.totalPages;
+          
+          console.log(response.content);
+          this.totalPages = response.totalPages;
           this.numberElements = response.numberOfElements;
           this.page = response.number;
           const moviesListPromise = response.content.map(async (movieData) => {
@@ -141,11 +114,11 @@ export default {
             const movieRating = ratingResponse;
             const totalRatings = movieRating.length;
             const sumRatings = movieRating.reduce(
-              (sum, rating) => sum + rating.userRating,0
+              (sum, rating) => sum + rating.userRating, 0
             );
-            
+
             const avgRating = totalRatings > 0 ? sumRatings / totalRatings : 0;
-            
+
             const movie = new Movie(
               movieData.id,
               movieData.title,
@@ -167,13 +140,13 @@ export default {
             return movie;
           });
           this.moviesList = await Promise.all(moviesListPromise);
-          this.moviesList.sort((a,b)=>b.avgRating-a.avgRating);
+          this.moviesList.sort((a, b) => b.avgRating - a.avgRating);
         },
         (error) => {
           console.log(error);
         }
       );
-      
+
     },
   },
   created() {

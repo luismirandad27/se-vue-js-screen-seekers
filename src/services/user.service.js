@@ -108,6 +108,24 @@ class UserService {
             throw error;
         }
     }
+    async disableUser(userId){
+        try{
+            console.log(authHeader().Authorization);
+            const response = await axios.put(API_URL + `users/${userId}/disable`,
+                            null,
+                            {
+                                headers:{
+                                    'Content-Type': 'application/json',
+                                    'Authorization': authHeader().Authorization
+                                }
+                            });
+            
+            return response.data;
+        } catch(error){
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 export default new UserService();

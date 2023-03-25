@@ -4,6 +4,8 @@
     <div class="login-content">
       <a href="#" class="close">x</a>
       <h3>Login</h3>
+      <div class="alert alert-danger close" role="alert" id="alert-dialog-signin">
+      </div>
       <form @submit="handleLogin">
         <div class="row">
           <label for="username">
@@ -277,15 +279,15 @@ export default {
       this.user = new User(this.username, "", this.password);
       if (this.user.username && this.user.password) {
         this.$store.dispatch("auth/login", this.user).then(
-          () => {
+          (response) => {
+            
             const objOverlayLogin = $(".openform");
             objOverlayLogin.removeClass("openform");
             this.$router.push("/userMainPage");
           },
           (error) => {
-            alert(error.response && error.response.data) ||
-              error.message ||
-              error.toString();
+            document.getElementById("alert-dialog-signin").classList.remove("close");
+            document.getElementById("alert-dialog-signin").innerText = error.response.data.message;
           }
         );
       }

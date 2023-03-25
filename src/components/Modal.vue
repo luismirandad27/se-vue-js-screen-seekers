@@ -43,6 +43,10 @@ export default {
         return "modal-header-success";
       } else if (props.status === "error") {
         return "modal-header-error";
+      } else if (props.status === "info") {
+        return "modal-header-info";
+      } else if (props.status === "confirmation") {
+        return "modal-header-confirmation";
       } else {
         return "modal-header";
       }
