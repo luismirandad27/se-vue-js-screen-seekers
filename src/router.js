@@ -3,6 +3,7 @@ import MainPage from './components/MainPage.vue'
 import UserMainPage from './components/UserMainPage.vue'
 import UserProfilePage from './components/UserProfilePage.vue'
 import MovieRecommendation from './components/MovieRecommendation.vue'
+import MovieDetail from './components/MovieDetail.vue'
 
 const routes = [
     {
@@ -24,6 +25,11 @@ const routes = [
         path: '/myRecommendations',
         name: 'MovieRecommendation',
         component: MovieRecommendation
+    },
+    {
+        path: '/movies/:id',
+        name: 'MovieDetail',
+        component: MovieDetail
     }
 ];
 

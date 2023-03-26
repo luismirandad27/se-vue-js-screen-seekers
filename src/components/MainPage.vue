@@ -23,7 +23,7 @@
                 <img
                   v-if="movie.posterImage != null"
                   :src="
-                    $MOVIE_PHOTOS_URL + '/' + movie.id + '/' + movie.posterImage
+                    $MOVIE_PHOTOS_URL + '/' + movie.posterImage
                   "
                   alt=""
                   width="285"
@@ -49,7 +49,7 @@
                 >
               </div>
               <h6>
-                <a href="#">{{ movie.title }}</a>
+                <router-link :to="'/movies/'+movie.id">{{ movie.title }}</router-link>
               </h6>
             </div>
           </SplideSlide>
@@ -81,7 +81,7 @@
                 <img
                   v-if="movie.posterImage != null"
                   :src="
-                    $MOVIE_PHOTOS_URL + '/' + movie.id + '/' + movie.posterImage
+                    $MOVIE_PHOTOS_URL + '/' + movie.posterImage
                   "
                   alt=""
                   width="285"
@@ -154,8 +154,6 @@
                     :src="
                       $MOVIE_PHOTOS_URL +
                       '/' +
-                      item.id +
-                      '/' +
                       item.trailerImage
                     "
                     alt=""
@@ -200,7 +198,7 @@ export default {
   components: {
     Splide,
     SplideSlide,
-    MovieService,
+    MovieService
   },
   data() {
     return {
@@ -316,7 +314,6 @@ export default {
           );
         });
 
-        console.log(this.inComminSoonMovies);
       });
     },
     configuringThumbnailSplide() {

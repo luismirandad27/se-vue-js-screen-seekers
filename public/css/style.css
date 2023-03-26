@@ -6026,7 +6026,6 @@ ul {
   justify-content: flex-start;
   border-top: 1px solid #405266;
   border-bottom: 1px solid #405266;
-  margin-bottom: 70px;
 }
 @media (max-width: 767px) {
   .movie-single .movie-single-ct .movie-rate {
@@ -6050,11 +6049,11 @@ ul {
 .movie-single .movie-single-ct .movie-rate .rate p {
   margin-bottom: 0;
   margin-left: 10px;
-  font-size: 11px;
+  font-size: 20px;
 }
 .movie-single .movie-single-ct .movie-rate .rate p span {
   color: #ffffff;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 400;
 }
 .movie-single .movie-single-ct .movie-rate .rate p span.rv {
