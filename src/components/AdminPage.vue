@@ -4,8 +4,12 @@
         <h1>This is the admin page, Construction on-going</h1>
         
         <div class="container">
-            <button type="submit" @click="getAllMovies">getMovie</button>
+            <button type="submit" @click="getAllMovies">getMovies</button>
             <button type="submit" @click="addMovie">addMovie</button>
+            <button type="submit" @click="deleteAll">Remove All Movies</button>
+            <button type="submit" @click="addCrew">Add a Crew Member</button>
+            <button type="submit" @click="getAllCrew">Get all Crew Member</button>
+            <button type="submit" @click="deleteAllCrew">Delete all Crew Member</button>
         </div>
         <div>
             <table>
@@ -24,6 +28,23 @@
                     <!-- {{ result }} -->
                 </div>
             </table>
+            <table>
+                <tr>
+                    <td>First Name</td>
+                    <td>Last Name</td>
+                    <td>Update This Crew</td>
+                </tr>
+                <tr v-for="c in resultCrew" :key="c.id">
+                    <!-- <td>TEST</td> -->
+                    <td><router-link :to="'/crew/'+c.id">{{ c.firstName }}</router-link></td>
+                     <td>{{ c.lastName }}</td>
+                     <td><router-link :to="'/adminPageUpdateCrew/'+c.id">Update This Crew</router-link></td>
+                     <button type="submit" @click="deleteCrew(c.id)">DELETE THIS Crew</button>
+                </tr>
+                <div>
+                    <!-- {{ resultCrew }} -->
+                </div>
+            </table>
         </div>
         </div>
     </div>
@@ -36,7 +57,8 @@ export default{
     name:"AdminPage",
     data(){
         return{
-            result:{}
+            result:{},
+            resultCrew:{}
         }
     },
     methods:{
@@ -52,6 +74,24 @@ export default{
         deleteMovie(id){
             const response=Admin.deleteaMovie(id);
             this.result=response;
+        },
+        deleteAll(){
+            Admin.deleteAllMovies();
+        },
+        addCrew(){
+            this.$router.push("/adminPageaddCrew");
+        },
+        async getAllCrew(){
+           const response= await Admin.getCrews();
+           this.resultCrew=response;
+        },
+        deleteCrew(id){
+            const response = Admin.deleteCrew(id);
+            this.resultCrew=response;
+        },
+        deleteAllCrew(){
+            const response = Admin.deleteAllCrew();
+            this.resultCrew=response;
         }
     }
 }

@@ -5,6 +5,9 @@ import adminPage from './components/AdminPage.vue'
 import adminPageViewId from './components/adminPageViewId.vue'
 import adminAddMovie from './components/adminAddMovie.vue'
 import adminUpdateMovie from './components/adminUpdateMovie.vue'
+import adminPageaddCrew from './components/adminPageaddCrew.vue'
+import adminPageViewCrew from './components/adminPageViewCrew.vue'
+import adminPageUpdateCrew from './components/adminPageUpdateCrew.vue'
 //import Login from './components/Login.vue'
 
 
@@ -44,6 +47,21 @@ const routes = [
         path:"/adminPageUpdate/:id",
         name:"adminUpdateMovie",
         component: adminUpdateMovie
+    },
+    {
+        path:"/adminPageaddCrew",
+        name:"adminPageaddCrew",
+        component: adminPageaddCrew
+    },
+    {
+        path:"/crew/:id",
+        name: "adminPageViewCrew",
+        component: adminPageViewCrew
+    },
+    {
+        path:"/adminPageUpdateCrew/:id",
+        name: "adminPageUpdateCrew",
+        component: adminPageUpdateCrew
     }
         
 

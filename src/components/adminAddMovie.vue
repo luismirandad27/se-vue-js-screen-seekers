@@ -88,7 +88,7 @@ export default{
                 const returnVal=  Admin.saveMovie(this.model)
                 
                 this.result="nothing to see heree" + returnVal;
-                this.result=this.model;
+                // this.result=this.model;
                 
             }catch(error){
                 this.result="ERROR";

@@ -63,6 +63,82 @@ class Admin{
         }
       }
 
+      deleteAllMovies(){
+        try{
+          axios.delete(API_URL+'movies', {headers: authHeader() });
+          console.log("ALL movies deleted");
+        }catch(error){
+          console.log("ERROR from delete function");
+          return "ERROR FROM DEL FUNCTION" + error;
+        }
+      }
+
+      saveCrew(crew){
+        try{
+          const response =  axios.post(API_URL+"movies/crew-members", crew, {headers: authHeader() })
+          console.log("NO ERRORS!");
+          return response.data;
+          
+        }catch(error){
+          console.log("THERE IS AN ERROR!!!");
+          return "ERROR IS "+ error.message;
+        }
+      }
+
+      async getCrews(){
+        try{
+          const response = await axios.get(API_URL+"movies/crew-members", {headers: authHeader() })
+          console.log("NO ERRORS!");
+          return response.data;
+        }catch(error){
+          console.log("THERE IS AN ERROR!!!");
+          return "ERROR IS "+ error.message;
+        }
+      }
+
+      async getCrewById(id){
+        try{
+          const response = await axios.get(API_URL+`movies/crew-members/${id}`, {headers: authHeader() })
+          console.log("NO ERRORS!");
+          return response.data;
+        }catch(error){
+          console.log("THERE IS AN ERROR!!!");
+          return "ERROR IS "+ error.message;
+        }
+      }
+
+      UpdateCrew(id, crewModel){
+        try{
+          // const response =  axios.put(API_URL+`movies/${id}`, movieModel, id, {headers: authHeader() })
+          const response =  axios.put(`${API_URL}movies/crew-members/${id}`, crewModel, {headers: authHeader() })
+          console.log("NO ERRORS!");
+          return response;
+        }catch(error){
+          console.log("THERE IS AN ERROR!!!");
+          return "ERROR IS "+ error.message;
+        }
+      }
+      deleteCrew(id){
+        try{
+          const response =  axios.delete(API_URL + `movies/crew-members/${id}`, {headers: authHeader() })
+          console.log("NO ERRORS!");
+          return response;
+        }catch(error){
+          console.log("THERE IS AN ERROR!!!");
+          return "ERROR IS "+ error.message;
+        }
+      }
+
+      deleteAllCrew(){
+        try{
+          axios.delete(API_URL+'movies/crew-members', {headers: authHeader() });
+          console.log("ALL movies deleted");
+        }catch(error){
+          console.log("ERROR from delete function");
+          return "ERROR FROM DEL FUNCTION" + error;
+        }
+      }
+
     
 }
 
