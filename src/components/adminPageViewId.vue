@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div class="slider movie-items">
+      <div class = "container">
       <h1>SAMPLE data for individual movies</h1>
       <h2>{{ id }}</h2>
       <h3>{{ id2 }}</h3>
@@ -20,6 +21,7 @@
                     {{ object }}
                 </div>
             </table>
+        </div>
     </div>
   </template>
   
