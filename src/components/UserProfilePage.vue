@@ -40,7 +40,7 @@
             <div class="user-img">
               <a v-if="user.profileImage == null" href="#"><img src="../../public/images/user-no-name.jpg"
                   alt="No User Profile" /><br /></a>
-              <a v-if="user.profileImage != null" href="#"><img :src="$USER_PHOTOS_URL + user.profileImage"
+              <a v-if="user.profileImage != null" href="#"><img :src="$USER_PHOTOS_URL + '/' + user.profileImage"
                   alt="No User Profile" /><br /></a>
               <a href="#" class="redbtn" @click="updateProfileImage">Change avatar</a>
             </div>

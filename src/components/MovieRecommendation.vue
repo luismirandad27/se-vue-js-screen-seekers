@@ -36,7 +36,7 @@
               </div>
               <div class="mv-item-infor">
                 <h6>
-                  <a href="#">{{ movie.title }}</a>
+                  <router-link :to= "'/movies/' + movie.id">{{ movie.title }}</router-link>
                 </h6>
                 <p class="rate">
                   <i class="ion-android-star"></i><span>{{ movie.avgRating }}</span> /5
