@@ -8,7 +8,9 @@ import adminUpdateMovie from './components/adminUpdateMovie.vue'
 import adminPageaddCrew from './components/adminPageaddCrew.vue'
 import adminPageViewCrew from './components/adminPageViewCrew.vue'
 import adminPageUpdateCrew from './components/adminPageUpdateCrew.vue'
-//import Login from './components/Login.vue'
+import UserProfilePage from './components/UserProfilePage.vue'
+import MovieRecommendation from './components/MovieRecommendation.vue'
+import MovieDetail from './components/MovieDetail.vue'
 
 
 const routes = [
@@ -22,12 +24,6 @@ const routes = [
         name: 'UserMainPage',
         component: UserMainPage
     },
-    /*,
-    {
-        path: '/login',
-        name: 'Login',
-        component: Login
-    }*/
     {
         path:"/adminPage",
         name:"adminPage",
@@ -62,9 +58,22 @@ const routes = [
         path:"/adminPageUpdateCrew/:id",
         name: "adminPageUpdateCrew",
         component: adminPageUpdateCrew
+    },
+    {
+        path: '/userProfilePage',
+        name: 'UserProfilePage',
+        component: UserProfilePage
+    },
+    {
+        path: '/myRecommendations',
+        name: 'MovieRecommendation',
+        component: MovieRecommendation
+    },
+    {
+        path: '/movies/:id',
+        name: 'MovieDetail',
+        component: MovieDetail
     }
-        
-
 ];
 
 const router = createRouter({

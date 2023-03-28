@@ -13,6 +13,34 @@ class MovieService{
             throw error;
         }
     }
+    async getAllMovies() {
+        try {
+            const response = await axios.get(API_URL + "movies", {params: {title: ""}});
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+    async getMovieById(movieId){
+        try {
+            const response = await axios.get(API_URL + "movies/" + movieId, {params: {title: ""}});
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+    async getCrewMemberByMovie(movieId){
+        try {
+            const response = await axios.get(API_URL + `movies/${movieId}/crew-members`);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+    
 }
 
-export default MovieService;
+export default new MovieService();
