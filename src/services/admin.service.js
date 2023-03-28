@@ -139,6 +139,40 @@ class Admin{
         }
       }
 
+      addCrewMemberToMovie(crewId, ProdModel, movieId){
+        try{
+          const response =  axios.post(API_URL + `movies/${movieId}/add-crew-member/${crewId}`, ProdModel, {headers: authHeader() })
+          console.log("ALL good from adding production crew");
+          return response;
+        }catch(error){
+          console.log("THERE IS AN ERROR!!!");
+          return "ERROR IS "+ error.message;
+        }
+      }
+
+      showCrewForThisMovie(id){
+        try{
+          const response =  axios.get(API_URL + `movies/${id}/crew-members` ,{headers: authHeader() });
+          console.log("ALL good from getting production crew");
+          console.log(response);
+          return response;
+        }catch(error){
+          console.log("THERE IS AN ERROR!!!");
+          return "ERROR IS "+ error.message;
+        }
+      }
+
+      removeCrew(crewId, movieId){
+        try{
+          const response =  axios.delete(API_URL + `movies/${movieId}/crew-member/${crewId}`, {headers: authHeader() })
+          console.log("ALL good from removing production crew");
+          return response;
+        }catch(error){
+          console.log("THERE IS AN ERROR!!!");
+          return "ERROR IS "+ error.message;
+        }
+      }
+
     
 }
 
