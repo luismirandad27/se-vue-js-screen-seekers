@@ -164,7 +164,7 @@ class Admin{
 
       removeCrew(crewId, movieId){
         try{
-          const response =  axios.delete(API_URL + `movies/${movieId}/crew-member/${crewId}`, {headers: authHeader() })
+          const response =  axios.delete(API_URL + `movies/${movieId}/remove-crew-member/${crewId}`, {headers: authHeader() })
           console.log("ALL good from removing production crew");
           return response;
         }catch(error){
