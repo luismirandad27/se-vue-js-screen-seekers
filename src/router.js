@@ -2,7 +2,7 @@ import { createWebHistory, createRouter } from "vue-router";
 import MainPage from './components/MainPage.vue'
 import UserMainPage from './components/UserMainPage.vue'
 import UserProfilePage from './components/UserProfilePage.vue'
-import MovieRecommendation from './components/MovieRecommendation.vue'
+import MovieList from './components/MovieList.vue'
 import MovieDetail from './components/MovieDetail.vue'
 
 const routes = [
@@ -22,9 +22,9 @@ const routes = [
         component: UserProfilePage
     },
     {
-        path: '/myRecommendations',
-        name: 'MovieRecommendation',
-        component: MovieRecommendation
+        path: '/movies/list/:listType',
+        name: 'MovieList',
+        component: MovieList
     },
     {
         path: '/movies/:id',

@@ -178,7 +178,7 @@ import UserService from "@/services/user.service.js";
 import User from "@/models/user";
 
 import MovieService from "@/services/movie.service";
-import MovieRecommendation from "@/components/MovieRecommendation.vue";
+import MovieList from "@/components/MovieList.vue";
 
 // importing Modal Vue Component
 import Modal from "@/components/Modal.vue";
@@ -188,7 +188,7 @@ export default {
   components: {
     UserService,
     Modal,
-    MovieRecommendation,
+    MovieList,
     MovieService
   },
   data() {
@@ -389,7 +389,7 @@ export default {
       UserService.getRecommendationsByUser(this.userId).then((response) => {
 
         if (response.content != null) {
-          this.$router.push("/myRecommendations");
+          this.$router.push("/movies/list/2");
         } else {
           this.modalType = "notification";
           this.modalTitle = "Information";
