@@ -126,6 +126,22 @@ class UserService {
             throw error;
         }
     }
+
+    async saveRating(userId, movieId, rating, comment){
+        try{
+            const response =  axios.post(API_URL+`users/${userId}/ratings/${movieId}`, rating, comment, {
+                headers:{
+                    'Content-Type': 'application/json',
+                    'Authorization': authHeader().Authorization
+                }
+            })
+            console.log("NO ERRORS! Victorrrrrrrrrr and result is" + response);
+            return response.data;
+        }catch(error){
+            console.log("THERE IS AN ERROR!!!");
+            return "ERROR IS "+ error.message;
+        }
+    }
 }
 
 export default new UserService();

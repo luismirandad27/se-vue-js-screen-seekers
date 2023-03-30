@@ -11,6 +11,7 @@
   -->
   <Header/>
   <router-view></router-view>
+
   <Footer />
 </template>
 
