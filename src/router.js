@@ -4,6 +4,8 @@ import UserMainPage from './components/UserMainPage.vue'
 import UserProfilePage from './components/UserProfilePage.vue'
 import MovieList from './components/MovieList.vue'
 import MovieDetail from './components/MovieDetail.vue'
+import UserWatchlists from './components/UserWatchlists.vue'
+import UserWatchlistDetail from './components/UserWatchlistDetail.vue'
 
 const routes = [
     {
@@ -30,6 +32,16 @@ const routes = [
         path: '/movies/:id',
         name: 'MovieDetail',
         component: MovieDetail
+    },
+    {
+        path: '/watchlists/:userId',
+        name: 'UserWatchlists',
+        component: UserWatchlists
+    },
+    {
+        path: '/watchlistDetail',
+        name: 'UserWatchlistDetail',
+        component: UserWatchlistDetail
     }
 ];
 

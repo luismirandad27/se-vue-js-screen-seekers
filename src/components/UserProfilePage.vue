@@ -55,7 +55,7 @@
                 </li>
                 <li><a href="userrate.html">Rated Movies</a></li>
                 <li>
-                  <a href="userrate.html">My Watchlists</a>
+                  <a @click="goToWatchlists()">My Watchlists</a>
                 </li>
               </ul>
             </div>
@@ -375,7 +375,7 @@ export default {
       const dateRegex = /^(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])\/\d{4}$/;
       const isValid = dateRegex.test(this.user.dateOfBirth);
       if (!isValid) {
-        console.log("NOT VALID!");
+        console.log("not valid");
       }
     },
     logout() {
@@ -422,6 +422,9 @@ export default {
           console.log(error);
         }
       );
+    },
+    goToWatchlists(){
+      this.$router.push("/watchlists/"+this.userId);
     }
   },
   created() {

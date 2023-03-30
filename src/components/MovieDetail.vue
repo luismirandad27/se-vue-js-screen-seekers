@@ -2,10 +2,6 @@
   <transition name="modal">
     <modal :title="modalTitle" :status="modalStatus" v-if="isModalOpen" @close="closeModal">
       <p>{{ modalMessage }}</p>
-      <div v-if="modalType == 'confirmation'" class="modal-buttons">
-        <button v-if="modalTypeAction == 'deleteAccount'" class="modal-confirm" @click="deleteAccount()">Confirm</button>
-        <button class="modal-cancel" @click="closeModal">Cancel</button>
-      </div>
     </modal>
   </transition>
   <div class="hero mv-single-hero">
