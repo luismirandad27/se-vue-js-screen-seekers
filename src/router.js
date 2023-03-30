@@ -1,3 +1,4 @@
+
 import { createWebHistory, createRouter } from "vue-router";
 import MainPage from './components/MainPage.vue'
 import UserMainPage from './components/UserMainPage.vue'
@@ -9,6 +10,10 @@ import adminPageaddCrew from './components/adminPageaddCrew.vue'
 import adminPageViewCrew from './components/adminPageViewCrew.vue'
 import adminPageUpdateCrew from './components/adminPageUpdateCrew.vue'
 import UserProfilePage from './components/UserProfilePage.vue'
+import UserPageCreateWatchlist from './components/UserPageCreateWatchlist.vue'
+/* eslint-disable */
+import UserPageUpdateWatchlist from './components/UserPageUpdateWatchlist.vue'
+import UserPageViewWatchlist from './components/UserPageViewWatchlist.vue'
 import MovieList from './components/MovieList.vue'
 import MovieDetail from './components/MovieDetail.vue'
 import SearchPage from './components/SearchPage.vue'
@@ -67,6 +72,21 @@ const routes = [
         path: '/userProfilePage',
         name: 'UserProfilePage',
         component: UserProfilePage
+    },
+    {
+        path: '/UserPageCreateWatchlist',
+        name: 'UserCreateWatchlist',
+        component: UserPageCreateWatchlist
+    },
+    {
+        path: '/UserPageViewWatchlist',
+        name: 'UserViewWatchlist',
+        component: UserPageViewWatchlist
+    },
+    {
+        path: '/UserPageUpdateWatchlist',
+        name: 'UserUpdateWatchlist',
+        component: UserPageUpdateWatchlist
     },
     {
         path: '/movies/list/:listType',
