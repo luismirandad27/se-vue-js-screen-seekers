@@ -11,6 +11,8 @@ import adminPageUpdateCrew from './components/adminPageUpdateCrew.vue'
 import UserProfilePage from './components/UserProfilePage.vue'
 import MovieList from './components/MovieList.vue'
 import MovieDetail from './components/MovieDetail.vue'
+import SearchPage from './components/SearchPage.vue'
+import AddRating from './components/AddRating.vue'
 import UserWatchlists from './components/UserWatchlists.vue'
 import UserWatchlistDetail from './components/UserWatchlistDetail.vue'
 
@@ -75,6 +77,16 @@ const routes = [
         path: '/movies/:id',
         name: 'MovieDetail',
         component: MovieDetail
+    },
+    {
+        path: '/search',
+        name: 'SearchPage',
+        component: SearchPage
+    },
+    {
+        path: '/addRating',
+        name: 'AddRating',
+        component: AddRating
     },
     {
         path: '/watchlists/:userId',
