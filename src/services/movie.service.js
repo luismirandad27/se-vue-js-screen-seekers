@@ -71,6 +71,45 @@ class MovieService{
             throw error;
         }
     }
+    async getInTheatersMovies(page,size){
+        try {
+            const response = await axios.get(API_URL + `movies?isInTheaters=true`,
+                {params:{
+                    page: page,
+                    size: size
+                }});
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+    async getInStreamingMovies(page,size){
+        try {
+            const response = await axios.get(API_URL + `movies?isInStreaming=true`,
+                {params:{
+                    page: page,
+                    size: size
+                }});
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+    async getComingSoonMovies(page,size){
+        try {
+            const response = await axios.get(API_URL + `movies?isComingSoon=true`,
+                {params:{
+                    page: page,
+                    size: size
+                }});
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
     
 }
 

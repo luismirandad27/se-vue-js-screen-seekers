@@ -9,10 +9,12 @@ import adminPageaddCrew from './components/adminPageaddCrew.vue'
 import adminPageViewCrew from './components/adminPageViewCrew.vue'
 import adminPageUpdateCrew from './components/adminPageUpdateCrew.vue'
 import UserProfilePage from './components/UserProfilePage.vue'
-import MovieRecommendation from './components/MovieRecommendation.vue'
+import MovieList from './components/MovieList.vue'
 import MovieDetail from './components/MovieDetail.vue'
 import SearchPage from './components/SearchPage.vue'
 import AddRating from './components/AddRating.vue'
+import UserWatchlists from './components/UserWatchlists.vue'
+import UserWatchlistDetail from './components/UserWatchlistDetail.vue'
 
 
 const routes = [
@@ -67,9 +69,9 @@ const routes = [
         component: UserProfilePage
     },
     {
-        path: '/myRecommendations',
-        name: 'MovieRecommendation',
-        component: MovieRecommendation
+        path: '/movies/list/:listType',
+        name: 'MovieList',
+        component: MovieList
     },
     {
         path: '/movies/:id',
@@ -85,6 +87,16 @@ const routes = [
         path: '/addRating',
         name: 'AddRating',
         component: AddRating
+    },
+    {
+        path: '/watchlists/:userId',
+        name: 'UserWatchlists',
+        component: UserWatchlists
+    },
+    {
+        path: '/watchlistDetail',
+        name: 'UserWatchlistDetail',
+        component: UserWatchlistDetail
     }
 ];
 

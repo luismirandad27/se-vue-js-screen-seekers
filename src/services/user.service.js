@@ -92,9 +92,10 @@ class UserService {
             throw error;
         }
     }
-    async getRatingByMovie(movieId){
+    async getRatingByMovie(movieId, page, size){
         try {
-            const response = await axios.get(API_URL + `users/ratings/${movieId}`, 
+            if (page === -1){
+                const response = await axios.get(API_URL + `users/ratings/${movieId}`, 
                     {
                         headers:{
                         'Content-Type': 'application/json',
@@ -102,7 +103,22 @@ class UserService {
                         }
                     });
 
-            return response.data;
+                    return response.data;
+            }else{
+                const response = await axios.get(API_URL + `users/ratings/${movieId}`, 
+                    {
+                        headers:{
+                        'Content-Type': 'application/json',
+                        'Authorization': authHeader().Authorization
+                        },
+                        params:{
+                            page: page,
+                            size: size
+                        }
+                    });
+                    return response.data;
+            }
+            
         } catch (error) {
             console.error(error);
             throw error;
@@ -126,20 +142,41 @@ class UserService {
             throw error;
         }
     }
-
-    async saveRating(userId, movieId, rating, comment){
+    async getUserRatings(userId){
         try{
-            const response =  axios.post(API_URL+`users/${userId}/ratings/${movieId}`, rating, comment, {
-                headers:{
-                    'Content-Type': 'application/json',
-                    'Authorization': authHeader().Authorization
-                }
-            })
-            console.log("NO ERRORS! Victorrrrrrrrrr and result is" + response);
+            const response = await axios.get(API_URL + `users/${userId}/ratings`,
+                            {
+                                headers:{
+                                    'Content-Type': 'application/json',
+                                    'Authorization': authHeader().Authorization
+                                }
+                            });
+            
             return response.data;
+        } catch(error){
+            console.error(error);
+            throw error;
+        }
+    }
+    async addUserRating(userId, movieId, rating, comment){
+        try{
+            const response = await axios.post(API_URL + `users/${userId}/ratings/${movieId}`, 
+                                                    {
+                                                        userRating: rating,
+                                                        comment: comment
+                                                    }, 
+                                                    {
+                                                        headers:{
+                                                            'Content-Type': 'application/json',
+                                                            'Authorization': authHeader().Authorization
+                                                        }
+                                                    });
+
+            return response.data;
+            
         }catch(error){
-            console.log("THERE IS AN ERROR!!!");
-            return "ERROR IS "+ error.message;
+            console.error(error);
+            throw new Error('Failed to update user profile information');
         }
     }
 }
