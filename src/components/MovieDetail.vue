@@ -1,4 +1,9 @@
 <template>
+  <transition name="modal">
+    <modal :title="modalTitle" :status="modalStatus" v-if="isModalOpen" @close="closeModal">
+      <p>{{ modalMessage }}</p>
+    </modal>
+  </transition>
   <div class="hero mv-single-hero">
     <div class="container">
       <div class="row">
@@ -62,6 +67,7 @@
               <div class="tabs">
                 <ul class="tab-links tabs-mv">
                   <li class="active"><a href="#overview">Overview</a></li>
+                  <li><a href="#reviews"> Reviews</a></li>
                 </ul>
                 <div class="tab-content">
                   <div id="overview" class="tab active">
@@ -104,33 +110,6 @@
                             </div>
                             <p>... {{ crewmember.charName }}</p>
                           </div>
-                        </div>
-                        <div v-if="ratingsArray.length>0" class="title-hd-sm">
-                          <h4>User reviews</h4>
-                          <a href="#" class="time"
-                            >See All {{ ratingsArray.length }} Reviews
-                            <i class="ion-ios-arrow-right"></i
-                          ></a>
-                        </div>
-                        
-                        <div v-if="ratingsArray.length>0" class="mv-user-review-item">
-                          <div class="no-star">
-                            <i v-for = "n in ratingsArray[0].userRating" :key="n" class="ion-android-star"></i>
-                            <i v-for = "n in range(ratingsArray[0].userRating + 1,5)" :key="n" class="ion-android-star last"></i>
-                          </div>
-                          <p class="time">
-                            {{ new Date(ratingsArray[0].createdAt).toLocaleDateString(
-                                "en-US",
-                                {
-                                  day: "2-digit",
-                                  month: "short",
-                                  year: "numeric",
-                                }
-                              ) }} by <a href="#"> {{ ratingsArray[0].user.username }} </a>
-                          </p>
-                          <p>
-                            {{ ratingsArray[0].comment }}
-                          </p>
                         </div>
                       </div>
                       <div class="col-md-4 col-xs-12 col-sm-12">
@@ -191,6 +170,143 @@
                       </div>
                     </div>
                   </div>
+                  <div id="reviews" class="tab review">
+                    <div class="row">
+                      <div class="topbar-filter">
+                        <p>
+                          Found <span>{{ numberElements }} reviews</span> in
+                          total
+                        </p>
+                      </div>
+                      <div
+                        v-for="(rating, index) in ratingsArray"
+                        :key="index"
+                        class="mv-user-review-item"
+                      >
+                        <div class="user-infor">
+                          <img
+                            v-if="rating.user.profileImage != null"
+                            :src="
+                              $USER_PHOTOS_URL + '/' + rating.user.profileImage
+                            "
+                            alt=""
+                          />
+                          <img
+                            v-if="rating.user.profileImage == null"
+                            src="../../public/images/user-no-name.jpg"
+                            alt=""
+                          />
+                          <div>
+                            <div class="no-star">
+                              <i
+                                v-for="n in rating.userRating"
+                                :key="n"
+                                class="ion-android-star"
+                              ></i>
+                              <i
+                                v-for="n in range(rating.userRating + 1, 5)"
+                                :key="n"
+                                class="ion-android-star last"
+                              ></i>
+                            </div>
+                            <p class="time">
+                              {{
+                                new Date(rating.createdAt).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    day: "2-digit",
+                                    month: "short",
+                                    year: "numeric",
+                                  }
+                                )
+                              }}
+                              by <a href="#"> {{ rating.user.username }} </a>
+                            </p>
+                          </div>
+                        </div>
+                        <p>{{ rating.comment }}</p>
+                      </div>
+                      <div class="topbar-filter">
+                        <label>Reviews per page:</label>
+                        <select
+                          v-model="size"
+                          @change="getRatingList(page, size)"
+                        >
+                          <option value="10">10 Movies</option>
+                          <option value="20">20 Movies</option>
+                        </select>
+                        <div v-if="totalPages <= 10" class="pagination2">
+                          <span>Page {{ page + 1 }} of {{ totalPages }}:</span>
+                          <a
+                            v-for="n in totalPages"
+                            :key="n"
+                            :class="{ active: n === page + 1 }"
+                            @click="getRatingList(n - 1, size)"
+                          >
+                            {{ n }}
+                          </a>
+                          <a href="#"><i class="ion-arrow-right-b"></i></a>
+                        </div>
+                        <div v-if="totalPages > 10" class="pagination2">
+                          <span>Page {{ page + 1 }} of {{ totalPages }}:</span>
+                          <a
+                            v-for="n in 8"
+                            :key="n"
+                            :class="{ active: n === page + 1 }"
+                            @click="getRatingList(n - 1, size)"
+                            >{{ n }}</a
+                          >
+                          <a>...</a>
+                          <a
+                            v-for="n in 2"
+                            :key="n"
+                            @click="getRatingList(n - 1, size)"
+                            >{{ totalPages - 2 + n }}</a
+                          >
+                          <a href="#"><i class="ion-arrow-right-b"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                    <div v-if="loggedIn && !userRatedMovie" class="row form-style-1 user-pro">
+                      <form @submit.prevent="addNewRating">
+                        <h3>RATE THE MOVIE</h3>
+                        <div class="row">
+                          <div class="col-md-4 form-it">
+                            <label>Number of Stars</label>
+                            <input
+                              type="number"
+                              placeholder="From 0 to 5"
+                              max="5"
+                              min="0"
+                              v-model="ratingInput"
+                              :required="true"
+                            />
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-12 form-it">
+                            <label>Comment</label>
+                            <textarea
+                              placeholder="Tell us your opinion (max 500 character)"
+                              rows="5"
+                              v-model="ratingCommentInput"
+                              :maxlength="500"
+                              :required="true"
+                            />
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4 form-it">
+                            <input
+                              class="submit"
+                              type="submit"
+                              value="Rate & Review"
+                            />
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -206,9 +322,16 @@ import MovieService from "@/services/movie.service.js";
 import UserService from "@/services/user.service.js";
 import Movie from "@/models/movie.js";
 import CrewMember from "@/models/crewmember.js";
+// importing Modal Vue Component
+import Modal from "@/components/Modal.vue";
+
+import $ from "jquery";
 
 export default {
   name: "MovieDetail",
+  components:{
+    Modal
+  },
   data() {
     return {
       movieId: "",
@@ -217,7 +340,21 @@ export default {
       writersArray: [],
       castsArray: [],
       ratingsArray: [],
-    };
+      page: "",
+      size: "",
+      totalPages: "",
+      totalElements: 0,
+      numberElements: 0,
+      userRatedMovie: false,
+      ratingInput: "",
+      ratingCommentInput: "",
+      isModalOpen: false,
+      modalTitle: "",
+      modalMessage: "",
+      modalStatus: "",
+      modalType:"",
+      modalTypeAction:""
+    }
   },
   methods: {
     async getMovieDetail() {
@@ -283,7 +420,7 @@ export default {
             );
           });
         }
-        
+
         const respCastCrew = responseCrew.filter(
           (pCrewData) => pCrewData.role === "Cast"
         );
@@ -305,10 +442,14 @@ export default {
         }
       }
 
-      const ratingResponse = await UserService.getRatingByMovie(this.movieId);
+      const ratingResponse = await UserService.getRatingByMovie(
+        this.movieId,
+        -1,
+        -1
+      );
 
-      if (ratingResponse.length > 0) {
-        this.ratingsArray = ratingResponse;
+      if (ratingResponse.content.length > 0) {
+        this.ratingsArray = ratingResponse.content;
         const totalRatings = this.ratingsArray.length;
         const sumRatings = this.ratingsArray.reduce(
           (sum, rating) => sum + rating.userRating,
@@ -316,17 +457,105 @@ export default {
         );
         const avgRating = totalRatings > 0 ? sumRatings / totalRatings : 0;
         this.movieObj.setAvgRating(avgRating.toFixed(1));
-        this.ratingsArray.sort((a, b) => b.userRating - a.userRating);
-        console.log(this.ratingsArray)
       }
     },
+    async getRatingList(page, size) {
+      const ratingsResponse = await UserService.getRatingByMovie(
+        this.movieId,
+        page,
+        size
+      );
+      this.totalPages = ratingsResponse.totalPages;
+      this.numberElements = ratingsResponse.totalElements;
+      this.page = ratingsResponse.number;
+      this.ratingsArray = ratingsResponse.content;
+    },
     range(start, end) {
-				return Array(end - start + 1).fill().map((val, i) => start + i)
-		}
+      return Array(end - start + 1)
+        .fill()
+        .map((val, i) => start + i);
+    },
+    activeTabs() {
+      var tabsClick = $(".tabs .tab-links a, .tab-links-2 a, .tab-links-3 a");
+      tabsClick.on("click", function (e) {
+        var currentAttrValue = $(this).attr("href");
+        var tabsCurrent = $(".tabs " + currentAttrValue);
+        // Show/Hide Tabs
+        tabsCurrent.show().siblings().hide();
+        // Change/remove current tab to active
+        $(this)
+          .parent("li")
+          .addClass("active")
+          .siblings()
+          .removeClass("active");
+        e.preventDefault();
+        //reset position for tabs
+      });
+    },
+    async validateUserRatedMovie() {
+      const user = this.$store.state.auth.user;
+      const response = await UserService.getUserRatings(user.id);
+      
+      if (response.length > 0) {
+        const ratingUser = response.filter(
+          (rating) => rating.movie.id == this.movieId
+        );
+        if (ratingUser.length == 0) {
+          this.userRatedMovie = false;
+        } else {
+          this.userRatedMovie = true;
+        }
+      } else {
+        this.userRatedMovie = false;
+      }
+    },
+    addNewRating(){
+      const userId = this.currentUser.id;
+      UserService.addUserRating(userId, this.movieId, this.ratingInput, this.ratingCommentInput).then(
+        (response) =>{
+          console.log(response);
+          this.modalTitle = "Success!";
+          this.modalMessage = "Rating registered successfully!";
+          this.modalStatus = "success";
+          this.isModalOpen = true;
+        },
+        (error) => {
+          console.log(error);
+          this.modalTitle = "Error";
+          this.modalMessage =
+            "We couldn't perfom the operation. Try again later";
+          this.modalStatus = "error";
+          this.isModalOpen = true;
+        }
+      )
+    },
+    closeModal() {
+      this.page = 0;
+      this.size = 10;
+      this.getMovieDetail();
+      this.getRatingList(this.page, this.size);
+      this.validateUserRatedMovie();
+      this.isModalOpen = false;
+    },
   },
   created() {
     this.movieId = this.$route.params.id;
+    this.page = 0;
+    this.size = 10;
     this.getMovieDetail();
+    this.getRatingList(this.page, this.size);
+    this.validateUserRatedMovie();
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    },
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+  },
+  mounted() {
+    this.activeTabs();
   },
 };
 </script>
