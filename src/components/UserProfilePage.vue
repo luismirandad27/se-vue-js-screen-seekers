@@ -55,7 +55,7 @@
                 </li>
                 <li><a href="userrate.html">Rated Movies</a></li>
                 <li>
-                  <a href="userrate.html">My Watchlists</a>
+                  <a @click="goToWatchlists()">My Watchlists</a>
                 </li>
               </ul>
             </div>
@@ -178,7 +178,7 @@ import UserService from "@/services/user.service.js";
 import User from "@/models/user";
 
 import MovieService from "@/services/movie.service";
-import MovieRecommendation from "@/components/MovieRecommendation.vue";
+import MovieList from "@/components/MovieList.vue";
 
 // importing Modal Vue Component
 import Modal from "@/components/Modal.vue";
@@ -188,7 +188,7 @@ export default {
   components: {
     UserService,
     Modal,
-    MovieRecommendation,
+    MovieList,
     MovieService
   },
   data() {
@@ -375,7 +375,7 @@ export default {
       const dateRegex = /^(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])\/\d{4}$/;
       const isValid = dateRegex.test(this.user.dateOfBirth);
       if (!isValid) {
-        console.log("NOT VALID!");
+        console.log("not valid");
       }
     },
     logout() {
@@ -389,7 +389,7 @@ export default {
       UserService.getRecommendationsByUser(this.userId).then((response) => {
 
         if (response.content != null) {
-          this.$router.push("/myRecommendations");
+          this.$router.push("/movies/list/2");
         } else {
           this.modalType = "notification";
           this.modalTitle = "Information";
@@ -422,6 +422,9 @@ export default {
           console.log(error);
         }
       );
+    },
+    goToWatchlists(){
+      this.$router.push("/watchlists/"+this.userId);
     }
   },
   created() {
