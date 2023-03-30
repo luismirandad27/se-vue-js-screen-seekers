@@ -1,7 +1,13 @@
+
 import { createWebHistory, createRouter } from "vue-router";
 import MainPage from './components/MainPage.vue'
 import UserMainPage from './components/UserMainPage.vue'
 import UserProfilePage from './components/UserProfilePage.vue'
+import UserPageCreateWatchlist from './components/UserPageCreateWatchlist.vue'
+/* eslint-disable */
+import UserPageUpdateWatchlist from './components/UserPageUpdateWatchlist.vue'
+import UserPageViewWatchlist from './components/UserPageViewWatchlist.vue'
+
 
 const routes = [
     {
@@ -18,6 +24,21 @@ const routes = [
         path: '/userProfilePage',
         name: 'UserProfilePage',
         component: UserProfilePage
+    },
+    {
+        path: '/UserPageCreateWatchlist',
+        name: 'UserCreateWatchlist',
+        component: UserPageCreateWatchlist
+    },
+    {
+        path: '/UserPageViewWatchlist',
+        name: 'UserViewWatchlist',
+        component: UserPageViewWatchlist
+    },
+    {
+        path: '/UserPageUpdateWatchlist',
+        name: 'UserUpdateWatchlist',
+        component: UserPageUpdateWatchlist
     }
 ];
 
