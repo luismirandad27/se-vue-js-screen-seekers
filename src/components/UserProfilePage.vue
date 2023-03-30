@@ -1,12 +1,11 @@
 <template>
   <transition name="modal">
-    <modal
-      :title="modalTitle"
-      :status="modalStatus"
-      v-if="isModalOpen"
-      @close="closeModal"
-    >
+    <modal :title="modalTitle" :status="modalStatus" v-if="isModalOpen" @close="closeModal">
       <p>{{ modalMessage }}</p>
+      <div v-if="modalType == 'confirmation'" class="modal-buttons">
+        <button v-if="modalTypeAction == 'deleteAccount'" class="modal-confirm" @click="deleteAccount()">Confirm</button>
+        <button class="modal-cancel" @click="closeModal">Cancel</button>
+      </div>
     </modal>
   </transition>
   <div class="hero user-hero">
@@ -18,12 +17,14 @@
             <h1>
               {{
                 fullName == null
-                  ? "PLEASE COMPLETE YOUR USER INFORMATION"
-                  : fullName
+                ? "PLEASE COMPLETE YOUR USER INFORMATION"
+                : fullName
               }}
             </h1>
             <ul class="breadcumb">
-              <li class="active"><a href="#">Home</a></li>
+              <li class="active">
+                <router-link to="/userMainPage">Home</router-link>
+              </li>
               <li><span class="ion-ios-arrow-right"></span>Profile</li>
             </ul>
           </div>
@@ -37,33 +38,31 @@
         <div class="col-md-3 col-sm-12 col-xs-12">
           <div class="user-information">
             <div class="user-img">
-              <a v-if="user.profileImage == null" href="#"
-                ><img
-                  :src="$USER_PHOTOS_URL + '/user-photos/user-no-name.png'"
-                  alt="No User Profile" /><br
-              /></a>
-              <a v-if="user.profileImage != null" href="#"
-                ><img
-                  :src="$USER_PHOTOS_URL + user.profileImage"
-                  alt="No User Profile" /><br
-              /></a>
-              <a href="#" class="redbtn" @click="updateProfileImage"
-                >Change avatar</a
-              >
+              <a v-if="user.profileImage == null" href="#"><img src="../../public/images/user-no-name.jpg"
+                  alt="No User Profile" /><br /></a>
+              <a v-if="user.profileImage != null" href="#"><img :src="$USER_PHOTOS_URL + '/' + user.profileImage"
+                  alt="No User Profile" /><br /></a>
+              <a href="#" class="redbtn" @click="updateProfileImage">Change avatar</a>
             </div>
             <div class="user-fav">
               <p>Account Details</p>
               <ul>
-                <li class="active"><a href="userprofile.html">Profile</a></li>
-                <li><a href="userfavoritelist.html">Favorite movies</a></li>
-                <li><a href="userrate.html">Rated movies</a></li>
+                <li class="active">
+                  <router-link to="/userProfilePage">Profile</router-link>
+                </li>
+                <li>
+                  <a @click="goToRecommendations()">Recomendations!</a>
+                </li>
+                <li><a href="userrate.html">Rated Movies</a></li>
+                <li>
+                  <a @click="goToWatchlists()">My Watchlists</a>
+                </li>
               </ul>
             </div>
             <div class="user-fav">
               <p>Others</p>
               <ul>
-                <li><a href="#">Change password</a></li>
-                <li><a href="#">Log out</a></li>
+                <li><a @click="logout()">Log out</a></li>
               </ul>
             </div>
           </div>
@@ -75,91 +74,51 @@
               <div class="row">
                 <div class="col-md-6 form-it">
                   <label>Username</label>
-                  <input
-                    type="text"
-                    placeholder="username"
-                    v-model="user.username"
-                  />
+                  <input type="text" placeholder="username" v-model="user.username" />
                 </div>
                 <div class="col-md-6 form-it">
                   <label>Email Address</label>
-                  <input
-                    type="text"
-                    placeholder="edward@kennedy.com"
-                    v-model="user.email"
-                  />
+                  <input type="text" placeholder="edward@kennedy.com" v-model="user.email" />
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-6 form-it">
                   <label>First Name</label>
-                  <input
-                    type="text"
-                    placeholder="Your First Name"
-                    v-model="user.firstName"
-                  />
+                  <input type="text" placeholder="Your First Name" v-model="user.firstName" />
                 </div>
                 <div class="col-md-6 form-it">
                   <label>Last Name</label>
-                  <input
-                    type="text"
-                    placeholder="Your Last Name"
-                    v-model="user.lastName"
-                  />
+                  <input type="text" placeholder="Your Last Name" v-model="user.lastName" />
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-6 form-it">
-                  <label>Date Of Birth</label>
-                  <input
-                    type="text"
-                    placeholder="Your Date of Birth"
-                    v-model="user.dateOfBirth"
-                  />
+                  <label>Date Of Birth (MM/DD/YYYY)</label>
+                  <input type="text" placeholder="Your Date of Birth" v-model="user.dateOfBirth" />
                 </div>
                 <div class="col-md-6 form-it">
                   <label>Phone Number</label>
-                  <input
-                    type="text"
-                    placeholder="Your Phone Number"
-                    v-model="user.phone"
-                  />
+                  <input type="text" placeholder="Your Phone Number" v-model="user.phone" />
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-6 form-it">
                   <label>Address</label>
-                  <input
-                    type="text"
-                    placeholder="Your Address"
-                    v-model="user.address"
-                  />
+                  <input type="text" placeholder="Your Address" v-model="user.address" />
                 </div>
                 <div class="col-md-6 form-it">
                   <label>City</label>
-                  <input
-                    type="text"
-                    placeholder="Your City"
-                    v-model="user.city"
-                  />
+                  <input type="text" placeholder="Your City" v-model="user.city" />
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-6 form-it">
                   <label>Province</label>
-                  <input
-                    type="text"
-                    placeholder="Your Province"
-                    v-model="user.province"
-                  />
+                  <input type="text" placeholder="Your Province" v-model="user.province" />
                 </div>
                 <div class="col-md-6 form-it">
                   <label>Country</label>
-                  <input
-                    type="text"
-                    placeholder="Your Country"
-                    v-model="user.country"
-                  />
+                  <input type="text" placeholder="Your Country" v-model="user.country" />
                 </div>
               </div>
               <div class="row">
@@ -168,44 +127,45 @@
                 </div>
               </div>
             </form>
-            <form @submit="handleChangePassword">
-              <div class="row">
-				<h4>02. Change password</h4>
-                <div class="col-md-6 form-it">
-                  <label>Old Password</label>
-                  <input
-                    type="password"
-                    placeholder="**********"
-                    v-model="oldPassword"
-                  />
+            <div class="row">
+              <div class="col-md-6">
+                <form @submit="handleChangePassword">
+                  <h4>02. Change password</h4>
+                  <div class="row">
+                    <div class="col-md-12 form-it">
+                      <label>Old Password</label>
+                      <input type="password" placeholder="**********" v-model="oldPassword" required />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 form-it">
+                      <label>New Password</label>
+                      <input type="text" placeholder="***************" v-model="newPassword" required />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 form-it">
+                      <label>Confirm New Password</label>
+                      <input type="text" placeholder="***************" v-model="newPassword2" required />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <input class="submit" type="submit" value="change" />
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-6">
+                <h4><i class="fa fa-exclamation-triangle fa-lg"></i>
+                  Danger Zone</h4>
+                <div class="row">
+                  <div class="col-md-12">
+                    <input type="button" class="submit" value="disable account" @click="deleteAccountModalPopup()" />
+                  </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-6 form-it">
-                  <label>New Password</label>
-                  <input
-                    type="text"
-                    placeholder="***************"
-                    v-model="newPassword"
-                  />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6 form-it">
-                  <label>Confirm New Password</label>
-                  <input
-                    type="text"
-                    placeholder="***************"
-                    v-model="newPassword2"
-                  />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-2">
-                  <input class="submit" type="submit" value="change" />
-                </div>
-              </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
@@ -217,6 +177,9 @@
 import UserService from "@/services/user.service.js";
 import User from "@/models/user";
 
+import MovieService from "@/services/movie.service";
+import MovieList from "@/components/MovieList.vue";
+
 // importing Modal Vue Component
 import Modal from "@/components/Modal.vue";
 
@@ -225,6 +188,8 @@ export default {
   components: {
     UserService,
     Modal,
+    MovieList,
+    MovieService
   },
   data() {
     return {
@@ -238,6 +203,8 @@ export default {
       modalTitle: "",
       modalMessage: "",
       modalStatus: "",
+      modalType:"",
+      modalTypeAction:"",
     };
   },
   methods: {
@@ -325,9 +292,22 @@ export default {
       const dateString = inputElements[4].value;
 
       if (dateString != "") {
-        const date = new Date(dateString);
-        const formattedDate = date.toISOString();
-        updatedUser.setDateOfBirth(formattedDate);
+        //validate if it's in the right format
+        const dateRegex =
+          /^(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])\/\d{4}$/;
+        const isValid = dateRegex.test(dateString);
+
+        if (isValid) {
+          const date = new Date(dateString);
+          const formattedDate = date.toISOString();
+          updatedUser.setDateOfBirth(formattedDate);
+        } else {
+          this.modalTitle = "Error!";
+          this.modalMessage = "Birth of Date is not in the correct format!";
+          this.modalStatus = "error";
+          this.isModalOpen = true;
+          return;
+        }
       } else {
         updatedUser.setDateOfBirth(null);
       }
@@ -367,13 +347,12 @@ export default {
         ).then(
           (response) => {
             this.modalTitle = "Success!";
-            this.modalMessage =
-              "User password has been changed successfully!";
+            this.modalMessage = "User password has been changed successfully!";
             this.modalStatus = "success";
             this.isModalOpen = true;
-			this.oldPassword = "";
-			this.newPassword = "";
-			this.newPassword2 = "";
+            this.oldPassword = "";
+            this.newPassword = "";
+            this.newPassword2 = "";
             console.log(response);
           },
           (error) => {
@@ -392,9 +371,64 @@ export default {
     closeModal() {
       this.isModalOpen = false;
     },
+    validateDate() {
+      const dateRegex = /^(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])\/\d{4}$/;
+      const isValid = dateRegex.test(this.user.dateOfBirth);
+      if (!isValid) {
+        console.log("not valid");
+      }
+    },
+    logout() {
+      this.$store.dispatch("auth/logout");
+      this.$router.push("/");
+    },
+    goToRecommendations() {
+
+      this.userId = this.$store.state.auth.user.id;
+
+      UserService.getRecommendationsByUser(this.userId).then((response) => {
+
+        if (response.content != null) {
+          this.$router.push("/movies/list/2");
+        } else {
+          this.modalType = "notification";
+          this.modalTitle = "Information";
+          this.modalMessage =
+            "We don't have recommendations for you now! You can start rating some movies and we will know more about you :)";
+          this.modalStatus = "info";
+          this.isModalOpen = true;
+        }
+
+      });
+    },
+    deleteAccountModalPopup() {
+      this.modalType = "confirmation";
+      this.modalTitle = "Confirmation";
+      this.modalMessage = "Are you sure you want to disable your account?"
+      this.modalStatus = "confirmation";
+      this.modalTypeAction = "deleteAccount";
+      this.isModalOpen = true;
+      
+    },
+    deleteAccount(){
+      //now, let's call the API method and after that, if success, we have to logout as well and go back to the main page component
+      UserService.disableUser(this.userId).then(
+        (response) => {
+          this.isModalOpen = false;
+          this.$store.dispatch("auth/logout");
+          this.$router.push("/");
+        },
+        (error) =>{
+          console.log(error);
+        }
+      );
+    },
+    goToWatchlists(){
+      this.$router.push("/watchlists/"+this.userId);
+    }
   },
   created() {
-    this.getUserProfileInfo();
+    this.getUserProfileInfo()
   },
 };
 </script>

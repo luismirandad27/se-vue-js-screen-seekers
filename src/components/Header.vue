@@ -4,6 +4,8 @@
     <div class="login-content">
       <a href="#" class="close">x</a>
       <h3>Login</h3>
+      <div class="alert alert-danger close" role="alert" id="alert-dialog-signin">
+      </div>
       <form @submit="handleLogin">
         <div class="row">
           <label for="username">
@@ -16,7 +18,6 @@
             />
           </label>
         </div>
-
         <div class="row">
           <label for="password">
             Password:
@@ -136,14 +137,14 @@
               <span></span>
             </div>
           </div>
-          <a href="index-2.html"
-            ><img
+          <router-link to="/">
+          <img
               class="logo"
               src="../../public/images/logo1.png"
               alt=""
-              width="200"
-              height="200"
-          /></a>
+              width="107"
+              height="60"
+          /></router-link>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div
@@ -155,9 +156,17 @@
               <a href="#page-top"></a>
             </li>
             <li class="dropdown first">
-              <a
+              <a v-if="loggedIn"
                 class="btn btn-default dropdown-toggle lv1"
                 data-toggle="dropdown"
+                @click="$router.push('/userMainPage')"
+              >
+                Home
+              </a>
+              <a v-if="!loggedIn"
+                class="btn btn-default dropdown-toggle lv1"
+                data-toggle="dropdown"
+                @click="$router.push('/')"
               >
                 Home
               </a>
@@ -238,6 +247,16 @@ import $ from "jquery";
 
 export default {
   name: "Header",
+  data(){
+    return{
+      username:"",
+      usernameSignup:"",
+      password:"",
+      passwordSignup:"",
+      password2Signup:"",
+      emailSignup:""
+    }
+  },
   computed: {
     loggedIn() {
       var loggedInValue = this.$store.state.auth.status.loggedIn;
@@ -260,15 +279,15 @@ export default {
       this.user = new User(this.username, "", this.password);
       if (this.user.username && this.user.password) {
         this.$store.dispatch("auth/login", this.user).then(
-          () => {
+          (response) => {
+            
             const objOverlayLogin = $(".openform");
             objOverlayLogin.removeClass("openform");
             this.$router.push("/userMainPage");
           },
           (error) => {
-            alert(error.response && error.response.data) ||
-              error.message ||
-              error.toString();
+            document.getElementById("alert-dialog-signin").classList.remove("close");
+            document.getElementById("alert-dialog-signin").innerText = error.response.data.message;
           }
         );
       }
@@ -396,7 +415,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$store.state.auth.user);
     this.addingOverlay();
     this.addingLoginClickListener();
     this.addingSignupClickListener();
