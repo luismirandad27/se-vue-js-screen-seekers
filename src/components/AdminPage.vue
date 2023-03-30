@@ -92,7 +92,8 @@ export default{
         deleteAllCrew(){
             const response = Admin.deleteAllCrew();
             this.resultCrew=response;
-        }
+        },
+        
     }
 }
 </script>
