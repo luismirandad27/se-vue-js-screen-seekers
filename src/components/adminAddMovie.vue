@@ -1,6 +1,6 @@
 <template>
     <div class="slider movie-items">
-        <div class="container">
+        <div class="form-style-1 user-pro">
             <h1>This is the admin page, Adding a Movie</h1>
 
             
@@ -8,48 +8,48 @@
                 <form>
                     <table>
                         <tr>
-                            <td>Movie Title</td>
-                            <td><input type="text" id="title" v-model="model.title"></td>
+                            <td><h4>Movie Title</h4></td>
+                            <td><input type="text" v-model="model.title"></td>
                         </tr>
                         <tr>
                             <td>Movie Genre</td>
-                            <td><input type="text" id="genre" v-model="model.genre"></td>
+                            <td><input type="text" v-model="model.genre"></td>
                         </tr>
                         <tr>
                             <td>Release Date</td>
-                            <td><input type="text" id="releaseDate" v-model="model.releaseDate" ></td>
+                            <td><input type="text" v-model="model.releaseDate" ></td>
                         </tr>
                         <tr>
                             <td>Length</td>
-                            <td><input type="text" id="length" v-model="model.length"></td>
+                            <td><input type="text" v-model="model.length"></td>
                         </tr>
                         <tr>
                             <td>Synopsis</td>
-                            <td><input type="text" id="synopsis" v-model="model.synopsis"></td>
+                            <td><input type="text" v-model="model.synopsis"></td>
                         </tr>
                         <tr>
                             <td>classificationRating</td>
-                            <td><input type="text" id="classificationRating" v-model="model.classificationRating"></td>
+                            <td><input type="text" v-model="model.classificationRating"></td>
                         </tr>
                         <tr>
                             <td>MovieTrailerLink</td>
-                            <td><input type="text" id="movieTrailerLink" v-model="model.movieTrailerLink"></td>
+                            <td><input type="text" v-model="model.movieTrailerLink"></td>
                         </tr>
                         <tr>
                             <td>IsInTheaters</td>
-                            <td><input type="text" id="isInTheaters" v-model="model.isInTheaters"></td>
+                            <td><input type="text" v-model="model.isInTheaters"></td>
                         </tr>
                         <tr>
                             <td>IsInStreaming</td>
-                            <td><input type="text" id="isInStreaming" v-model="model.isInStreaming"></td>
+                            <td><input type="text" v-model="model.isInStreaming"></td>
                         </tr>
                         <tr>
                             <td>IsComingSoon</td>
-                            <td><input type="text" id="isComingSoon" v-model="model.isComingSoon"></td>
+                            <td><input type="text" v-model="model.isComingSoon"></td>
                         </tr>
                         <tr>
                             <td>WhereToWatch</td>
-                            <td><input type="text" id="whereToWatch"  v-model="model.whereToWatch"></td>
+                            <td><input type="text" v-model="model.whereToWatch"></td>
                             <!-- <td><textarea id="whereToWatch" v-model.trim.split="model.whereToWatch"></textarea></td> -->
                         </tr>
                     </table>
