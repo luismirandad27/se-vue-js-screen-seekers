@@ -465,6 +465,7 @@ export default {
         page,
         size
       );
+      console.log(ratingsResponse);
       this.totalPages = ratingsResponse.totalPages;
       this.numberElements = ratingsResponse.totalElements;
       this.page = ratingsResponse.number;
@@ -531,7 +532,7 @@ export default {
     },
     closeModal() {
       this.page = 0;
-      this.size = 10;
+      this.size = 1;
       this.getMovieDetail();
       this.getRatingList(this.page, this.size);
       this.validateUserRatedMovie();
@@ -541,7 +542,7 @@ export default {
   created() {
     this.movieId = this.$route.params.id;
     this.page = 0;
-    this.size = 10;
+    this.size = 1;
     this.getMovieDetail();
     this.getRatingList(this.page, this.size);
     this.validateUserRatedMovie();

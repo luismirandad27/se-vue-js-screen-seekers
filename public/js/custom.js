@@ -19,7 +19,6 @@ $(function(){
 	// js for dropdown menu
 	var windowWidth = $(window).width();
 	if(windowWidth > 1024){
-		console.log("Hello");
 		var dropdown = $( '.dropdown');
 		dropdown.hover(
 	        function(){
@@ -51,7 +50,6 @@ $(function(){
 	});
 	//js for tabs
 	var tabsClick = $('.tabs .tab-links a, .tab-links-2 a, .tab-links-3 a');
-	console.log(tabsClick);
 	var multiItem = $('.slick-multiItem');
 	var multiItem2 = $('.slick-multiItem2');
 	tabsClick.on('click', function(e)  {

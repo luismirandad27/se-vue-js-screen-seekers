@@ -23,10 +23,26 @@ class MovieService{
         }
     }
 
-    async getMoviesByTitle(title) {
+    async getMoviesByTitle(title, page, size) {
         try {
-            const response = await axios.get(API_URL + "movies", {params: {title: title}});
-            return response.data;
+            if (page == -1){
+                const response = await axios.get(API_URL + "movies", {params: {title: title}});
+                return response.data;
+            }else{
+                const response = await axios.get(API_URL + "movies", 
+                    {
+                        params: 
+                        {
+                            title: title,
+                            page: page,
+                            size:size
+                        }
+                    },
+                );
+                return response.data;
+            }
+            
+            
         } catch (error) {
             console.error(error);
             throw error;
@@ -55,8 +71,10 @@ class MovieService{
 
     async getMovieById(movieId){
         try {
+            
             const response = await axios.get(API_URL + "movies/" + movieId, {params: {title: ""}});
             return response.data;
+            
         } catch (error) {
             console.error(error);
             throw error;
