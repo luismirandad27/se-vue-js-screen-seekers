@@ -277,6 +277,7 @@ export default {
             this.modalMessage = watchlistDetail.title + " is deleted from the watchlist";
             this.modalStatus = "success";
             this.isModalOpen = true;
+            this.getWatchlistDetail();
         }
       )
 
@@ -325,7 +326,7 @@ export default {
       WatchlistService.deleteWatchlistByWatchlist(this.watchlistId).then(
         () =>{
           this.isModalOpen = false;
-          this.$router.push("/watchlists/"+this.userId);
+          this.$router.push({ name: 'UserProfilePage', query: { activeTab: 4 } });
         },
         () =>{
           this.isModalOpen = false;
