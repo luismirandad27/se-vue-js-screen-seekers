@@ -4,10 +4,9 @@
       <div class="row">
         <div class="col-md-12">
           <div class="hero-ct movies">
-            <h1 v-if="listType == 1">Recommendations for you</h1>
-            <h1 v-if="listType == 2">In Theaters</h1>
-            <h1 v-if="listType == 3">Streaming Now</h1>
-            <h1 v-if="listType == 4">Coming Soon Movies!</h1>
+            <h1 v-if="listType == 1">In Theaters</h1>
+            <h1 v-if="listType == 2">Streaming Now</h1>
+            <h1 v-if="listType == 3">Coming Soon Movies!</h1>
             <ul class="breadcumb">
               <li class="active"><router-link to="/">Home</router-link></li>
               <li><span class="ion-ios-arrow-right"></span> Movies</li>
@@ -115,7 +114,6 @@ export default {
   data() {
     return {
       moviesList: [],
-      userId: "",
       page: "",
       size: "",
       totalPages: "",
@@ -128,18 +126,14 @@ export default {
     async getMovieListByType(page, size) {
       switch (this.listType) {
         case "1":
-          //Recommendations
-          this.getRecommendations(page, size);
-          break;
-        case "2":
           //In Theaters
           this.getInTheatersMovies(page, size);
           break;
-        case "3":
+        case "2":
           //In Streaming
           this.getInStreamingMovies(page, size);
           break;
-        case "4":
+        case "3":
           //Coming Soon
           this.getComingSoonMovies(page, size);
           break;
@@ -321,69 +315,9 @@ export default {
         }
       );
     },
-    getRecommendations(page, size) {
-      UserService.getRecommendationsByUser(this.userId, page, size).then(
-        async (response) => {
-          console.log(response.content);
-          this.totalPages = response.totalPages;
-          this.numberElements = response.numberOfElements;
-          this.page = response.number;
-          const moviesListPromise = response.content.map(async (movieData) => {
-            
-            const movie = new Movie(
-              movieData.id,
-              movieData.title,
-              movieData.genre.split(","),
-              movieData.releaseDate,
-              movieData.length,
-              movieData.synopsis,
-              movieData.classificationRating,
-              movieData.movieTrailerLink,
-              movieData.isInTheaters,
-              movieData.isInStreaming,
-              movieData.isComingSoon,
-              movieData.whereToWatch,
-              movieData.posterImage,
-              movieData.trailerImage
-            );
-
-            //Getting the rating by movie
-            const ratingResponse = await UserService.getRatingByMovie(
-              movieData.id
-            );
-            const movieRating = ratingResponse;
-            const totalRatings = movieRating.length;
-
-            if (totalRatings > 0) {
-              const sumRatings =
-                totalRatings == 0
-                  ? 0
-                  : movieRating.reduce(
-                      (sum, rating) => sum + rating.userRating,
-                      0
-                    );
-
-              const avgRating =
-                totalRatings > 0 ? sumRatings / totalRatings : 0;
-
-              movie.setAvgRating(avgRating.toFixed(1));
-            } else {
-              movie.setAvgRating(null);
-            }
-            return movie;
-          });
-          this.moviesList = await Promise.all(moviesListPromise);
-          this.moviesList.sort((a, b) => b.avgRating - a.avgRating);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    },
   },
   created() {
     this.listType = this.$route.params.listType;
-    this.userId = this.$store.state.auth.user.id;
     this.page = 0;
     this.size = 10;
     this.sortBy = "title-desc";

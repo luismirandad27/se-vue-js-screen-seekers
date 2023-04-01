@@ -46,9 +46,11 @@
                 <li>
                   <a @click="activeTab = 2">Recommendations</a>
                 </li>
-                <li><a href="userrate.html">Rated Movies</a></li>
                 <li>
-                  <a @click="activeTab = 4">My Watchlist </a>
+                  <a @click="activeTab = 3">Rated Movies</a>
+                </li>
+                <li>
+                  <a @click="activeTab = 4">My Watchlist</a>
                 </li>
               </ul>
             </div>
@@ -62,6 +64,7 @@
         </div>
         <UserProfileForm v-if="activeTab == 1"/>
         <UserProfileRecommendations v-if="activeTab == 2"/>
+        <UserProfileRatings v-if="activeTab == 3"/>
         <UserProfileWatchlists v-if="activeTab == 4"/>
       </div>
     </div>
@@ -71,6 +74,7 @@
 import UserProfileForm from '@/components/UserProfileForm.vue'
 import UserProfileRecommendations from '@/components/UserProfileRecommendations.vue'
 import UserProfileWatchlists from '@/components/UserProfileWatchlists.vue'
+import UserProfileRatings from '@/components/UserProfileRatings.vue'
 
 
 import UserService from "@/services/user.service.js";
@@ -81,7 +85,8 @@ export default {
   components:{
     UserProfileForm,
     UserProfileRecommendations,
-    UserProfileWatchlists
+    UserProfileWatchlists,
+    UserProfileRatings
   },
   data(){
     return {
@@ -146,6 +151,7 @@ export default {
   },
   created() {
     this.activeTab = this.$route.query.activeTab || 1;
+    console.log(this.activeTab);
     this.getUserProfileInfo()
   },
 }
