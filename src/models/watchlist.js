@@ -1,6 +1,7 @@
 export default class Watchlist{
-    constructor(id, watchlistName){
+    constructor(id, name, totalMovies){
         this.id = id;
-        this.watchlistName = watchlistName;
+        this.name = name;
+        this.totalMovies = totalMovies;
     }
 }

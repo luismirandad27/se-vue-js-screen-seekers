@@ -95,7 +95,7 @@ class UserService {
     async getRatingByMovie(movieId, page, size){
         try {
             if (page === -1){
-                const response = await axios.get(API_URL + `users/ratings/${movieId}`, 
+                    const response = await axios.get(API_URL + `users/ratings/${movieId}`, 
                     {
                         headers:{
                         'Content-Type': 'application/json',

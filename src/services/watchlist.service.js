@@ -1,19 +1,21 @@
 import axios from 'axios';
-import authHeader from './auth-header.js';
+import authHeader from './auth-header';
 
 const API_URL = 'http://localhost:8080/api/';
 class WatchlistService {
 
-    async createUserWatchlist(watchlist, userId){
+    async createUserWatchlist(name, userId){
         try{
-            const response = axios.post(API_URL + `users/${userId}/watchlists`, watchlist, {
+            const response = await axios.post(API_URL + `users/${userId}/watchlists`, {
+                name: name
+            }, {
                 headers:{
                     'Content-Type': 'application/json',
                     'Authorization': authHeader().Authorization
                 }
             });
 
-            return response;
+            return response.data;
             
         }catch(error){
             console.error(error);
@@ -64,9 +66,9 @@ class WatchlistService {
                     'Authorization': authHeader().Authorization
                 }
             });
-
-            return response;
             
+            return response.data;
+
         }catch(error){
             console.error(error);
             throw new Error('Failed to retrieve the user watchlist');
@@ -74,17 +76,19 @@ class WatchlistService {
     }
 
 
-    async updateUserWatchlist(watchlistObj, watchlistId){
+    async updateUserWatchlist(name, watchlistId){
         try{
 
-            const response = axios.put(API_URL + `users/watchlists/${watchlistId}`, watchlistObj, {
+            const response = axios.put(API_URL + `users/watchlists/${watchlistId}`, {
+                name:name
+            }, {
                 headers:{
                     'Content-Type': 'application/json',
                     'Authorization': authHeader().Authorization
                 }
             });
 
-            return response;
+            return response.data;
             
         }catch(error){
             console.error(error);
@@ -145,12 +149,13 @@ class WatchlistService {
 
     async createWatchlistItem(watchlistId, movieId){
         try{
-            const response = await axios.post(API_URL+`users/watchlists/${watchlistId}/add-movie/${movieId}`, {
+            const response = await axios.post(API_URL+`users/watchlists/${watchlistId}/add-movie/${movieId}`,{}, {
                 headers:{
                     'Content-Type': 'application/json',
                     'Authorization': authHeader().Authorization
                 }
             });
+            console.log(response);
             return response.data;
 
         } catch(error){

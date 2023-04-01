@@ -114,7 +114,7 @@ const routes = [
         component: UserWatchlists
     },
     {
-        path: '/watchlistDetail',
+        path: '/watchlistDetail/:watchlistId',
         name: 'UserWatchlistDetail',
         component: UserWatchlistDetail
     }
