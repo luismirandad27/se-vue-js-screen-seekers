@@ -413,6 +413,7 @@ export default {
     this.addingLoginClickListener();
     this.addingSignupClickListener();
     this.addingDropdownMenu();
+    this.userId = this.$store.state.auth.user.id;
   },
   updated() {
     this.addingLoginClickListener();

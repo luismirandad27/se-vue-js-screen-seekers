@@ -20,7 +20,10 @@
           <div class="hero-ct">
             <h1>My Watchlist</h1>
             <ul class="breadcumb">
-              <li class="active"><a href="#">User</a></li>
+             <!--- <li class="active"><a href="#">User</a></li> -->
+             <li class="active">
+             <router-link to='/userProfilePage'>User</router-link>
+            </li>
               <li><span class="ion-ios-arrow-right"></span> Watchlist</li>
             </ul>
           </div>
@@ -78,9 +81,11 @@
                 alt=""
               />
               <div class="hvr-inner">
-                <router-link :to="'/movies/' + watchlistDetail.movieId">
-                  Read more <i class="ion-android-arrow-dropright"></i>
-                </router-link>
+
+                <a @click="deleteMovieFromWatchlist(watchlistDetail, watchlistDetail.movieId)">
+                  Delete Movie <i class="ion-android-arrow-dropright"></i>
+                </a>
+
               </div>
               <div class="mv-item-infor">
                 <h6>
@@ -125,7 +130,7 @@
                 alt=""
               />
               <div class="hvr-inner">
-                <a @click="addMovieToWatchlist(movie.id)">
+                <a @click="addMovieToWatchlist(movie, movie.id)">
                   Add Movie <i class="ion-android-arrow-dropright"></i>
                 </a>
               </div>
@@ -197,7 +202,7 @@ export default {
               watchlistDetail.id,
               watchlistDetail.movie.movieId,
               watchlistDetail.movie.title,
-              watchlistDetail.movie.posterImage
+              watchlistDetail.movie.posterImage,
             );
           }
         );
@@ -237,7 +242,7 @@ export default {
         this.moviesSearch = [];
       }
     },
-    addMovieToWatchlist(movieId) {
+    addMovieToWatchlist(movieObj, movieId) {
       //validate if we already have that movie
       var isIncluded = false;
 
@@ -252,9 +257,10 @@ export default {
         WatchlistService.createWatchlistItem(this.watchlistId, movieId).then(
           () => {
             this.modalTitle = "Success!";
-            this.modalMessage = "New Movie added into your watchlist!";
+            this.modalMessage = movieObj.title + " is added into your watchlist!";
             this.modalStatus = "success";
             this.isModalOpen = true;
+            
           }
         );
       } else {
@@ -263,6 +269,17 @@ export default {
         this.modalStatus = "error";
         this.isModalOpen = true;
       }
+    },
+    deleteMovieFromWatchlist(watchlistDetail, movieId){
+      WatchlistService.deleteWatchlistItem(this.watchlistId, movieId).then(
+        () => {
+            this.modalTitle = "Success!";
+            this.modalMessage = watchlistDetail.title + " is deleted from the watchlist";
+            this.modalStatus = "success";
+            this.isModalOpen = true;
+        }
+      )
+
     },
     closeModal() {
       this.isModalOpen = false;
