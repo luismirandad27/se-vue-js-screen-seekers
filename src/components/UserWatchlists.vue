@@ -36,7 +36,10 @@
           <div class="hero-ct">
             <h1>My Watchlists</h1>
             <ul class="breadcumb">
-              <li class="active"><a href="#">User</a></li>
+             <!--- <li class="active"><a href="#">User</a></li> -->
+             <li class="active">
+              <router-link to='/userProfilePage'>User</router-link>
+            </li>
               <li><span class="ion-ios-arrow-right"></span> Watchlist</li>
             </ul>
           </div>

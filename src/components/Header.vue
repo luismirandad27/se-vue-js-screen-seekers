@@ -185,6 +185,7 @@
                 class="btn btn-default dropdown-toggle lv1"
                 data-toggle="dropdown"
                 data-hover="dropdown"
+                @click="$router.push('/watchlists/' + userId)"
               >
                 my watchlists
               </a>
@@ -419,6 +420,7 @@ export default {
     this.addingLoginClickListener();
     this.addingSignupClickListener();
     this.addingDropdownMenu();
+    this.userId = this.$store.state.auth.user.id;
   },
   updated() {
     this.addingLoginClickListener();
