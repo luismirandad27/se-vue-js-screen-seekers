@@ -130,7 +130,7 @@
                 alt=""
               />
               <div class="hvr-inner">
-                <a @click="addMovieToWatchlist(movie.id)">
+                <a @click="addMovieToWatchlist(movie, movie.id)">
                   Add Movie <i class="ion-android-arrow-dropright"></i>
                 </a>
               </div>
@@ -242,7 +242,7 @@ export default {
         this.moviesSearch = [];
       }
     },
-    addMovieToWatchlist(movieId) {
+    addMovieToWatchlist(movieObj, movieId) {
       //validate if we already have that movie
       var isIncluded = false;
 
@@ -257,7 +257,7 @@ export default {
         WatchlistService.createWatchlistItem(this.watchlistId, movieId).then(
           () => {
             this.modalTitle = "Success!";
-            this.modalMessage = "New Movie added into your watchlist!";
+            this.modalMessage = movieObj.title + " is added into your watchlist!";
             this.modalStatus = "success";
             this.isModalOpen = true;
             
