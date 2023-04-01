@@ -4,7 +4,7 @@
       <div class="row">
         <div class="title-hd">
           <h2>in theaters now</h2>
-          <router-link to="/movies/list/2" class="viewall"
+          <router-link to="/movies/list/1" class="viewall"
               >View all <i class="ion-ios-arrow-right"></i
             ></router-link>
         </div>
@@ -65,7 +65,7 @@
       <div class="row">
         <div class="title-hd">
           <h2>now Streaming</h2>
-          <router-link to="/movies/list/3" class="viewall"
+          <router-link to="/movies/list/2" class="viewall"
               >View all <i class="ion-ios-arrow-right"></i
             ></router-link>
         </div>
@@ -127,7 +127,7 @@
         <div class="col-md-12">
           <div class="title-hd">
             <h2>Coming Soon</h2>
-            <router-link to="/movies/list/4" class="viewall"
+            <router-link to="/movies/list/3" class="viewall"
               >View all <i class="ion-ios-arrow-right"></i
             ></router-link>
           </div>

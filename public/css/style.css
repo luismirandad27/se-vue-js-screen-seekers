@@ -8539,3 +8539,12 @@ a{
   background: #dd003f;
   width: 100%;
 }
+
+.user-hero-subtitle h1 {
+  font-family: 'Dosis', sans-serif;
+  font-size: 24px;
+  color: #ffffff;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}

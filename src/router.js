@@ -14,8 +14,6 @@ import UserProfilePage from './components/UserProfilePage.vue'
 import MovieList from './components/MovieList.vue'
 import MovieDetail from './components/MovieDetail.vue'
 import SearchPage from './components/SearchPage.vue'
-import AddRating from './components/AddRating.vue'
-import UserWatchlists from './components/UserWatchlists.vue'
 import UserWatchlistDetail from './components/UserWatchlistDetail.vue'
 
 
@@ -68,7 +66,8 @@ const routes = [
     {
         path: '/userProfilePage',
         name: 'UserProfilePage',
-        component: UserProfilePage
+        component: UserProfilePage,
+        props: (route) => ({ activeTab: route.query.activeTab || 1 })
     },
     {
         path: '/movies/list/:listType',
@@ -86,17 +85,7 @@ const routes = [
         component: SearchPage
     },
     {
-        path: '/addRating',
-        name: 'AddRating',
-        component: AddRating
-    },
-    {
-        path: '/watchlists/:userId',
-        name: 'UserWatchlists',
-        component: UserWatchlists
-    },
-    {
-        path: '/watchlists/watchlistDetail/:watchlistId',
+        path: '/watchlistDetail/:watchlistId',
         name: 'UserWatchlistDetail',
         component: UserWatchlistDetail
     }
