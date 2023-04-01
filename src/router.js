@@ -12,6 +12,8 @@ import adminPageUpdateCrew from './components/adminPageUpdateCrew.vue'
 import UserProfilePage from './components/UserProfilePage.vue'
 import MovieRecommendation from './components/MovieRecommendation.vue'
 import MovieDetail from './components/MovieDetail.vue'
+import AdmingetAllCrew from './components/AdmingetAllCrew.vue'
+import addCrew from './components/addCrew.vue'
 
 
 const routes = [
@@ -74,6 +76,16 @@ const routes = [
         path: '/movies/:id',
         name: 'MovieDetail',
         component: MovieDetail
+    },
+    {
+        path:"/getAllCrew",
+        name:"getAllCrew",
+        component: AdmingetAllCrew
+    },
+    {
+        path:"/addCrew/:id",
+        name:"addCrew",
+        component: addCrew
     }
 ];
 

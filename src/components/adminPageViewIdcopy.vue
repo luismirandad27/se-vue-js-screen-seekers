@@ -53,7 +53,7 @@
 				<div class="movie-single-ct main-content">
 					<h1 class="bd-hd">{{object.title}}<span>{{object.releaseDate}}</span></h1>
 					<div class="social-btn">
-						<a href="#" class="parent-btn"><i class="ion-heart"></i> Add to Favorite</a>
+						<a href="#" class="parent-btn"><i class="ion-heart"></i><router-link :to="'/addCrew/'+object.id">Add to a Crew</router-link> </a>
 						<div class="hover-bnt">
 							<a href="#" class="parent-btn"><i class="ion-android-share-alt"></i>share</a>
 							<div class="hvr-item">

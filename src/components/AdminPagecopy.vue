@@ -293,9 +293,12 @@ export default{
         addCrew(){
             this.$router.push("/adminPageaddCrew");
         },
-        async getAllCrew(){
-           const response= await Admin.getCrews();
-           this.resultCrew=response;
+        // async getAllCrew(){
+        //    const response= await Admin.getCrews();
+        //    this.resultCrew=response;
+        // },
+		getAllCrew(){
+            this.$router.push({name:"getAllCrew"});
         },
         deleteCrew(id){
             const response = Admin.deleteCrew(id);
