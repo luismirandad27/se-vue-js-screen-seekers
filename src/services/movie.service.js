@@ -23,9 +23,12 @@ class MovieService{
         }
     }
 
-    async getMoviesByTitle(title) {
+    async getMoviesByTitle(title, page, size) {
         try {
-            const response = await axios.get(API_URL + "movies", {params: {title: title}});
+            const response = await axios.get(API_URL + "movies", {params: 
+                {title: title,
+                page: page,
+            size: size}});
             return response.data;
         } catch (error) {
             console.error(error);

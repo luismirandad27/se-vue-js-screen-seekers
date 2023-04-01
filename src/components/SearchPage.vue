@@ -40,56 +40,35 @@
   <div class="page-single movie_list">
     <div class="container">
       <div class="sidebar">
-          <div class="search-form">
-            <h4 class="sb-title">Search for movie</h4>
-            <form class="form-style-1" @submit.prevent="handleSubmit">
-              <div class="row">
-                <div class="col-md-12 form-it">
-                  <label for="search-type">Search By:</label>
-                  <select
-                    v-model="searchType"
-                    id="search-type"
-                    name="search-type"
-                  >
-                    <option value="title">Title</option>
-                    <option value="genre">Genre</option>
-                    <option value="year">Release Year</option>
-                  </select>
+        <div class="search-form">
+          <h4 class="sb-title">Search for movie</h4>
+          <div class="form-style-1">
+            <div class="row">
+              <div class="col-md-12 form-it">
+                <label for="search-type">Search By:</label>
+                <select v-model="searchType" id="search-type" name="search-type">
+                  <option value="title">Title</option>
+                  <option value="genre">Genre</option>
+                  <option value="year">Release Year</option>
+                </select>
 
-                  <label for="search-term">Search Term:</label>
-                  <input
-                    v-model="submit"
-                    type="text"
-                    id="search-term"
-                    name="search-term"
-                  />
-                </div>
-                <div class="col-md-12">
-                  <input type="submit" class="submit" />Search
-                </div>
+                <label for="search-term">Search Term:</label>
+                <input v-model="submit" type="text" id="search-term" name="search-term" />
               </div>
-            </form>
+              <div class="col-md-12">
+                <a class="redbtn" value="submit" @click="handleSubmit(page, size)">Search</a>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
       <div class="row ipad-width2">
         <div class="col-md-12 col-sm-12 col-xs-12">
-          <div
-            v-for="(movie, index) in moviesList"
-            :key="index"
-            class="movie-item-style-2"
-          >
-            <img
-              v-if="movie.posterImage != null"
-              :src="
-                $MOVIE_PHOTOS_URL + '/' + movie.id + '/' + movie.posterImage
-              "
-              alt=""
-            />
-            <img
-              v-if="movie.posterImage == null"
-              src="../../public/images/poster-template.jpeg"
-              alt=""
-            />
+          <div v-for="(movie, index) in moviesList" :key="index" class="movie-item-style-2">
+            <img v-if="movie.posterImage != null" :src="
+              $MOVIE_PHOTOS_URL + '/' + movie.posterImage
+            " alt="" />
+            <img v-if="movie.posterImage == null" src="../../public/images/poster-template.jpeg" alt="" />
             <div class="mv-item-infor">
               <h6>
                 <router-link :to="'/movies/' + movie.id">{{
@@ -98,10 +77,9 @@
                 <span> ({{ movie.releaseDate }})</span>
               </h6>
               <p class="rate">
-                <i class="ion-android-star"></i
-                ><span>{{ movie.avgRating }}</span> /5
+                <i class="ion-android-star"></i><span>{{ movie.avgRating }}</span> /5
               </p>
-              
+
               <p class="run-time">
                 Run Time: {{ movie.length }}
                 <span>MMPA: {{ movie.classificationRating }}</span>
@@ -109,51 +87,37 @@
               </p>
               <br />
               <p class="describe">{{ movie.synopsis }}</p>
-              
+
             </div>
           </div>
           <div class="topbar-filter">
-          <label>Movies per page:</label>
-          <select v-model="size" @change="getMovieListByType(page, size)">
-            <option value="10">10 Movies</option>
-            <option value="20">20 Movies</option>
-          </select>
-          <div v-if="totalPages <= 10" class="pagination2">
-            <span>Page {{ page + 1 }} of {{ totalPages }}:</span>
-            <a
-              v-for="n in totalPages"
-              :key="n"
-              :class="{ active: n === page + 1 }"
-              @click="getMovieListByType(n - 1, size)"
-            >
-              {{ n }}
-            </a>
-            <a href="#"><i class="ion-arrow-right-b"></i></a>
-          </div>
-          <div v-if="totalPages > 10" class="pagination2">
-            <span>Page {{ page + 1 }} of {{ totalPages }}:</span>
-            <a
-              v-for="n in 8"
-              :key="n"
-              :class="{ active: n === page + 1 }"
-              @click="getMovieListByType(n - 1, size)"
-              >{{ n }}</a
-            >
-            <a>...</a>
-            <a
-              v-for="n in 2"
-              :key="n"
-              @click="getMovieListByType(n - 1, size)"
-              >{{ totalPages - 2 + n }}</a
-            >
-            <a href="#"><i class="ion-arrow-right-b"></i></a>
+            <label>Movies per page:</label>
+            <select v-model="size" @change="handleSubmit(page, size)">
+              <option value="10">10 Movies</option>
+              <option value="20">20 Movies</option>
+            </select>
+            <div v-if="totalPages <= 10" class="pagination2">
+              <span>Page {{ page + 1 }} of {{ totalPages }}:</span>
+              <a v-for="n in totalPages" :key="n" :class="{ active: n === page + 1 }"
+                @click="handleSubmit(n - 1, size)">
+                {{ n }}
+              </a>
+              <a href="#"><i class="ion-arrow-right-b"></i></a>
+            </div>
+            <div v-if="totalPages > 10" class="pagination2">
+              <span>Page {{ page + 1 }} of {{ totalPages }}:</span>
+              <a v-for="n in 8" :key="n" :class="{ active: n === page + 1 }" @click="handleSubmit(n - 1, size)">{{ n
+              }}</a>
+              <a>...</a>
+              <a v-for="n in 2" :key="n" @click="handleSubmit(n - 1, size)">{{ totalPages - 2 + n }}</a>
+              <a href="#"><i class="ion-arrow-right-b"></i></a>
+            </div>
           </div>
         </div>
-        </div>
-        
+
 
         <!-- New -->
-        
+
       </div>
     </div>
   </div>
@@ -260,13 +224,15 @@ export default {
     // },
 
     searchTitle(page, size) {
-      console.log(this.submit);
+      console.log(page + "," + size);
       MovieService.getMoviesByTitle(this.submit, page, size).then(
         async (response) => {
+
           this.totalPages = response.totalPages;
           this.numberElements = response.numberOfElements;
           this.page = response.number;
 
+          console.log(response);
           console.log(response.content);
 
           const moviesListPromise = response.content.map(async (movieData) => {
