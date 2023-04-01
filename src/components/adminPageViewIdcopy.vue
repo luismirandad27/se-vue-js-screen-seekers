@@ -34,14 +34,17 @@
 			<div class="col-md-4 col-sm-12 col-xs-12">
 				<div class="movie-img sticky-sb">
 					<img src="images/uploads/movie-single.jpg" alt="">
-					<div class="movie-btn">	
-						<div class="btn-transform transform-vertical red">
-							<div><a href="#" class="item item-1 redbtn"> <i class="ion-play"></i> Watch Trailer</a></div>
-							<div><a href="https://www.youtube.com/embed/o-0hcF97wy0" class="item item-2 redbtn fancybox-media hvr-grow"><i class="ion-play"></i></a></div>
+					<div class="movie-btn" >	
+						<div class="btn-transform transform-vertical red" >
+							<div><a href="#" class="item item-1 redbtn" > <i class="ion-trash-a" ></i>DELETE THIS MOVIE</a></div>
+							<!-- <button @click="deleteMovie(object.id)">DELTE</button> -->
+							<div><a href="#" class="item item-2 redbtn fancybox-media hvr-grow" @click="deleteMovie(object.id)"><i class="ion-trash-a"></i></a></div>
+							
+							
 						</div>
 						<div class="btn-transform transform-vertical">
-							<div><a href="#" class="item item-1 yellowbtn"> <i class="ion-card"></i> Buy ticket</a></div>
-							<div><a href="#" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
+							<div><a href="#" class="item item-1 yellowbtn"> <i class="ion-android-create"></i> UPDATE THIS MOVIE</a></div>
+							<div><a href="#" class="item item-2 yellowbtn"><i class="ion-android-create"></i><router-link :to="'/adminPageUpdate/'+object.id">UPDATE THIS MOVIE</router-link></a></div>
 						</div>
 					</div>
 				</div>
@@ -892,6 +895,7 @@
   </template>
   
   <script>
+// import r from 'public/js/plugins.js';
   import Admin from '../services/admin.service.js'; 
   
   export default {
@@ -959,6 +963,11 @@
           }catch(error){
             console.log("ERror is " + error)
           }
+        },
+		deleteMovie(id){
+            const response=Admin.deleteaMovie(id);
+            // this.result=response;
+			console.log(response);
         }
     },
     mounted(){

@@ -1,67 +1,91 @@
 <template>
     <div class="slider movie-items">
-        <div class="container">
-            <h1>This is the admin page, Updating a Movie</h1>
-
-            
-            <div class="container">
-                <form>
-                    <table>
-                        <tr>
-                            <td>Movie Title</td>
-                            <td><input type="text" id="title"  v-model="model.title" ></td>
-                        </tr>
-                        <tr>
-                            <td>Movie Genre</td>
-                            <td><input type="text" id="genre" v-model="model.genre"></td>
-                        </tr>
-                        <tr>
-                            <td>Release Date</td>
-                            <td><input type="text" id="releaseDate" v-model="model.releaseDate" ></td>
-                        </tr>
-                        <tr>
-                            <td>Length</td>
-                            <td><input type="text" id="length" v-model="model.length"></td>
-                        </tr>
-                        <tr>
-                            <td>Synopsis</td>
-                            <td><input type="text" id="synopsis" v-model="model.synopsis"></td>
-                        </tr>
-                        <tr>
-                            <td>classificationRating</td>
-                            <td><input type="text" id="classificationRating" v-model="model.classificationRating"></td>
-                        </tr>
-                        <tr>
-                            <td>MovieTrailerLink</td>
-                            <td><input type="text" id="movieTrailerLink" v-model="model.movieTrailerLink"></td>
-                        </tr>
-                        <tr>
-                            <td>IsInTheaters</td>
-                            <td><input type="text" id="isInTheaters" v-model="model.isInTheaters"></td>
-                        </tr>
-                        <tr>
-                            <td>IsInStreaming</td>
-                            <td><input type="text" id="isInStreaming" v-model="model.isInStreaming"></td>
-                        </tr>
-                        <tr>
-                            <td>IsComingSoon</td>
-                            <td><input type="text" id="isComingSoon" v-model="model.isComingSoon"></td>
-                        </tr>
-                        <tr>
-                            <td>WhereToWatch</td>
-                            <td><input type="text" id="whereToWatch"  v-model="model.whereToWatch"></td>
-                            <!-- <td><textarea id="whereToWatch" v-model.trim.split="model.whereToWatch"></textarea></td> -->
-                        </tr>
-                    </table>
-                </form>
-                <div>
-                    <button type="submit" @click="updateMovie">SAVE MOVIE</button>
-                    <button type="submit" @click="deleteMovie(model.id)">DELETE THIS MOVIE</button>
-                </div>
-                <div>
-                    {{ result }}
-                </div>
-            </div>
+        <div class="form-style-1 user-pro">
+            <form class="user">
+						<h4>Add Movie
+                            <br>
+                            {{ result }}
+                        </h4>
+						<div class="row">
+							<div class="col-md-6 form-it">
+								<label>Movie Title</label>
+								<input type="text" placeholder="edwardkennedy" v-model="model.title" id="title">
+							</div>
+							<div class="col-md-6 form-it">
+								<label>MovieGenre</label>
+								<input type="text" placeholder="edward@kennedy.com" v-model="model.genre" id="genre">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 form-it">
+								<label>Release Date</label>
+								<input type="text" placeholder="Edward " v-model="model.releaseDate" id="releaseDate">
+							</div>
+							<div class="col-md-6 form-it">
+								<label>Length</label>
+								<input type="text" placeholder="Kennedy" v-model="model.length" id="length">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 form-it">
+								<label>Synopsis</label>
+								<input type="text" placeholder="Kennedy" v-model="model.synopsis" id="synopsis">
+							</div>
+							<div class="col-md-6 form-it">
+								<label>classificationRating</label>
+								<input type="text" placeholder="Kennedy" v-model="model.classificationRating" id="classificationRating">
+							</div>
+						</div>
+                        <div class="row">
+							<div class="col-md-6 form-it">
+								<label>MovieTrailerLink</label>
+								<input type="text" placeholder="Kennedy" v-model="model.movieTrailerLink" id="movieTrailerLink">
+							</div>
+							<div class="col-md-6 form-it">
+								<label>IsInTheaters</label>
+								<select v-model="model.isInTheaters" id="isInTheaters">
+								  <option value="true">Yes</option>
+								  <option value="false">No</option>
+								</select>
+							</div>
+						</div>
+                        <div class="row">
+							<div class="col-md-6 form-it">
+								<label>IsInStreaming</label>
+								<select v-model="model.isInStreaming" id="isInStreaming">
+								  <option value="true">Yes</option>
+								  <option value="false">No</option>
+								</select>
+							</div>
+							<div class="col-md-6 form-it">
+								<label>IsComingSoon</label>
+								<select v-model="model.isComingSoon" id="isComingSoon">
+								  <option value="true">Yes</option>
+								  <option value="false">No</option>
+								</select>
+							</div>
+						</div>
+                        <div class="row">
+							<div class="col-md-6 form-it">
+								<label>WhereToWatch</label>
+								<input type="text" placeholder="Kennedy" v-model="model.whereToWatch" id="whereToWatch">
+							</div>
+                            <div class="col-md-6 form-it">
+								<label>Image Poster here</label>
+								<select>
+								  <option value="united">United States</option>
+								  <option value="saab">Others</option>
+								</select>
+							</div>
+							
+						</div>
+						
+					</form>
+                    <div class="row">
+							<div class="col-md-2">
+								<input class="submit" type="submit" value="Update" @click="updateMovie">
+							</div>
+					</div>	
         </div>
     </div>
 </template>

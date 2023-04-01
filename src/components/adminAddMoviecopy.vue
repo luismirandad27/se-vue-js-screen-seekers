@@ -83,6 +83,7 @@
 					</form>
                     <div class="row">
 							<div class="col-md-2">
+								<h1 v-if="id">THIS IS UPDATE</h1>
 								<input class="submit" type="submit" value="save" @click="saveMovie">
 							</div>
 					</div>	
@@ -98,9 +99,16 @@ export default{
             model:{
                 title:"",genre:"", releaseDate:"", length:"", synopsis:"", classificationRating:"", movieTrailerLink:"", isInTheaters:"", isInStreaming:"", isComingSoon:"", whereToWatch:""
             },
-            result:""
+            result:"",
+			object:{}
         }
     },
+	computed:{
+        id(){
+            return this.$route.params.id
+        }
+    },
+	
     methods:{
          saveMovie(){
             try{
@@ -121,10 +129,36 @@ export default{
            
                 
             
+        },
+		async getAmovie(){
+			if(!this.id==""){
+				try{
+                const response = await Admin.getMovieById(this.id);
+            
+            // this puts the value from the getAmovie function to the tempalte fields
+            this.model=response;
+            
+            console.log(response);
+            }catch(error){
+                this.object="ERROR";
+            }
+			}
+            
+            
+            
+        },
+		updateMovie(){
+            try{
+               const response2= Admin.updateMovie(this.id, this.model);
+                this.result="nothing to see heree" + response2;
+            }catch(error){
+                this.result="ERROR";
+            }
         }
     },
     mounted(){
         this.result="TEST"
+		this.getAmovie();
     }
 }
 </script>

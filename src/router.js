@@ -1,10 +1,10 @@
 import { createWebHistory, createRouter } from "vue-router";
 import MainPage from './components/MainPage.vue'
 import UserMainPage from './components/UserMainPage.vue'
-// import adminPage from './components/AdminPage.vue'
-import admiPageCopy from './components/AdminPagecopy.vue'
+import adminPage from './components/AdminPagecopy.vue'
+// import admiPageCopy from './components/AdminPagecopy.vue'
 import adminPageViewId from './components/adminPageViewIdcopy.vue'
-import adminAddMovie from './components/adminAddMovie.vue'
+import adminAddMovie from './components/adminAddMoviecopy.vue'
 import adminUpdateMovie from './components/adminUpdateMovie.vue'
 import adminPageaddCrew from './components/adminPageaddCrew.vue'
 import adminPageViewCrew from './components/adminPageViewCrew.vue'
@@ -28,7 +28,7 @@ const routes = [
     {
         path:"/adminPage",
         name:"adminPage",
-        component: admiPageCopy
+        component: adminPage
     },
     {
         path:"/adminPage/:id",
