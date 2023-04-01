@@ -156,14 +156,7 @@
               <a href="#page-top"></a>
             </li>
             <li class="dropdown first">
-              <a v-if="loggedIn"
-                class="btn btn-default dropdown-toggle lv1"
-                data-toggle="dropdown"
-                @click="$router.push('/userMainPage')"
-              >
-                Home
-              </a>
-              <a v-if="!loggedIn"
+              <a
                 class="btn btn-default dropdown-toggle lv1"
                 data-toggle="dropdown"
                 @click="$router.push('/')"
@@ -181,14 +174,14 @@
               </a>
             </li>
             <li v-if="loggedIn" class="dropdown first">
-              <a
+              <router-link
                 class="btn btn-default dropdown-toggle lv1"
                 data-toggle="dropdown"
                 data-hover="dropdown"
-                @click="$router.push('/watchlists/' + userId)"
+                :to="{name:'UserProfilePage', query:{activeTab: 4}}"
               >
                 my watchlists
-              </a>
+              </router-link>
             </li>
           </ul>
           <ul v-if="isAdmin" class="nav navbar-nav flex-child-menu menu-left">
@@ -284,7 +277,7 @@ export default {
             
             const objOverlayLogin = $(".openform");
             objOverlayLogin.removeClass("openform");
-            this.$router.push("/userMainPage");
+            this.$router.push("/userProfilePage");
           },
           (error) => {
             document.getElementById("alert-dialog-signin").classList.remove("close");

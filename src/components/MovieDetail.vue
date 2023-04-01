@@ -232,8 +232,8 @@
                           v-model="size"
                           @change="getRatingList(page, size)"
                         >
-                          <option value="10">10 Movies</option>
-                          <option value="20">20 Movies</option>
+                          <option value="5">5 Reviews</option>
+                          <option value="10">10 Reviews</option>
                         </select>
                         <div v-if="totalPages <= 10" class="pagination2">
                           <span>Page {{ page + 1 }} of {{ totalPages }}:</span>
@@ -444,8 +444,8 @@ export default {
 
       const ratingResponse = await UserService.getRatingByMovie(
         this.movieId,
-        -1,
-        -1
+        this.page,
+        this.size
       );
 
       if (ratingResponse.content.length > 0) {
@@ -532,7 +532,7 @@ export default {
     },
     closeModal() {
       this.page = 0;
-      this.size = 1;
+      this.size = 5;
       this.getMovieDetail();
       this.getRatingList(this.page, this.size);
       this.validateUserRatedMovie();
@@ -542,7 +542,7 @@ export default {
   created() {
     this.movieId = this.$route.params.id;
     this.page = 0;
-    this.size = 1;
+    this.size = 5;
     this.getMovieDetail();
     this.getRatingList(this.page, this.size);
     this.validateUserRatedMovie();
