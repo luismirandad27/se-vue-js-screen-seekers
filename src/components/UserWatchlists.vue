@@ -54,7 +54,7 @@
                 <img src="../../public/images/uploads/ceb23.jpg" alt="" />
                 <div class="ceb-infor">
                   <h2>
-                    <a href="celebritysingle.html">{{ watchlist.name }}</a>
+                    <router-link :to=" 'watchlistDetail/' + watchlist.id">{{ watchlist.name }}</router-link>
                   </h2>
                   <span>{{ watchlist.totalMovies }} Movies</span>
                 </div>
@@ -109,7 +109,7 @@ export default {
         WatchlistService.createUserWatchlist(this.watchlistNameInput,this.userId).then(
           (response) => {
             const newWatchlistId = response.id;
-            this.$router.push("/watchlistDetail/"+newWatchlistId);
+            this.$router.push("watchlistDetail/"+newWatchlistId);
           },
           (error) =>{
             console.log(error);
