@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <!-- <br><br><br><br> -->
-    <!-- <div>
+  <!-- <br><br><br><br> -->
+  <!-- <div>
       <h1>Movie Search</h1>
       <form @submit.prevent="handleSubmit">
         <label for="search-type">Search By:</label>
@@ -23,85 +22,140 @@
         </ul>
       </form>
     </div> -->
-    <div class="page-single movie_list">
-      <div class="container">
-        <div class="row ipad-width2">
-          <div class="col-md-8 col-sm-12 col-xs-12">
-            <div v-for="(movie, index,) in moviesList" :key="index" class="movie-item-style-2">
-              <img v-if="movie.posterImage != null" :src="
-                $MOVIE_PHOTOS_URL + '/' + movie.id + '/' + movie.posterImage
-              " alt="" />
-              <div class="mv-item-infor">
-                <h6>
-                  <router-link :to= "'/movies/' + movie.id">{{ movie.title }}</router-link>
-                  <span> ({{ movie.releaseDate }})</span></h6>
-                  <p class="rate">
-                  <i class="ion-android-star"></i><span>{{ movie.avgRating }}</span> /5
-                </p>
-                <br>
-                <p class="describe">{{ movie.synopsis }}</p>
-                <p class="run-time">Run Time: {{ movie.length }}  <span>MMPA: {{ movie.classificationRating }}</span> 
-                  <span>Release: {{ movie.releaseDate }}</span>
-                </p>
-              </div>
-            </div>
+  <div class="hero common-hero">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="hero-ct">
+            <h1>Movie Search</h1>
+            <ul class="breadcumb">
+              <li class="active"><a href="#">Movie</a></li>
+              <li><span class="ion-ios-arrow-right"></span> Search</li>
+            </ul>
           </div>
-          <div class="topbar-filter">
-            <label>Movies per page:</label>
-            <select v-model="size" @change="getMovieListByType(page, size)">
-              <option value="10">10 Movies</option>
-              <option value="20">20 Movies</option>
-            </select>
-            <div v-if="totalPages <= 10" class="pagination2">
-              <span>Page {{ page + 1 }} of {{ totalPages }}:</span>
-              <a v-for="n in totalPages" :key="n" :class="{ active: n === page + 1 }"
-                @click="getMovieListByType(n - 1, size)">
-                {{ n }}
-              </a>
-              <a href="#"><i class="ion-arrow-right-b"></i></a>
-            </div>
-            <div v-if="totalPages > 10" class="pagination2">
-              <span>Page {{ page + 1 }} of {{ totalPages }}:</span>
-              <a v-for="n in 8" :key="n" :class="{ active: n === page + 1 }" @click="getMovieListByType(n - 1, size)">{{ n
-              }}</a>
-              <a>...</a>
-              <a v-for="n in 2" :key="n" @click="getMovieListByType(n - 1, size)">{{ totalPages - 2 + n }}</a>
-              <a href="#"><i class="ion-arrow-right-b"></i></a>
-            </div>
         </div>
-
-
-
-
-        <!-- New -->
-        <div class="sidebar">
+      </div>
+    </div>
+  </div>
+  <div class="page-single movie_list">
+    <div class="container">
+      <div class="sidebar">
           <div class="search-form">
             <h4 class="sb-title">Search for movie</h4>
             <form class="form-style-1" @submit.prevent="handleSubmit">
               <div class="row">
                 <div class="col-md-12 form-it">
                   <label for="search-type">Search By:</label>
-        <select v-model="searchType" id="search-type" name="search-type">
-          <option value="title">Title</option>
-          <option value="genre">Genre</option>
-          <option value="year">Release Year</option>
-        </select>
-        
-        <label for="search-term">Search Term:</label>
-        <input v-model="submit" type="text" id="search-term" name="search-term">
-        </div>
+                  <select
+                    v-model="searchType"
+                    id="search-type"
+                    name="search-type"
+                  >
+                    <option value="title">Title</option>
+                    <option value="genre">Genre</option>
+                    <option value="year">Release Year</option>
+                  </select>
+
+                  <label for="search-term">Search Term:</label>
+                  <input
+                    v-model="submit"
+                    type="text"
+                    id="search-term"
+                    name="search-term"
+                  />
+                </div>
                 <div class="col-md-12">
-                  <input type="submit" class="submit">Search
+                  <input type="submit" class="submit" />Search
                 </div>
               </div>
             </form>
           </div>
         </div>
+      <div class="row ipad-width2">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div
+            v-for="(movie, index) in moviesList"
+            :key="index"
+            class="movie-item-style-2"
+          >
+            <img
+              v-if="movie.posterImage != null"
+              :src="
+                $MOVIE_PHOTOS_URL + '/' + movie.id + '/' + movie.posterImage
+              "
+              alt=""
+            />
+            <img
+              v-if="movie.posterImage == null"
+              src="../../public/images/poster-template.jpeg"
+              alt=""
+            />
+            <div class="mv-item-infor">
+              <h6>
+                <router-link :to="'/movies/' + movie.id">{{
+                  movie.title
+                }}</router-link>
+                <span> ({{ movie.releaseDate }})</span>
+              </h6>
+              <p class="rate">
+                <i class="ion-android-star"></i
+                ><span>{{ movie.avgRating }}</span> /5
+              </p>
+              
+              <p class="run-time">
+                Run Time: {{ movie.length }}
+                <span>MMPA: {{ movie.classificationRating }}</span>
+                <span>Release: {{ movie.releaseDate }}</span>
+              </p>
+              <br />
+              <p class="describe">{{ movie.synopsis }}</p>
+              
+            </div>
+          </div>
+          <div class="topbar-filter">
+          <label>Movies per page:</label>
+          <select v-model="size" @change="getMovieListByType(page, size)">
+            <option value="10">10 Movies</option>
+            <option value="20">20 Movies</option>
+          </select>
+          <div v-if="totalPages <= 10" class="pagination2">
+            <span>Page {{ page + 1 }} of {{ totalPages }}:</span>
+            <a
+              v-for="n in totalPages"
+              :key="n"
+              :class="{ active: n === page + 1 }"
+              @click="getMovieListByType(n - 1, size)"
+            >
+              {{ n }}
+            </a>
+            <a href="#"><i class="ion-arrow-right-b"></i></a>
+          </div>
+          <div v-if="totalPages > 10" class="pagination2">
+            <span>Page {{ page + 1 }} of {{ totalPages }}:</span>
+            <a
+              v-for="n in 8"
+              :key="n"
+              :class="{ active: n === page + 1 }"
+              @click="getMovieListByType(n - 1, size)"
+              >{{ n }}</a
+            >
+            <a>...</a>
+            <a
+              v-for="n in 2"
+              :key="n"
+              @click="getMovieListByType(n - 1, size)"
+              >{{ totalPages - 2 + n }}</a
+            >
+            <a href="#"><i class="ion-arrow-right-b"></i></a>
+          </div>
+        </div>
+        </div>
+        
 
-
+        <!-- New -->
+        
       </div>
     </div>
-  </div>
   </div>
 </template>
   
@@ -121,27 +175,27 @@ export default {
       totalPages: "",
       totalElements: 0,
       numberElements: 0,
-      listType: ""
+      listType: "",
     };
   },
   methods: {
-    async getMovieListByType(page,size){
-      switch (this.listType){
+    async getMovieListByType(page, size) {
+      switch (this.listType) {
         case "1":
           //Recommendations
-          this.getRecommendations(page,size);
+          this.getRecommendations(page, size);
           break;
         case "2":
           //In Theaters
-          this.getInTheatersMovies(page,size);
+          this.getInTheatersMovies(page, size);
           break;
         case "3":
           //In Streaming
-          this.getInStreamingMovies(page,size);
+          this.getInStreamingMovies(page, size);
           break;
         case "4":
           //Coming Soon
-          this.getComingSoonMovies(page,size);
+          this.getComingSoonMovies(page, size);
           break;
         default:
           break;
@@ -176,7 +230,7 @@ export default {
     //     //   this.page = response.number;
 
     //       console.log(response.content)
-    //     const moviesListPromise = response.content.map(async (movieData) => { 
+    //     const moviesListPromise = response.content.map(async (movieData) => {
     //       const movie = new Movie(
     //         movieData.id,
     //         movieData.title,
@@ -195,7 +249,7 @@ export default {
     //       );
     //       return movie;
     //     }
-        
+
     //   );
     //   this.moviesList = await Promise.all(moviesListPromise);
     //    },
@@ -205,131 +259,125 @@ export default {
     //     })
     // },
 
-    searchTitle(page,size) {
+    searchTitle(page, size) {
       console.log(this.submit);
       MovieService.getMoviesByTitle(this.submit, page, size).then(
-       async (response) => {
-
-        this.totalPages = response.totalPages;
+        async (response) => {
+          this.totalPages = response.totalPages;
           this.numberElements = response.numberOfElements;
           this.page = response.number;
 
-          console.log(response.content)
-          
-        const moviesListPromise = response.content.map(async (movieData) => { 
-          // //Getting the rating by movie
-          // const ratingResponse = await UserService.getRatingByMovie(
-          //     movieData.id
-          //   );
-          
-          //   const movieRating = ratingResponse;
-          //   const totalRatings = movieRating.length;
-          //   const sumRatings = totalRatings == 0 ? 0 : movieRating.reduce(
-          //     (sum, rating) => sum + rating.userRating, 0
-          //   );
-          //   const avgRating = totalRatings > 0 ? sumRatings / totalRatings : 0;
-          const movie = new Movie(
-            movieData.id,
-            movieData.title,
-            movieData.genre.split(","),
-            movieData.releaseDate,
-            movieData.length,
-            movieData.synopsis,
-            movieData.classificationRating,
-            movieData.movieTrailerLink,
-            movieData.isInTheaters,
-            movieData.isInStreaming,
-            movieData.isComingSoon,
-            movieData.whereToWatch,
-            movieData.posterImage,
-            movieData.trailerImage
-          );
-          return movie;
-        }
-        
-      );
-      this.moviesList = await Promise.all(moviesListPromise);
-       },
+          console.log(response.content);
+
+          const moviesListPromise = response.content.map(async (movieData) => {
+            // //Getting the rating by movie
+            // const ratingResponse = await UserService.getRatingByMovie(
+            //     movieData.id
+            //   );
+
+            //   const movieRating = ratingResponse;
+            //   const totalRatings = movieRating.length;
+            //   const sumRatings = totalRatings == 0 ? 0 : movieRating.reduce(
+            //     (sum, rating) => sum + rating.userRating, 0
+            //   );
+            //   const avgRating = totalRatings > 0 ? sumRatings / totalRatings : 0;
+            const movie = new Movie(
+              movieData.id,
+              movieData.title,
+              movieData.genre.split(","),
+              movieData.releaseDate,
+              movieData.length,
+              movieData.synopsis,
+              movieData.classificationRating,
+              movieData.movieTrailerLink,
+              movieData.isInTheaters,
+              movieData.isInStreaming,
+              movieData.isComingSoon,
+              movieData.whereToWatch,
+              movieData.posterImage,
+              movieData.trailerImage
+            );
+            return movie;
+          });
+          this.moviesList = await Promise.all(moviesListPromise);
+        },
         (error) => {
           this.submit = "";
           console.log(error);
-        })
+        }
+      );
     },
     searchGenre() {
       console.log(this.submit);
       MovieService.getMoviesByGenre(this.submit).then(
         async (response) => {
+          // this.totalPages = response.totalPages;
+          //   this.numberElements = response.numberOfElements;
+          //   this.page = response.number;
 
-// this.totalPages = response.totalPages;
-//   this.numberElements = response.numberOfElements;
-//   this.page = response.number;
-
-  console.log(response.content)
-const moviesListPromise = response.content.map(async (movieData) => { 
-  const movie = new Movie(
-    movieData.id,
-    movieData.title,
-    movieData.genre.split(","),
-    movieData.releaseDate,
-    movieData.length,
-    movieData.synopsis,
-    movieData.classificationRating,
-    movieData.movieTrailerLink,
-    movieData.isInTheaters,
-    movieData.isInStreaming,
-    movieData.isComingSoon,
-    movieData.whereToWatch,
-    movieData.posterImage,
-    movieData.trailerImage
-  );
-  return movie;
-}
-
-);
-this.moviesList = await Promise.all(moviesListPromise);
-},
-(error) => {
-  this.submit = "";
-  console.log(error);
-})
+          console.log(response.content);
+          const moviesListPromise = response.content.map(async (movieData) => {
+            const movie = new Movie(
+              movieData.id,
+              movieData.title,
+              movieData.genre.split(","),
+              movieData.releaseDate,
+              movieData.length,
+              movieData.synopsis,
+              movieData.classificationRating,
+              movieData.movieTrailerLink,
+              movieData.isInTheaters,
+              movieData.isInStreaming,
+              movieData.isComingSoon,
+              movieData.whereToWatch,
+              movieData.posterImage,
+              movieData.trailerImage
+            );
+            return movie;
+          });
+          this.moviesList = await Promise.all(moviesListPromise);
+        },
+        (error) => {
+          this.submit = "";
+          console.log(error);
+        }
+      );
     },
     searchReleaseYear() {
       console.log(this.submit);
       MovieService.getMoviesByYear(this.submit).then(
         async (response) => {
+          // this.totalPages = response.totalPages;
+          //   this.numberElements = response.numberOfElements;
+          //   this.page = response.number;
 
-// this.totalPages = response.totalPages;
-//   this.numberElements = response.numberOfElements;
-//   this.page = response.number;
-
-  console.log(response.content)
-const moviesListPromise = response.content.map(async (movieData) => { 
-  const movie = new Movie(
-    movieData.id,
-    movieData.title,
-    movieData.genre.split(","),
-    movieData.releaseDate,
-    movieData.length,
-    movieData.synopsis,
-    movieData.classificationRating,
-    movieData.movieTrailerLink,
-    movieData.isInTheaters,
-    movieData.isInStreaming,
-    movieData.isComingSoon,
-    movieData.whereToWatch,
-    movieData.posterImage,
-    movieData.trailerImage
-  );
-  return movie;
-}
-
-);
-this.moviesList = await Promise.all(moviesListPromise);
-},
-(error) => {
-  this.submit = "";
-  console.log(error);
-})
+          console.log(response.content);
+          const moviesListPromise = response.content.map(async (movieData) => {
+            const movie = new Movie(
+              movieData.id,
+              movieData.title,
+              movieData.genre.split(","),
+              movieData.releaseDate,
+              movieData.length,
+              movieData.synopsis,
+              movieData.classificationRating,
+              movieData.movieTrailerLink,
+              movieData.isInTheaters,
+              movieData.isInStreaming,
+              movieData.isComingSoon,
+              movieData.whereToWatch,
+              movieData.posterImage,
+              movieData.trailerImage
+            );
+            return movie;
+          });
+          this.moviesList = await Promise.all(moviesListPromise);
+        },
+        (error) => {
+          this.submit = "";
+          console.log(error);
+        }
+      );
     },
     watch: {
       searchType: function () {
@@ -337,7 +385,7 @@ this.moviesList = await Promise.all(moviesListPromise);
       },
     },
   },
-  
+
   created() {
     this.listType = this.$route.params.listType;
     this.userId = this.$store.state.auth.user.id;
@@ -346,7 +394,6 @@ this.moviesList = await Promise.all(moviesListPromise);
     this.sortBy = "title-desc";
     this.getMovieListByType(this.page, this.size);
   },
-}
-
+};
 </script>
   
