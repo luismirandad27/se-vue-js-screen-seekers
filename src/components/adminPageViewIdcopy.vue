@@ -56,6 +56,7 @@
 						<a href="#" class="parent-btn"><i class="ion-heart"></i><router-link :to="'/addCrew/'+object.id">Add to a Crew</router-link> </a>
 						<div class="hover-bnt">
 							<a href="#" class="parent-btn"><i class="ion-android-share-alt"></i>share</a>
+							
 							<div class="hvr-item">
 								<a href="#" class="hvr-grow"><i class="ion-social-facebook"></i></a>
 								<a href="#" class="hvr-grow"><i class="ion-social-twitter"></i></a>

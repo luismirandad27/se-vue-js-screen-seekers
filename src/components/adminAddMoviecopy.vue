@@ -72,11 +72,14 @@
 							</div>
                             <div class="col-md-6 form-it">
 								<label>Image Poster here</label>
-								<select>
-								  <option value="united">United States</option>
-								  <option value="saab">Others</option>
-								</select>
+								<input type="file">
 							</div>
+							<div class="col-md-6 form-it">
+								<label>Image trailer here</label>
+								<input type="file">
+							</div>
+
+							
 							
 						</div>
 						

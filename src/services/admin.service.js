@@ -173,6 +173,17 @@ class Admin{
         }
       }
 
+     async uploadImage(movieId, file){
+        try{
+          // const formData = new FormData();formData.append('poster-image', file);
+          const response = await axios.put(API_URL+`movies/${movieId}/upload-images`, file, {headers: authHeader() });
+          return response;
+        }catch(error){
+          console.log("Error in upload image function")
+          return "ERROR in upload image functin" + error.message;
+        }
+      }
+
     
 }
 

@@ -71,12 +71,18 @@
 								<input type="text" placeholder="Kennedy" v-model="model.whereToWatch" id="whereToWatch">
 							</div>
                             <div class="col-md-6 form-it">
+								
+								
 								<label>Image Poster here</label>
-								<select>
-								  <option value="united">United States</option>
-								  <option value="saab">Others</option>
-								</select>
+								<input type="file" @change="getPoster">
 							</div>
+							<div class="col-md-6 form-it">
+								
+								
+								<label>Image Trailer here</label>
+								<input type="file" @change="getPoster2">
+							</div>
+						
 							
 						</div>
 						
@@ -84,6 +90,10 @@
                     <div class="row">
 							<div class="col-md-2">
 								<input class="submit" type="submit" value="Update" @click="updateMovie">
+							</div>
+							<div class="col-md-2">
+								<!-- <input class="submit"  value="POSTER" @click="getposter"> -->
+								<!-- <a href="#" class="redbtn" @click="getposter">Change avatar</a> -->
 							</div>
 					</div>	
         </div>
@@ -100,7 +110,9 @@ export default {
             model:{
                 title:"",genre:"", releaseDate:"", length:"", synopsis:"", classificationRating:"", movieTrailerLink:"", isInTheaters:"", isInStreaming:"", isComingSoon:"", whereToWatch:""
             },
-            result:""
+            result:"",
+			posterImage:null,
+			trailerImage:null
             
         }
     },
@@ -125,10 +137,27 @@ export default {
             
         },
 
+
+
+		getPoster(event) {
+			this.posterImage=event.target.files[0];
+    },getPoster2(event){
+		this.trailerImage=event.target.files[0];
+	},
+
         updateMovie(){
             try{
                const response2= Admin.updateMovie(this.id, this.model);
                 this.result="nothing to see heree" + response2;
+				
+				const formData = new FormData();
+				formData.append('poster-image', this.posterImage);
+				formData.append('trailer-image', this.trailerImage);
+				const res = Admin.uploadImage(this.id, formData);
+				console.log(res);
+
+			
+
             }catch(error){
                 this.result="ERROR";
             }
