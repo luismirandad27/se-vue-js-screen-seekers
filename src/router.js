@@ -2,9 +2,10 @@
 import { createWebHistory, createRouter } from "vue-router";
 import MainPage from './components/MainPage.vue'
 import UserMainPage from './components/UserMainPage.vue'
-import adminPage from './components/AdminPage.vue'
-import adminPageViewId from './components/adminPageViewId.vue'
-import adminAddMovie from './components/adminAddMovie.vue'
+import adminPage from './components/AdminPagecopy.vue'
+// import admiPageCopy from './components/AdminPagecopy.vue'
+import adminPageViewId from './components/adminPageViewIdcopy.vue'
+import adminAddMovie from './components/adminAddMoviecopy.vue'
 import adminUpdateMovie from './components/adminUpdateMovie.vue'
 import adminPageaddCrew from './components/adminPageaddCrew.vue'
 import adminPageViewCrew from './components/adminPageViewCrew.vue'
@@ -15,6 +16,8 @@ import MovieList from './components/MovieList.vue'
 import MovieDetail from './components/MovieDetail.vue'
 import SearchPage from './components/SearchPage.vue'
 import UserWatchlistDetail from './components/UserWatchlistDetail.vue'
+import AdmingetAllCrew from './components/AdmingetAllCrew.vue'
+import addCrew from './components/addCrew.vue'
 
 
 const routes = [
@@ -78,6 +81,16 @@ const routes = [
         path: '/movies/:id',
         name: 'MovieDetail',
         component: MovieDetail
+    },
+    {
+        path:"/getAllCrew",
+        name:"getAllCrew",
+        component: AdmingetAllCrew
+    },
+    {
+        path:"/addCrew/:id",
+        name:"addCrew",
+        component: addCrew
     },
     {
         path: '/search',

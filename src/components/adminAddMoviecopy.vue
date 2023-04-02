@@ -71,59 +71,71 @@
 								<input type="text" placeholder="Kennedy" v-model="model.whereToWatch" id="whereToWatch">
 							</div>
                             <div class="col-md-6 form-it">
-								
-								
 								<label>Image Poster here</label>
-								<input type="file" @change="getPoster">
+								<input type="file">
 							</div>
 							<div class="col-md-6 form-it">
-								
-								
-								<label>Image Trailer here</label>
-								<input type="file" @change="getPoster2">
+								<label>Image trailer here</label>
+								<input type="file">
 							</div>
-						
+
+							
 							
 						</div>
 						
 					</form>
                     <div class="row">
 							<div class="col-md-2">
-								<input class="submit" type="submit" value="Update" @click="updateMovie">
-							</div>
-							<div class="col-md-2">
-								<!-- <input class="submit"  value="POSTER" @click="getposter"> -->
-								<!-- <a href="#" class="redbtn" @click="getposter">Change avatar</a> -->
+								<h1 v-if="id">THIS IS UPDATE</h1>
+								<input class="submit" type="submit" value="save" @click="saveMovie">
 							</div>
 					</div>	
         </div>
     </div>
 </template>
-
 <script>
-import Admin from '../services/admin.service.js'; 
-export default {
-    name:"adminUpdateMovie",
+import Admin from '../services/admin.service.js'
+export default{
+    name:"adminAddMovie",
     data(){
         return{
-            object:{},
             model:{
                 title:"",genre:"", releaseDate:"", length:"", synopsis:"", classificationRating:"", movieTrailerLink:"", isInTheaters:"", isInStreaming:"", isComingSoon:"", whereToWatch:""
             },
             result:"",
-			posterImage:null,
-			trailerImage:null
-            
+			object:{}
         }
     },
-    computed:{
+	computed:{
         id(){
             return this.$route.params.id
         }
     },
+	
     methods:{
-        async getAmovie(){
+         saveMovie(){
             try{
+
+                //this makes the whereToWatch an array, since array is the expected input by the movie controller for this property
+                let whereToWatchInput = this.model.whereToWatch;
+                let whereToWatchArray=[];
+                whereToWatchArray.push(whereToWatchInput);
+                this.model.whereToWatch = whereToWatchArray
+                const returnVal=  Admin.saveMovie(this.model)
+                
+                this.result="nothing to see heree" + returnVal;
+                // this.result=this.model;
+                
+            }catch(error){
+                this.result="ERROR";
+            }
+           
+                
+            
+        },
+		async getAmovie(){
+			if(!this.id==""){
+				try{
                 const response = await Admin.getMovieById(this.id);
             
             // this puts the value from the getAmovie function to the tempalte fields
@@ -133,44 +145,23 @@ export default {
             }catch(error){
                 this.object="ERROR";
             }
+			}
+            
             
             
         },
-
-
-
-		getPoster(event) {
-			this.posterImage=event.target.files[0];
-    },getPoster2(event){
-		this.trailerImage=event.target.files[0];
-	},
-
-        updateMovie(){
+		updateMovie(){
             try{
                const response2= Admin.updateMovie(this.id, this.model);
                 this.result="nothing to see heree" + response2;
-				
-				const formData = new FormData();
-				formData.append('poster-image', this.posterImage);
-				formData.append('trailer-image', this.trailerImage);
-				const res = Admin.uploadImage(this.id, formData);
-				console.log(res);
-
-			
-
             }catch(error){
                 this.result="ERROR";
             }
-        },
-        deleteMovie(id){
-            const response=Admin.deleteaMovie(id);
-            this.result=response;
         }
     },
     mounted(){
-        this.getAmovie();
         this.result="TEST"
-        
+		this.getAmovie();
     }
-} 
+}
 </script>
