@@ -12,15 +12,10 @@ import adminPageUpdateCrew from './components/adminPageUpdateCrew.vue'
 import UserProfilePage from './components/UserProfilePage.vue'
 import MovieList from './components/MovieList.vue'
 import MovieDetail from './components/MovieDetail.vue'
-<<<<<<< HEAD
-import AdmingetAllCrew from './components/AdmingetAllCrew.vue'
-import addCrew from './components/addCrew.vue'
-=======
 import SearchPage from './components/SearchPage.vue'
 import AddRating from './components/AddRating.vue'
 import UserWatchlists from './components/UserWatchlists.vue'
 import UserWatchlistDetail from './components/UserWatchlistDetail.vue'
->>>>>>> refs/remotes/origin/feature/admin-movie-crud
 
 
 const routes = [
@@ -85,7 +80,6 @@ const routes = [
         component: MovieDetail
     },
     {
-<<<<<<< HEAD
         path:"/getAllCrew",
         name:"getAllCrew",
         component: AdmingetAllCrew
@@ -94,7 +88,8 @@ const routes = [
         path:"/addCrew/:id",
         name:"addCrew",
         component: addCrew
-=======
+    },
+    {
         path: '/search',
         name: 'SearchPage',
         component: SearchPage
@@ -113,7 +108,6 @@ const routes = [
         path: '/watchlistDetail',
         name: 'UserWatchlistDetail',
         component: UserWatchlistDetail
->>>>>>> refs/remotes/origin/feature/admin-movie-crud
     }
 ];
 
