@@ -16,6 +16,8 @@ import SearchPage from './components/SearchPage.vue'
 import AddRating from './components/AddRating.vue'
 import UserWatchlists from './components/UserWatchlists.vue'
 import UserWatchlistDetail from './components/UserWatchlistDetail.vue'
+import AdmingetAllCrew from './components/AdmingetAllCrew.vue'
+import addCrew from './components/addCrew.vue'
 
 
 const routes = [
