@@ -1,16 +1,26 @@
 <template>
+  <transition name="modal">
+    <modal
+      :title="modalTitle"
+      :status="modalStatus"
+      v-if="isModalOpen"
+      @close="closeModal"
+    >
+      <p>{{ modalMessage }}</p>
+    </modal>
+  </transition>
   <div class="hero common-hero">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
           <div class="hero-ct">
-            <h1>My Watchlist</h1>
+            <h1>MOVIE UPDATE</h1>
             <ul class="breadcumb">
               <!--- <li class="active"><a href="#">User</a></li> -->
               <li class="active">
-                <router-link to="/admin/movies">User</router-link>
+                <router-link to="/admin/movies">Admin</router-link>
               </li>
-              <li><span class="ion-ios-arrow-right"></span> Watchlist</li>
+              <li><span class="ion-ios-arrow-right"></span> Movie</li>
             </ul>
           </div>
         </div>
@@ -26,17 +36,17 @@
               <label>Movie Title</label>
               <input
                 type="text"
-                placeholder="edwardkennedy"
+                placeholder="Movie Title"
                 v-model="model.title"
                 id="title"
                 required
               />
             </div>
             <div class="col-md-6 form-it">
-              <label>MovieGenre</label>
+              <label>Movie Genre</label>
               <input
                 type="text"
-                placeholder="edward@kennedy.com"
+                placeholder="Separated by comas. E.g. 'Crime,Action,Science Fiction'"
                 v-model="model.genre"
                 id="genre"
                 required
@@ -45,10 +55,10 @@
           </div>
           <div class="row">
             <div class="col-md-6 form-it">
-              <label>Release Date</label>
+              <label>Release Date (MM/DD/YYYY)</label>
               <input
                 type="text"
-                placeholder="Edward "
+                placeholder="Release Date"
                 v-model="model.releaseDate"
                 id="releaseDate"
                 required
@@ -58,7 +68,7 @@
               <label>Length</label>
               <input
                 type="text"
-                placeholder="Kennedy"
+                placeholder="Lenght in minutes"
                 v-model="model.length"
                 id="length"
                 required
@@ -66,68 +76,69 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-6 form-it">
+            <div class="col-md-12 form-it">
               <label>Synopsis</label>
-              <input
+              <textarea
                 type="text"
-                placeholder="Kennedy"
+                placeholder="Synopsis"
                 v-model="model.synopsis"
                 id="synopsis"
                 required
+                rows="5"
               />
             </div>
+          </div>
+          <div class="row">
             <div class="col-md-6 form-it">
-              <label>classificationRating</label>
+              <label>Classification Rating</label>
               <input
                 type="text"
-                placeholder="Kennedy"
+                placeholder="Classification Rating (PG-15)"
                 v-model="model.classificationRating"
                 id="classificationRating"
                 required
               />
             </div>
-          </div>
-          <div class="row">
             <div class="col-md-6 form-it">
-              <label>MovieTrailerLink</label>
+              <label>Movie Trailer URL</label>
               <input
                 type="text"
-                placeholder="Kennedy"
+                placeholder="Movie Trailer URL"
                 v-model="model.movieTrailerLink"
                 id="movieTrailerLink"
                 required
               />
             </div>
+          </div>
+          <div class="row">
             <div class="col-md-6 form-it">
-              <label>IsInTheaters</label>
+              <label>Is In Theaters</label>
               <select v-model="model.isInTheaters" id="isInTheaters" required>
                 <option value="true">Yes</option>
                 <option value="false">No</option>
               </select>
             </div>
-          </div>
-          <div class="row">
             <div class="col-md-6 form-it">
-              <label>IsInStreaming</label>
+              <label>Is In Streaming</label>
               <select v-model="model.isInStreaming" id="isInStreaming" required>
                 <option value="true">Yes</option>
                 <option value="false">No</option>
               </select>
             </div>
+          </div>
+          <div class="row">
             <div class="col-md-6 form-it">
-              <label>IsComingSoon</label>
+              <label>Is Coming Soon</label>
               <select v-model="model.isComingSoon" id="isComingSoon" required>
                 <option value="true">Yes</option>
                 <option value="false">No</option>
               </select>
             </div>
-          </div>
-          <div class="row">
             <div class="col-md-6 form-it">
-              <label>WhereToWatch</label>
+              <label>Where To Watch</label>
               <input
                 type="text"
-                placeholder="Kennedy"
+                placeholder="Separated by comas (e.g. 'Netflix,Amazon Prime,Disney+')"
                 v-model="model.whereToWatch"
                 id="whereToWatch"
                 required
@@ -147,8 +158,15 @@
 
 <script>
 import Admin from "../services/admin.service.js";
+
+// importing Modal Vue Component
+import Modal from "@/components/Modal.vue";
+
 export default {
   name: "adminUpdateMovie",
+  components: {
+    Modal,
+  },
   data() {
     return {
       object: {},
@@ -165,9 +183,12 @@ export default {
         isComingSoon: "",
         whereToWatch: "",
       },
-      result: "",
       posterImage: null,
       trailerImage: null,
+      isModalOpen: false,
+      modalTitle: "",
+      modalMessage: "",
+      modalStatus: "",
     };
   },
   computed: {
@@ -193,17 +214,9 @@ export default {
           this.model.releaseDate = formattedDate;
         }
       } catch (error) {
-        this.object = "ERROR";
+        console.log(error);
       }
     },
-
-    getPoster(event) {
-      this.posterImage = event.target.files[0];
-    },
-    getPoster2(event) {
-      this.trailerImage = event.target.files[0];
-    },
-
     async updateMovie() {
       try {
         if (this.model.releaseDate != "") {
@@ -222,26 +235,28 @@ export default {
           }
         } else {
           this.model.releaseDate = null;
-          return
+          return;
         }
 
         await Admin.updateMovie(this.id, this.model);
 
+        this.modalTitle = "Success!";
+        this.modalTypeAction = "";
+        this.modalType = "";
+        this.modalMessage = "Movie information has been updated successfully!";
+        this.modalStatus = "success";
+        this.isModalOpen = true;
         this.getAmovie();
-
-        
       } catch (error) {
-        this.result = "ERROR";
+        console.log(error);
       }
     },
-    deleteMovie(id) {
-      const response = Admin.deleteaMovie(id);
-      this.result = response;
-    },
+    closeModal(){
+      this.isModalOpen = false;
+    }
   },
   mounted() {
     this.getAmovie();
-    this.result = "TEST";
   },
 };
 </script>

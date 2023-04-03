@@ -59,10 +59,10 @@
             </div>
           </div>
           <div v-if = "page!= -1" class="topbar-filter">
-            <label>Reviews per page:</label>
+            <label>Results per page:</label>
             <select v-model="size">
-              <option value="5">5 Reviews</option>
-              <option value="10">10 Reviews</option>
+              <option value="5">5 Crew Members</option>
+              <option value="10">10 Crew Members</option>
             </select>
             <div v-if="totalPages <= 10" class="pagination2">
               <span>Page {{ page + 1 }} of {{ totalPages }}:</span>

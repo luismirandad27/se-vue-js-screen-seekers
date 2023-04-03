@@ -24,7 +24,10 @@ const routes = [
     {
         path: '/',
         name: 'MainPage',
-        component: MainPage
+        component: MainPage,
+        meta: {
+            title: 'ScreenSeekers - Home'
+          }
     },
     {
         path: '/userMainPage',
@@ -83,7 +86,7 @@ const routes = [
         component: MovieDetail
     },
     {
-        path:"/getAllCrew",
+        path:"/admin/crews",
         name:"getAllCrew",
         component: AdmingetAllCrew
     },

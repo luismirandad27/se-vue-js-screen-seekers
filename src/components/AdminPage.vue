@@ -129,10 +129,10 @@
             </div>
             <!--end movie details here -->
             <div v-if = "page!= -1" class="topbar-filter">
-            <label>Reviews per page:</label>
+            <label>Results per page:</label>
             <select v-model="size" >
-              <option value="5">5 Reviews</option>
-              <option value="10">10 Reviews</option>
+              <option value="5">5 Movies</option>
+              <option value="10">10 Movies</option>
             </select>
             <div v-if="totalPages <= 10" class="pagination2">
               <span>Page {{ page + 1 }} of {{ totalPages }}:</span>
@@ -229,6 +229,7 @@ export default {
     async deleteAll() {
       await Admin.deleteAllMovies();
       this.$router.push("/admin/movies");
+      this.isModalOpen=false;
     },
     addCrew() {
       this.$router.push("/admin/crews/new");
@@ -243,6 +244,7 @@ export default {
     async deleteAllCrew() {
       await Admin.deleteAllCrew();
       this.$router.push("/admin/movies");
+      this.isModalOpen=false;
     },
     deleteAllCrewConfirmation(){
       this.modalType = "confirmation";

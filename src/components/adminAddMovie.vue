@@ -4,13 +4,13 @@
       <div class="row">
         <div class="col-md-12">
           <div class="hero-ct">
-            <h1>My Watchlist</h1>
+            <h1>New Movie</h1>
             <ul class="breadcumb">
               <!--- <li class="active"><a href="#">User</a></li> -->
               <li class="active">
-                <router-link to="/admin/movies">User</router-link>
+                <router-link to="/admin/movies">Admin</router-link>
               </li>
-              <li><span class="ion-ios-arrow-right"></span> Watchlist</li>
+              <li><span class="ion-ios-arrow-right"></span> Movie</li>
             </ul>
           </div>
         </div>
@@ -22,11 +22,6 @@
   
     <div class="form-style-1 user-pro">
       <form @submit.prevent="saveMovie()" class="user">
-        <h4>
-          Add Movie
-          <br />
-          {{ result }}
-        </h4>
         <div class="row">
           <div class="col-md-6 form-it">
             <label>Movie Title</label>
@@ -39,10 +34,10 @@
             />
           </div>
           <div class="col-md-6 form-it">
-            <label>MovieGenre</label>
+            <label>Movie Genre</label>
             <input
               type="text"
-              placeholder="Movie Genre"
+              placeholder="Separated by comas. E.g. 'Crime,Action,Science Fiction'"
               v-model="model.genre"
               id="genre"
               required
@@ -63,7 +58,7 @@
           <div class="col-md-6 form-it">
             <label>Length</label>
             <input
-              type="text"
+              type="number"
               placeholder="Duration in minutes"
               v-model="model.length"
               id="length"
@@ -72,18 +67,20 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6 form-it">
+          <div class="col-md-12 form-it">
             <label>Synopsis</label>
-            <input
-              type="text"
+            <textarea
               placeholder="Insert a synopsis"
               v-model="model.synopsis"
               id="synopsis"
               required
+              rows="5"
             />
           </div>
+        </div>
+        <div class="row">
           <div class="col-md-6 form-it">
-            <label>classificationRating</label>
+            <label>Classification Rating</label>
             <input
               type="text"
               placeholder="Classification Rating (PG-15)"
@@ -92,10 +89,8 @@
               required
             />
           </div>
-        </div>
-        <div class="row">
           <div class="col-md-6 form-it">
-            <label>MovieTrailerLink</label>
+            <label>Movie Trailer URL</label>
             <input
               type="text"
               placeholder="Trailer Video URL"
@@ -104,36 +99,35 @@
               required
             />
           </div>
+          </div>
+          <div class="row">
           <div class="col-md-6 form-it">
-            <label>IsInTheaters</label>
+            <label>Is In Theaters</label>
             <select v-model="model.isInTheaters" id="isInTheaters" required>
               <option value="true">Yes</option>
               <option value="false">No</option>
             </select>
           </div>
-        </div>
-        <div class="row">
+        
           <div class="col-md-6 form-it">
-            <label>IsInStreaming</label>
+            <label>Is In Streaming</label>
             <select v-model="model.isInStreaming" id="isInStreaming" required>
               <option value="true">Yes</option>
               <option value="false">No</option>
             </select>
           </div>
           <div class="col-md-6 form-it">
-            <label>IsComingSoon</label>
+            <label>Is Coming Soon</label>
             <select v-model="model.isComingSoon" id="isComingSoon" required>
               <option value="true">Yes</option>
               <option value="false">No</option>
             </select>
           </div>
-        </div>
-        <div class="row">
           <div class="col-md-6 form-it">
-            <label>WhereToWatch</label>
+            <label>Where To Watch</label>
             <input
               type="text"
-              placeholder="Kennedy"
+              placeholder="Separated by comas (e.g. 'Netflix,Amazon Prime,Disney+')"
               v-model="model.whereToWatch"
               id="whereToWatch"
               required
@@ -181,7 +175,7 @@ export default {
   },
 
   methods: {
-    async saveMovie() {
+    saveMovie() {
       try {
         if (this.model.releaseDate != "") {
           //validate if it's in the right format
@@ -208,7 +202,15 @@ export default {
         whereToWatchArray.push(whereToWatchInput);
         this.model.whereToWatch = whereToWatchArray;
 
-        await Admin.saveMovie(this.model);
+        Admin.saveMovie(this.model).then(
+          (response) =>{
+            //move to the movie detail
+            this.$router.push("/admin/movies/"+response.data.id);
+          },
+          (error) =>{
+            console.log(error);
+          }
+        );
 
       } catch (error) {
         this.result = "ERROR";

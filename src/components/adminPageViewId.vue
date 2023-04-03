@@ -77,7 +77,7 @@
                   >
                 </div>
               </div>
-              <div class="btn-transform transform-vertical">
+              <div class="btn-transform">
                 <div>
                   <router-link
                     class="item item-1 yellowbtn"
@@ -231,7 +231,7 @@ export default {
   },
   data() {
     return {
-      msg: "Welcome to Your Vue.js App",
+      msg: "AdminPageViewId",
       movieObj: null,
       directorsArray: [],
       writersArray: [],
@@ -249,6 +249,7 @@ export default {
     async getAmovie() {
       try {
         const responseMovie = await MovieService.getMovieById(this.movieId);
+        
         this.movieObj = new Movie(
           responseMovie.id,
           responseMovie.title,
@@ -270,12 +271,14 @@ export default {
           this.movieId
         );
 
-        if (responseCrew.length > 0) {
+        console.log(responseCrew === "");
+
+        if (responseCrew !== "") {
           const respDirectorCrew = responseCrew.filter(
             (pCrewData) => pCrewData.role === "Director"
           );
 
-          if (respDirectorCrew.length > 0) {
+          if (respDirectorCrew !== "") {
             this.directorsArray = respDirectorCrew.map((prodMember) => {
               return new CrewMember(
                 prodMember.id,
@@ -298,7 +301,7 @@ export default {
             (pCrewData) => pCrewData.role === "Writer"
           );
 
-          if (respWritersCrew.length > 0) {
+          if (respWritersCrew !== "") {
             this.writersArray = respWritersCrew.map((prodMember) => {
               return new CrewMember(
                 prodMember.id,
@@ -321,7 +324,7 @@ export default {
             (pCrewData) => pCrewData.role === "Cast"
           );
 
-          if (respCastCrew.length > 0) {
+          if (respCastCrew !== "") {
             this.castsArray = respCastCrew.map((prodMember) => {
               return new CrewMember(
                 prodMember.id,
@@ -351,7 +354,7 @@ export default {
           this.size
         );
 
-        if (ratingResponse.content.length > 0) {
+        if (ratingResponse != "") {
           this.ratingsArray = ratingResponse.content;
           const totalRatings = this.ratingsArray.length;
           const sumRatings = this.ratingsArray.reduce(
@@ -361,8 +364,9 @@ export default {
           const avgRating = totalRatings > 0 ? sumRatings / totalRatings : 0;
           this.movieObj.setAvgRating(avgRating.toFixed(1));
         }
+
       } catch (error) {
-        this.movieObj = "ERROR";
+        console.log(error);
       }
     },
     uploadPoster() {
@@ -378,7 +382,7 @@ export default {
             this.movieObj.posterImage = response.data.posterImage;
             this.modalTitle = "Success!";
             this.modalTypeAction = "";
-			this.modalType = "";
+			      this.modalType = "";
             this.modalMessage = "Poster Image has been added successfully!";
             this.modalStatus = "success";
             this.isModalOpen = true;
@@ -473,6 +477,7 @@ export default {
   created() {
     this.movieId = this.$route.params.id;
     this.getAmovie();
+    console.log(this.movieObj);
   },
 };
 </script>

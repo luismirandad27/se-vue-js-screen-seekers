@@ -1,17 +1,28 @@
 <template>
-  <div class="slider movie-items">
+  <div class="hero common-hero">
     <div class="container">
-      <h1>This is the admin page, Adding a Crew</h1>
-
+      <div class="row">
+        <div class="col-md-12">
+          <div class="hero-ct">
+            <h1>NEW CREW</h1>
+            <ul class="breadcumb">
+              <!--- <li class="active"><a href="#">User</a></li> -->
+              <li class="active">
+                <router-link to="/admin/movies">Admin</router-link>
+              </li>
+              <li><span class="ion-ios-arrow-right"></span> Crew</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-single" style="padding-top: 0; padding-bottom: 15px">
+    
       <div class="container">
         <form @submit.prevent="saveCrew">
           <div class="form-style-1 user-pro">
             <div class="user">
-              <h4>
-                Add Crew
-                <br />
-                {{ result }}
-              </h4>
               <div class="row">
                 <div class="col-md-6 form-it">
                   <label>First Name</label>
@@ -82,12 +93,8 @@
         <div>
           <!-- <button type="submit" @click="saveCrew">SAVE Crew</button> -->
         </div>
-        <div>
-          {{ result }}
-        </div>
       </div>
     </div>
-  </div>
 </template>
 <script>
 import Admin from '../services/admin.service.js'

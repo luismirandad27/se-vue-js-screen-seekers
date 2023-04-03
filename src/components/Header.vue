@@ -30,16 +30,6 @@
           </label>
         </div>
         <div class="row">
-          <div class="remember">
-            <div>
-              <input type="checkbox" name="remember" value="Remember me" /><span
-                >Remember me</span
-              >
-            </div>
-            <a href="#">Forget password ?</a>
-          </div>
-        </div>
-        <div class="row">
           <button type="submit">Login</button>
         </div>
       </form>
@@ -414,7 +404,6 @@ export default {
     this.addingLoginClickListener();
     this.addingSignupClickListener();
     this.addingDropdownMenu();
-    this.userId = this.$store.state.auth.user.id;
   },
   updated() {
     this.addingLoginClickListener();
