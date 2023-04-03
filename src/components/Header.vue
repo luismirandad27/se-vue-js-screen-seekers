@@ -30,16 +30,6 @@
           </label>
         </div>
         <div class="row">
-          <div class="remember">
-            <div>
-              <input type="checkbox" name="remember" value="Remember me" /><span
-                >Remember me</span
-              >
-            </div>
-            <a href="#">Forget password ?</a>
-          </div>
-        </div>
-        <div class="row">
           <button type="submit">Login</button>
         </div>
       </form>
@@ -197,13 +187,14 @@
               </a>
             </li>
             <li class="dropdown first">
-              <a
+              <router-link
+                to="/admin/movies"
                 class="btn btn-default dropdown-toggle lv1"
                 data-toggle="dropdown"
                 data-hover="dropdown"
               >
                 movies administration
-              </a>
+            </router-link>
             </li>
           </ul>
           <ul class="nav navbar-nav flex-child-menu menu-right">
@@ -413,7 +404,6 @@ export default {
     this.addingLoginClickListener();
     this.addingSignupClickListener();
     this.addingDropdownMenu();
-    this.userId = this.$store.state.auth.user.id;
   },
   updated() {
     this.addingLoginClickListener();

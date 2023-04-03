@@ -1,11 +1,12 @@
 export default class CrewMember{
 
-    constructor(id, charName, role, movieId, firstName, lastName, nationality,
+    constructor(id, charName, role, movieId, crewId, firstName, lastName, nationality,
          award, profileImage){
-            this.id = id;
+            this.prodCrewId = id;
             this.charName = charName;
             this.role = role;
             this.movieId = movieId;
+            this.crewId = crewId;
             this.firstName = firstName;
             this.lastName = lastName;
             this.nationality = nationality;
