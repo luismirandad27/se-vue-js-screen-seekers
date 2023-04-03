@@ -197,13 +197,14 @@
               </a>
             </li>
             <li class="dropdown first">
-              <a
+              <router-link
+                to="/admin/movies"
                 class="btn btn-default dropdown-toggle lv1"
                 data-toggle="dropdown"
                 data-hover="dropdown"
               >
                 movies administration
-              </a>
+            </router-link>
             </li>
           </ul>
           <ul class="nav navbar-nav flex-child-menu menu-right">

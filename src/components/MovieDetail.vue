@@ -99,7 +99,7 @@
                               />
                               <img
                                 v-if="crewmember.profileImage == null"
-                                src="../../public/images/crew-no-name.png"
+                                src="../../public/images/crew-no-name.jpg"
                                 alt=""
                                 height="40"
                                 width="40"

@@ -1,282 +1,167 @@
 <template>
-   
-<!--end of preloading-->
-<!--login form popup-->
-
-<!--end of login form popup-->
-<!--signup form popup-->
-
-<!--end of signup form popup-->
-<!-- BEGIN | Header -->
-
-<!-- END | Header -->
-
-<div class="hero common-hero">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="hero-ct">
-					<h1>celebrity listing - list</h1>
-					<ul class="breadcumb">
-						<li class="active"><a href="#">Home</a></li>
-						<li> <span class="ion-ios-arrow-right"></span> celebrity listing</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- celebrity list section-->
-<div class="page-single">
-	<div class="container">
-		<div class="row ipad-width2">
-			<div class="col-md-9 col-sm-12 col-xs-12">
-				<div class="topbar-filter">
-					<p class="pad-change">Found <span>1,608 celebrities</span> in total</p>
-					<label>Sort by:</label>
-					<select>
-						<option value="popularity">Popularity Descending</option>
-						<option value="popularity">Popularity Ascending</option>
-						<option value="rating">Rating Descending</option>
-						<option value="rating">Rating Ascending</option>
-						<option value="date">Release date Descending</option>
-						<option value="date">Release date Ascending</option>
-					</select>
-					<a href="celebritylist.html" class="list"><i class="ion-ios-list-outline active"></i></a>
-					<a  href="celebritygrid01.html" class="grid"><i class="ion-grid "></i></a>
-				</div>
-				<div class="row">
-					<div class="col-md-12" v-for="(r,i) in resultCrew" :key="i">
-						<div class="ceb-item-style-2">
-							<img src="images/uploads/ceblist1.jpg" alt="">
-							<div class="ceb-infor">
-								<h2><a href="#"><router-link :to="'/adminPageUpdateCrew/'+r.id">{{r.firstName}}</router-link></a></h2>
-                                <!-- <br> -->
-                                
-								<!-- <span>actor, usa</span>  -->
-								<p>Nationality: {{ r.nationality }}
-                                <br>
-                                Awards : {{  r.award }}</p>
-                            <div class="btn-transform transform-vertical red" >
-							<div><a href="#" class="item item-1 redbtn" > <i class="ion-trash-a" ></i></a></div>
-							<!-- <button @click="deleteMovie(object.id)">DELTE</button> -->
-							<div><a href="#" class="item item-2 redbtn fancybox-media hvr-grow" @click="deleteCrew(r.id)"><i class="ion-trash-a"></i></a></div>
-
-                         
-                            
-                            
-
-                            
-							
-							
-						</div>
-							</div>
-
-                            
-						</div>
-                        
-					</div>
-					
-					
-					
-					
-					
-					
-					
-				</div>
-				<div class="topbar-filter">
-					<label>Reviews per page:</label>
-					<select>
-						<option value="range">36 Reviews</option>
-						<option value="saab">18 Reviews</option>
-					</select>
-					
-					<div class="pagination2">
-						<span>Page 1 of 6:</span>
-						<a class="active" href="#">1</a>
-						<a href="#">2</a>
-						<a href="#">3</a>
-						<a href="#">4</a>
-						<a href="#">5</a>
-						<a href="#">6</a>
-						<a href="#"><i class="ion-arrow-right-b"></i></a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 col-xs-12 col-sm-12">
-				<div class="sidebar">
-						<div class="searh-form">
-						<h4 class="sb-title">Search celebrity</h4>
-						<form class="form-style-1 celebrity-form" action="#">
-							<div class="row">
-								<div class="col-md-12 form-it">
-									<label>Celebrity name</label>
-									<input type="text" placeholder="Enter keywords">
-								</div>
-								<div class="col-md-12 form-it">
-									<label>Celebrity Letter</label>
-									<select>
-									  <option value="range">A</option>
-									  <option value="saab">B</option>
-									</select>
-								</div>
-								<div class="col-md-12 form-it">
-									<label>Category</label>
-									<select>
-									  <option value="range">Actress</option>
-									  <option value="saab">Others</option>
-									</select>
-								</div>
-								<div class="col-md-12 form-it">
-									<label>Year of birth</label>
-									<div class="row">
-										<div class="col-md-6">
-											<select>
-											  <option value="range">1970</option>
-											  <option value="number">Other</option>
-											</select>
-										</div>
-										<div class="col-md-6">
-											<select>
-											  <option value="range">1990</option>
-											  <option value="number">others</option>
-											</select>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-12 ">
-									<input class="submit" type="submit" value="submit">
-								</div>
-							</div>
-						</form>
-					</div>
-					<div class="ads">
-						<img src="images/uploads/ads1.png" alt="">
-					</div>
-					<div class="celebrities">
-						<h4 class="sb-title">featured celebrity</h4>
-						<div class="celeb-item">
-							<a href="#"><img src="images/uploads/ava1.jpg" alt=""></a>
-							<div class="celeb-author">
-								<h6><a href="#">Samuel N. Jack</a></h6>
-								<span>Actor</span>
-							</div>
-						</div>
-						<div class="celeb-item">
-							<a href="#"><img src="images/uploads/ava2.jpg" alt=""></a>
-							<div class="celeb-author">
-								<h6><a href="#">Benjamin Carroll</a></h6>
-								<span>Actor</span>
-							</div>
-						</div>
-						<div class="celeb-item">
-							<a href="#"><img src="images/uploads/ava3.jpg" alt=""></a>
-							<div class="celeb-author">
-								<h6><a href="#">Beverly Griffin</a></h6>
-								<span>Actor</span>
-							</div>
-						</div>
-						<div class="celeb-item">
-							<a href="#"><img src="images/uploads/ava4.jpg" alt=""></a>
-							<div class="celeb-author">
-								<h6><a href="#">Justin Weaver</a></h6>
-								<span>Actor</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- end of celebrity list section-->
-
-<!-- footer section-->
-<footer class="ht-footer">
-	<div class="container">
-		<div class="flex-parent-ft">
-			<div class="flex-child-ft item1">
-				 <a href="index-2.html"><img class="logo" src="images/logo1.png" alt=""></a>
-				 <p>5th Avenue st, manhattan<br>
-				New York, NY 10001</p>
-				<p>Call us: <a href="#">(+01) 202 342 6789</a></p>
-			</div>
-			<div class="flex-child-ft item2">
-				<h4>Resources</h4>
-				<ul>
-					<li><a href="#">About</a></li> 
-					<li><a href="#">Blockbuster</a></li>
-					<li><a href="#">Contact Us</a></li>
-					<li><a href="#">Forums</a></li>
-					<li><a href="#">Blog</a></li>
-					<li><a href="#">Help Center</a></li>
-				</ul>
-			</div>
-			<div class="flex-child-ft item3">
-				<h4>Legal</h4>
-				<ul>
-					<li><a href="#">Terms of Use</a></li> 
-					<li><a href="#">Privacy Policy</a></li>	
-					<li><a href="#">Security</a></li>
-				</ul>
-			</div>
-			<div class="flex-child-ft item4">
-				<h4>Account</h4>
-				<ul>
-					<li><a href="#">My Account</a></li> 
-					<li><a href="#">Watchlist</a></li>	
-					<li><a href="#">Collections</a></li>
-					<li><a href="#">User Guide</a></li>
-				</ul>
-			</div>
-			<div class="flex-child-ft item5">
-				<h4>Newsletter</h4>
-				<p>Subscribe to our newsletter system now <br> to get latest news from us.</p>
-				<form action="#">
-					<input type="text" placeholder="Enter your email...">
-				</form>
-				<a href="#" class="btn">Subscribe now <i class="ion-ios-arrow-forward"></i></a>
-			</div>
-		</div>
-	</div>
-	<div class="ft-copyright">
-		<div class="ft-left">
-			<p><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></p>
-		</div>
-		<div class="backtotop">
-			<p><a href="#" id="back-to-top">Back to top  <i class="ion-ios-arrow-thin-up"></i></a></p>
-		</div>
-	</div>
-</footer>
-<!-- end of footer section-->
-
-
-
-<!-- celebritylist12:04-->
-
+  <transition name="modal">
+    <modal
+      :title="modalTitle"
+      :status="modalStatus"
+      v-if="isModalOpen"
+      @close="closeModal"
+    >
+      <p>{{ modalMessage }}</p>
+    </modal>
+  </transition>
+  <div class="hero common-hero">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="hero-ct">
+            <h1>celebrity listing - list</h1>
+            <ul class="breadcumb">
+              <li class="active"><a href="#">Home</a></li>
+              <li>
+                <span class="ion-ios-arrow-right"></span> celebrity listing
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- celebrity list section-->
+  <div class="page-single">
+    <div class="container">
+      <div class="row ipad-width2">
+        <div class="col-md-9 col-sm-12 col-xs-12">
+          <div class="topbar-filter">
+            <p class="pad-change">
+              Found <span>{{ totalElements }} celebrities</span> in total
+            </p>
+          </div>
+          <div class="row">
+            <div class="col-md-12" v-for="(r, i) in resultCrew" :key="i">
+              <div class="ceb-item-style-2">
+                <img src="../../public/images/crew-no-name.jpg" alt="" height="141" width="130"/>
+                <div class="ceb-infor">
+                  <h2>
+                    <a href="#"
+                      ><router-link :to="'/admin/crews/update/' + r.id">{{
+                        r.firstName
+                      }} {{ r.lastName }}</router-link></a
+                    >
+                  </h2>
+                  <p>
+                    Nationality: {{ r.nationality }}
+                    <br />
+                    Awards : {{ r.award }}
+                  </p>
+                  <a @click="deleteCrew(r.id)" class="redbtn">Delete</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-if = "page!= -1" class="topbar-filter">
+            <label>Reviews per page:</label>
+            <select v-model="size">
+              <option value="5">5 Reviews</option>
+              <option value="10">10 Reviews</option>
+            </select>
+            <div v-if="totalPages <= 10" class="pagination2">
+              <span>Page {{ page + 1 }} of {{ totalPages }}:</span>
+              <a
+                v-for="n in totalPages"
+                :key="n"
+                :class="{ active: n === page + 1 }"
+                @click="getAllCrew(n - 1, size)"
+              >
+                {{ n }}
+              </a>
+              <a v-if="page<totalPages-1" @click="getAllCrew(page+1,size)"><i class="ion-arrow-right-b"></i></a>
+            </div>
+            <div v-if="totalPages > 10" class="pagination2">
+              <span>Page {{ page + 1 }} of {{ totalPages }}:</span>
+              <a
+                v-for="n in 8"
+                :key="n"
+                :class="{ active: n === page + 1 }"
+                @click="getAllCrew(n - 1, size)"
+                >{{ n }}</a
+              >
+              <a>...</a>
+              <a
+                v-for="n in 2"
+                :key="n"
+                @click="getAllCrew(n - 1, size)"
+                >{{ totalPages - 2 + n }}</a
+              >
+              <a v-if="page<totalPages-1"  @click="getAllCrew(page+1,size)"><i class="ion-arrow-right-b"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end of celebrity list section-->
 </template>
 
 <script>
- import Admin from '../services/admin.service.js';
-export default{
-    name:"GetALlCrew",
-    data(){
-        return{
-            resultCrew:{}
-        }
+import Admin from "../services/admin.service.js";
+
+// importing Modal Vue Component
+import Modal from "@/components/Modal.vue";
+
+export default {
+  name: "AdminGetAllCrew",
+  components:{
+    Modal,
+  },
+  data() {
+    return {
+      resultCrew: {},
+      page:0,
+      size:5,
+      totalPages: "",
+      totalElements: 0,
+      numberElements: 0,
+      isModalOpen: false,
+      modalTitle: "",
+      modalMessage: "",
+      modalStatus: "",
+    };
+  },
+  methods: {
+    async getAllCrew(page,size) {
+      this.page = page;
+      const response = await Admin.getCrews(page,size);
+      this.totalPages = response.totalPages;
+      this.numberElements = response.numberOfElements;
+      this.totalElements = response.totalElements;
+      this.resultCrew = response.content;
     },
-    methods:{
-        async getAllCrew(){
-           const response= await Admin.getCrews();
-           this.resultCrew=response;
-        },
-        deleteCrew(id){
-            const response = Admin.deleteCrew(id);
-            this.resultCrew=response;
-        }
+    async deleteCrew(id) {
+      await Admin.deleteCrew(id);
+      this.modalTitle = "Success!";
+      this.modalTypeAction = "";
+      this.modalType = "";
+      this.modalMessage =
+        "Crew Member deleted from the database!";
+      this.modalStatus = "success";
+      this.isModalOpen = true;
+      this.page = 0;
+      this.getAllCrew(this.page,this.size);  
+      
     },
-    mounted(){
-        this. getAllCrew();
+    closeModal(){
+      this.isModalOpen = false;
     }
-}
+  },
+  created() {
+    this.getAllCrew(this.page,this.size);
+  },
+  watch:{
+    size(newValue, oldValue){
+      console.log(oldValue);
+      this.page = 0;
+      this.getAllCrew(this.page,newValue);
+    }
+  }
+};
 </script>

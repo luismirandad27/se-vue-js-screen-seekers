@@ -63,7 +63,7 @@
 <script>
 import Admin from '../services/admin.service.js' 
 export default{
-    name:"adminPageUpdateCrew",
+    name:"AdminPageUpdateCrew",
     data(){
         return{
             model:{
