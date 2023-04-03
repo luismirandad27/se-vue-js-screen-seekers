@@ -150,6 +150,7 @@ export default {
     },
   },
   created() {
+    document.title = 'SS - My Account';
     this.activeTab = this.$route.query.activeTab || 1;
     console.log(this.activeTab);
     this.getUserProfileInfo()

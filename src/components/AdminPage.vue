@@ -287,6 +287,7 @@ export default {
     }
   },
   created(){
+    document.title = 'SS - Admin - Movies';
     this.getAllMovies(this.page,this.size);
   },
 

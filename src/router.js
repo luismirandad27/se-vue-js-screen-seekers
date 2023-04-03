@@ -24,10 +24,7 @@ const routes = [
     {
         path: '/',
         name: 'MainPage',
-        component: MainPage,
-        meta: {
-            title: 'ScreenSeekers - Home'
-          }
+        component: MainPage
     },
     {
         path: '/userMainPage',
