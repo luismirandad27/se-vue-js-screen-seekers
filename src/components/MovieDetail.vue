@@ -1,6 +1,11 @@
 <template>
   <transition name="modal">
-    <modal :title="modalTitle" :status="modalStatus" v-if="isModalOpen" @close="closeModal">
+    <modal
+      :title="modalTitle"
+      :status="modalStatus"
+      v-if="isModalOpen"
+      @close="closeModal"
+    >
       <p>{{ modalMessage }}</p>
     </modal>
   </transition>
@@ -99,7 +104,7 @@
                               />
                               <img
                                 v-if="crewmember.profileImage == null"
-                                src="../../public/images/crew-no-name.png"
+                                src="../../public/images/crew-no-name.jpg"
                                 alt=""
                                 height="40"
                                 width="40"
@@ -232,8 +237,8 @@
                           v-model="size"
                           @change="getRatingList(page, size)"
                         >
-                          <option value="10">10 Movies</option>
-                          <option value="20">20 Movies</option>
+                          <option value="5">5 Reviews</option>
+                          <option value="10">10 Reviews</option>
                         </select>
                         <div v-if="totalPages <= 10" class="pagination2">
                           <span>Page {{ page + 1 }} of {{ totalPages }}:</span>
@@ -267,7 +272,10 @@
                         </div>
                       </div>
                     </div>
-                    <div v-if="loggedIn && !userRatedMovie" class="row form-style-1 user-pro">
+                    <div
+                      v-if="loggedIn && !userRatedMovie"
+                      class="row form-style-1 user-pro"
+                    >
                       <form @submit.prevent="addNewRating">
                         <h3>RATE THE MOVIE</h3>
                         <div class="row">
@@ -329,8 +337,8 @@ import $ from "jquery";
 
 export default {
   name: "MovieDetail",
-  components:{
-    Modal
+  components: {
+    Modal,
   },
   data() {
     return {
@@ -352,13 +360,14 @@ export default {
       modalTitle: "",
       modalMessage: "",
       modalStatus: "",
-      modalType:"",
-      modalTypeAction:""
-    }
+      modalType: "",
+      modalTypeAction: "",
+    };
   },
   methods: {
     async getMovieDetail() {
       const responseMovie = await MovieService.getMovieById(this.movieId);
+
       this.movieObj = new Movie(
         responseMovie.id,
         responseMovie.title,
@@ -380,18 +389,19 @@ export default {
         this.movieId
       );
 
-      if (responseCrew.length > 0) {
+      if (responseCrew != "") {
         const respDirectorCrew = responseCrew.filter(
           (pCrewData) => pCrewData.role === "Director"
         );
 
-        if (respDirectorCrew.length > 0) {
+        if (respDirectorCrew != "") {
           this.directorsArray = respDirectorCrew.map((crewMember) => {
             return new CrewMember(
               crewMember.id,
               crewMember.charName,
               crewMember.role,
               crewMember.movieId,
+              crewMember.crewMember.crewId,
               crewMember.crewMember.firstName,
               crewMember.crewMember.lastName,
               crewMember.crewMember.nationality,
@@ -405,13 +415,14 @@ export default {
           (pCrewData) => pCrewData.role === "Writer"
         );
 
-        if (respWritersCrew.length > 0) {
+        if (respWritersCrew != "") {
           this.writersArray = respWritersCrew.map((crewMember) => {
             return new CrewMember(
               crewMember.id,
               crewMember.charName,
               crewMember.role,
               crewMember.movieId,
+              crewMember.crewMember.crewId,
               crewMember.crewMember.firstName,
               crewMember.crewMember.lastName,
               crewMember.crewMember.nationality,
@@ -425,13 +436,14 @@ export default {
           (pCrewData) => pCrewData.role === "Cast"
         );
 
-        if (respCastCrew.length > 0) {
+        if (respCastCrew != "") {
           this.castsArray = respCastCrew.map((crewMember) => {
             return new CrewMember(
               crewMember.id,
               crewMember.charName,
               crewMember.role,
               crewMember.movieId,
+              crewMember.crewMember.crewId,
               crewMember.crewMember.firstName,
               crewMember.crewMember.lastName,
               crewMember.crewMember.nationality,
@@ -444,11 +456,11 @@ export default {
 
       const ratingResponse = await UserService.getRatingByMovie(
         this.movieId,
-        -1,
-        -1
+        this.page,
+        this.size
       );
 
-      if (ratingResponse.content.length > 0) {
+      if (ratingResponse != "") {
         this.ratingsArray = ratingResponse.content;
         const totalRatings = this.ratingsArray.length;
         const sumRatings = this.ratingsArray.reduce(
@@ -465,10 +477,12 @@ export default {
         page,
         size
       );
-      this.totalPages = ratingsResponse.totalPages;
-      this.numberElements = ratingsResponse.totalElements;
-      this.page = ratingsResponse.number;
-      this.ratingsArray = ratingsResponse.content;
+      if (ratingsResponse != "") {
+        this.totalPages = ratingsResponse.totalPages;
+        this.numberElements = ratingsResponse.totalElements;
+        this.page = ratingsResponse.number;
+        this.ratingsArray = ratingsResponse.content;
+      }
     },
     range(start, end) {
       return Array(end - start + 1)
@@ -494,25 +508,31 @@ export default {
     },
     async validateUserRatedMovie() {
       const user = this.$store.state.auth.user;
-      const response = await UserService.getUserRatings(user.id);
-      
-      if (response.length > 0) {
-        const ratingUser = response.filter(
-          (rating) => rating.movie.id == this.movieId
-        );
-        if (ratingUser.length == 0) {
-          this.userRatedMovie = false;
+      if (user != null) {
+        const response = await UserService.getUserRatings(user.id);
+        if (response != null) {
+          const ratingUser = response.content.filter(
+            (rating) => rating.movie.id == this.movieId
+          );
+          if (ratingUser.length == 0) {
+            this.userRatedMovie = false;
+          } else {
+            this.userRatedMovie = true;
+          }
         } else {
-          this.userRatedMovie = true;
+          this.userRatedMovie = false;
         }
-      } else {
-        this.userRatedMovie = false;
       }
     },
-    addNewRating(){
+    addNewRating() {
       const userId = this.currentUser.id;
-      UserService.addUserRating(userId, this.movieId, this.ratingInput, this.ratingCommentInput).then(
-        (response) =>{
+      UserService.addUserRating(
+        userId,
+        this.movieId,
+        this.ratingInput,
+        this.ratingCommentInput
+      ).then(
+        (response) => {
           console.log(response);
           this.modalTitle = "Success!";
           this.modalMessage = "Rating registered successfully!";
@@ -527,11 +547,11 @@ export default {
           this.modalStatus = "error";
           this.isModalOpen = true;
         }
-      )
+      );
     },
     closeModal() {
       this.page = 0;
-      this.size = 10;
+      this.size = 5;
       this.getMovieDetail();
       this.getRatingList(this.page, this.size);
       this.validateUserRatedMovie();
@@ -541,7 +561,7 @@ export default {
   created() {
     this.movieId = this.$route.params.id;
     this.page = 0;
-    this.size = 10;
+    this.size = 5;
     this.getMovieDetail();
     this.getRatingList(this.page, this.size);
     this.validateUserRatedMovie();

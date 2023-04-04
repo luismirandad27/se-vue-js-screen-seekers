@@ -13,7 +13,7 @@ import 'jquery/dist/jquery.js'
 import VueSplide from '@splidejs/vue-splide';
 
 //Importing VueUniversalModal
-import VueUniversalModal from 'vue-universal-modal'
+import VueUniversalModal from 'vue-universal-modal';
 
 
 const app =

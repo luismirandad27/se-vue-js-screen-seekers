@@ -1,19 +1,23 @@
+
 import { createWebHistory, createRouter } from "vue-router";
 import MainPage from './components/MainPage.vue'
 import UserMainPage from './components/UserMainPage.vue'
 import adminPage from './components/AdminPage.vue'
-import adminPageViewId from './components/adminPageViewId.vue'
-import adminAddMovie from './components/adminAddMovie.vue'
-import adminUpdateMovie from './components/adminUpdateMovie.vue'
-import adminPageaddCrew from './components/adminPageaddCrew.vue'
-import adminPageViewCrew from './components/adminPageViewCrew.vue'
-import adminPageUpdateCrew from './components/adminPageUpdateCrew.vue'
+// import admiPageCopy from './components/AdminPagecopy.vue'
+import adminPageViewId from './components/AdminPageViewId.vue'
+import adminAddMovie from './components/AdminAddMovie.vue'
+import adminUpdateMovie from './components/AdminUpdateMovie.vue'
+import adminPageaddCrew from './components/adminPageAddCrew.vue'
+import adminPageViewCrew from './components/AdminPageViewCrew.vue'
+import adminPageUpdateCrew from './components/AdminPageUpdateCrew.vue'
 import UserProfilePage from './components/UserProfilePage.vue'
+/* eslint-disable */
 import MovieList from './components/MovieList.vue'
 import MovieDetail from './components/MovieDetail.vue'
 import SearchPage from './components/SearchPage.vue'
-import UserWatchlists from './components/UserWatchlists.vue'
 import UserWatchlistDetail from './components/UserWatchlistDetail.vue'
+import AdmingetAllCrew from './components/AdminGetAllCrew.vue'
+import AdminAddCrew from './components/AdminAddCrew.vue'
 
 
 const routes = [
@@ -28,44 +32,45 @@ const routes = [
         component: UserMainPage
     },
     {
-        path:"/adminPage",
+        path:"/admin/movies",
         name:"adminPage",
         component: adminPage
     },
     {
-        path:"/adminPage/:id",
-        name: "adminPageViewId",
+        path:"/admin/movies/:id",
+        name: "AdminPageViewId",
         component: adminPageViewId
     },
     {
-        path:"/adminPageaddMovie",
+        path:"/admin/movies/new",
         name:"adminAddMovie",
         component:adminAddMovie
     },
     {
-        path:"/adminPageUpdate/:id",
+        path:"/admin/movies/update/:id",
         name:"adminUpdateMovie",
         component: adminUpdateMovie
     },
     {
-        path:"/adminPageaddCrew",
+        path:"/admin/crews/new",
         name:"adminPageaddCrew",
         component: adminPageaddCrew
     },
     {
-        path:"/crew/:id",
+        path:"/admin/crews/:id",
         name: "adminPageViewCrew",
         component: adminPageViewCrew
     },
     {
-        path:"/adminPageUpdateCrew/:id",
+        path:"/admin/crews/update/:id",
         name: "adminPageUpdateCrew",
         component: adminPageUpdateCrew
     },
     {
         path: '/userProfilePage',
         name: 'UserProfilePage',
-        component: UserProfilePage
+        component: UserProfilePage,
+        props: (route) => ({ activeTab: route.query.activeTab || 1 })
     },
     {
         path: '/movies/list/:listType',
@@ -78,18 +83,22 @@ const routes = [
         component: MovieDetail
     },
     {
+        path:"/admin/crews",
+        name:"getAllCrew",
+        component: AdmingetAllCrew
+    },
+    {
+        path:"/addCrew/:id",
+        name:"addCrew",
+        component: AdminAddCrew
+    },
+    {
         path: '/search',
         name: 'SearchPage',
         component: SearchPage
     },
-    
     {
-        path: '/watchlists/:userId',
-        name: 'UserWatchlists',
-        component: UserWatchlists
-    },
-    {
-        path: '/watchlistDetail',
+        path: '/watchlistDetail/:watchlistId',
         name: 'UserWatchlistDetail',
         component: UserWatchlistDetail
     }

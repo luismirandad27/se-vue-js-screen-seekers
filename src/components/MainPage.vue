@@ -4,9 +4,9 @@
       <div class="row">
         <div class="title-hd">
           <h2>in theaters now</h2>
-          <router-link to="/movies/list/2" class="viewall"
-              >View all <i class="ion-ios-arrow-right"></i
-            ></router-link>
+          <router-link to="/movies/list/1" class="viewall"
+            >View all <i class="ion-ios-arrow-right"></i
+          ></router-link>
         </div>
       </div>
       <div class="row">
@@ -25,9 +25,7 @@
               <a href="#">
                 <img
                   v-if="movie.posterImage != null"
-                  :src="
-                    $MOVIE_PHOTOS_URL + '/' + movie.posterImage
-                  "
+                  :src="$MOVIE_PHOTOS_URL + '/' + movie.posterImage"
                   alt=""
                   width="285"
                   height="437"
@@ -52,7 +50,9 @@
                 >
               </div>
               <h6>
-                <router-link :to="'/movies/'+movie.id">{{ movie.title }}</router-link>
+                <router-link :to="'/movies/' + movie.id">{{
+                  movie.title
+                }}</router-link>
               </h6>
             </div>
           </SplideSlide>
@@ -65,9 +65,9 @@
       <div class="row">
         <div class="title-hd">
           <h2>now Streaming</h2>
-          <router-link to="/movies/list/3" class="viewall"
-              >View all <i class="ion-ios-arrow-right"></i
-            ></router-link>
+          <router-link to="/movies/list/2" class="viewall"
+            >View all <i class="ion-ios-arrow-right"></i
+          ></router-link>
         </div>
       </div>
       <div class="row">
@@ -86,9 +86,7 @@
               <a href="#">
                 <img
                   v-if="movie.posterImage != null"
-                  :src="
-                    $MOVIE_PHOTOS_URL + '/' + movie.posterImage
-                  "
+                  :src="$MOVIE_PHOTOS_URL + '/' + movie.posterImage"
                   alt=""
                   width="285"
                   height="437"
@@ -127,7 +125,7 @@
         <div class="col-md-12">
           <div class="title-hd">
             <h2>Coming Soon</h2>
-            <router-link to="/movies/list/4" class="viewall"
+            <router-link to="/movies/list/3" class="viewall"
               >View all <i class="ion-ios-arrow-right"></i
             ></router-link>
           </div>
@@ -157,11 +155,7 @@
                 <div class="trailer-img">
                   <img
                     v-if="item.trailerImage != null"
-                    :src="
-                      $MOVIE_PHOTOS_URL +
-                      '/' +
-                      item.trailerImage
-                    "
+                    :src="$MOVIE_PHOTOS_URL + '/' + item.trailerImage"
                     alt=""
                   />
                   <img
@@ -199,12 +193,19 @@ import "@splidejs/vue-splide/css/core";
 import MovieService from "@/services/movie.service.js";
 import Movie from "@/models/movie";
 
+
 export default {
   name: "MainPage",
+  metaInfo () {
+    return {
+      title: this.title,
+      meta: [],
+    }
+  },
   components: {
     Splide,
     SplideSlide,
-    MovieService
+    MovieService,
   },
   data() {
     return {
@@ -251,7 +252,6 @@ export default {
     getAllMovies() {
       //handle get random movies api method
       MovieService.getAllMovies().then((response) => {
-
         const inTheatersData = response.content.filter(
           (movieData) => movieData.isInTheaters === true
         );
@@ -319,7 +319,6 @@ export default {
             movieData.trailerImage
           );
         });
-
       });
     },
     configuringThumbnailSplide() {
@@ -349,8 +348,9 @@ export default {
     },
   },
   mounted() {
+    document.title = 'Screen Seekers';
     this.getAllMovies();
     this.configuringThumbnailSplide();
-  },
+  }
 };
 </script>

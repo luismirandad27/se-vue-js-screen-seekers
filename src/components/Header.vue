@@ -30,16 +30,6 @@
           </label>
         </div>
         <div class="row">
-          <div class="remember">
-            <div>
-              <input type="checkbox" name="remember" value="Remember me" /><span
-                >Remember me</span
-              >
-            </div>
-            <a href="#">Forget password ?</a>
-          </div>
-        </div>
-        <div class="row">
           <button type="submit">Login</button>
         </div>
       </form>
@@ -156,14 +146,7 @@
               <a href="#page-top"></a>
             </li>
             <li class="dropdown first">
-              <a v-if="loggedIn"
-                class="btn btn-default dropdown-toggle lv1"
-                data-toggle="dropdown"
-                @click="$router.push('/userMainPage')"
-              >
-                Home
-              </a>
-              <a v-if="!loggedIn"
+              <a
                 class="btn btn-default dropdown-toggle lv1"
                 data-toggle="dropdown"
                 @click="$router.push('/')"
@@ -181,13 +164,14 @@
               </a>
             </li>
             <li v-if="loggedIn" class="dropdown first">
-              <a
+              <router-link
                 class="btn btn-default dropdown-toggle lv1"
                 data-toggle="dropdown"
                 data-hover="dropdown"
+                :to="{name:'UserProfilePage', query:{activeTab: 4}}"
               >
                 my watchlists
-              </a>
+              </router-link>
             </li>
           </ul>
           <ul v-if="isAdmin" class="nav navbar-nav flex-child-menu menu-left">
@@ -203,13 +187,14 @@
               </a>
             </li>
             <li class="dropdown first">
-              <a
+              <router-link
+                to="/admin/movies"
                 class="btn btn-default dropdown-toggle lv1"
                 data-toggle="dropdown"
                 data-hover="dropdown"
               >
                 movies administration
-              </a>
+            </router-link>
             </li>
           </ul>
           <ul class="nav navbar-nav flex-child-menu menu-right">
@@ -283,7 +268,7 @@ export default {
             
             const objOverlayLogin = $(".openform");
             objOverlayLogin.removeClass("openform");
-            this.$router.push("/userMainPage");
+            this.$router.push("/userProfilePage");
           },
           (error) => {
             document.getElementById("alert-dialog-signin").classList.remove("close");

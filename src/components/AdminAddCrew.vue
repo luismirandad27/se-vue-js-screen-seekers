@@ -1,0 +1,116 @@
+<template>
+  <div class="slider movie-items">
+    <div class="container">
+      <!-- <h1>This is the admin page, Adding a Crew</h1> -->
+
+      <div class="container">
+        <form @submit.prevent="sendForm">
+          <div class="form-style-1 user-pro">
+            <div class="user">
+              <h4>
+                Add Crew To Moive {{ object.title }}
+                <br />
+                <!-- {{ result }} -->
+              </h4>
+              <div class="row">
+                <div class="col-md-6 form-it">
+                  <label>Crew</label>
+                  <select name="crewName" id="crewName" v-model="crewId">
+                    <option
+                      v-for="crew in crewNames"
+                      :key="crew.id"
+                      :value="crew.id"
+                    >
+                      {{ crew.firstName }} {{ crew.lastName }}
+                    </option>
+                  </select>
+                  <!-- <input type="text" placeholder="edwardkennedy"> -->
+                </div>
+                <div class="col-md-6 form-it">
+                  <label>Movie Role</label>
+                  <select v-model="model.movieRole">
+                    <option value="Cast">Cast</option>
+                    <option value="Director">Director</option>
+                    <option value="Writer">Writer</option>
+                  </select>
+                </div>
+                <div class="col-md-6 form-it">
+                  <label>Character Name</label>
+                  <input
+                    type="text"
+                    placeholder="E.g Ironman"
+                    v-model="model.characterName"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <input class="submit" type="submit" value="save" />
+              </div>
+            </div>
+          </div>
+        </form>
+        <div>
+          <!-- <button type="submit" @click="saveCrew">SAVE Crew</button> -->
+        </div>
+        <div>
+          <!-- {{ result }} -->
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+// import { defineComponent } from '@vue/composition-api'
+import Admin from "../services/admin.service.js";
+export default {
+  name: "AdminAddCrew",
+  computed: {
+    id() {
+      return this.$route.params.id;
+    },
+  },
+  data() {
+    return {
+      object: {},
+      crewNames: {},
+      crewId: "",
+      model: {
+        movieRole: "",
+        characterName: "",
+      },
+    };
+  },
+  methods: {
+    async getAmovie() {
+      try {
+        const response = await Admin.getMovieById(this.id);
+
+        this.object = response;
+        console.log(response);
+      } catch (error) {
+        this.object = "ERROR";
+      }
+    },
+    async getAllCew() {
+      // this.crewNames.push(Admin.getCrews());
+      const response = await Admin.getCrews();
+      this.crewNames = response.content;
+    },
+    async sendForm() {
+      try {
+        await Admin.addCrewMemberToMovie(this.crewId, this.model, this.id);
+        this.$router.push("/admin/movies/" + this.id);
+      } catch (error) {
+        console.log("Error is " + error);
+      }
+    },
+  },
+  mounted() {
+    this.getAmovie();
+    this.getAllCew();
+  },
+};
+</script>

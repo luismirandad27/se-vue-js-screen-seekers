@@ -1,123 +1,262 @@
 <template>
-    <div class="slider movie-items">
-        <div class="container">
-            <h1>This is the admin page, Updating a Movie</h1>
-
-            
-            <div class="container">
-                <form>
-                    <table>
-                        <tr>
-                            <td>Movie Title</td>
-                            <td><input type="text" id="title"  v-model="model.title" ></td>
-                        </tr>
-                        <tr>
-                            <td>Movie Genre</td>
-                            <td><input type="text" id="genre" v-model="model.genre"></td>
-                        </tr>
-                        <tr>
-                            <td>Release Date</td>
-                            <td><input type="text" id="releaseDate" v-model="model.releaseDate" ></td>
-                        </tr>
-                        <tr>
-                            <td>Length</td>
-                            <td><input type="text" id="length" v-model="model.length"></td>
-                        </tr>
-                        <tr>
-                            <td>Synopsis</td>
-                            <td><input type="text" id="synopsis" v-model="model.synopsis"></td>
-                        </tr>
-                        <tr>
-                            <td>classificationRating</td>
-                            <td><input type="text" id="classificationRating" v-model="model.classificationRating"></td>
-                        </tr>
-                        <tr>
-                            <td>MovieTrailerLink</td>
-                            <td><input type="text" id="movieTrailerLink" v-model="model.movieTrailerLink"></td>
-                        </tr>
-                        <tr>
-                            <td>IsInTheaters</td>
-                            <td><input type="text" id="isInTheaters" v-model="model.isInTheaters"></td>
-                        </tr>
-                        <tr>
-                            <td>IsInStreaming</td>
-                            <td><input type="text" id="isInStreaming" v-model="model.isInStreaming"></td>
-                        </tr>
-                        <tr>
-                            <td>IsComingSoon</td>
-                            <td><input type="text" id="isComingSoon" v-model="model.isComingSoon"></td>
-                        </tr>
-                        <tr>
-                            <td>WhereToWatch</td>
-                            <td><input type="text" id="whereToWatch"  v-model="model.whereToWatch"></td>
-                            <!-- <td><textarea id="whereToWatch" v-model.trim.split="model.whereToWatch"></textarea></td> -->
-                        </tr>
-                    </table>
-                </form>
-                <div>
-                    <button type="submit" @click="updateMovie">SAVE MOVIE</button>
-                    <button type="submit" @click="deleteMovie(model.id)">DELETE THIS MOVIE</button>
-                </div>
-                <div>
-                    {{ result }}
-                </div>
-            </div>
+  <transition name="modal">
+    <modal
+      :title="modalTitle"
+      :status="modalStatus"
+      v-if="isModalOpen"
+      @close="closeModal"
+    >
+      <p>{{ modalMessage }}</p>
+    </modal>
+  </transition>
+  <div class="hero common-hero">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="hero-ct">
+            <h1>MOVIE UPDATE</h1>
+            <ul class="breadcumb">
+              <!--- <li class="active"><a href="#">User</a></li> -->
+              <li class="active">
+                <router-link to="/admin/movies">Admin</router-link>
+              </li>
+              <li><span class="ion-ios-arrow-right"></span> Movie</li>
+            </ul>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
+  <div class="page-single" style="padding-top: 0; padding-bottom: 15px">
+    <div class="container">
+      <div class="form-style-1 user-pro">
+        <form @submit.prevent="updateMovie()" class="user">
+          <div class="row">
+            <div class="col-md-6 form-it">
+              <label>Movie Title</label>
+              <input
+                type="text"
+                placeholder="Movie Title"
+                v-model="model.title"
+                id="title"
+                required
+              />
+            </div>
+            <div class="col-md-6 form-it">
+              <label>Movie Genre</label>
+              <input
+                type="text"
+                placeholder="Separated by comas. E.g. 'Crime,Action,Science Fiction'"
+                v-model="model.genre"
+                id="genre"
+                required
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-it">
+              <label>Release Date (MM/DD/YYYY)</label>
+              <input
+                type="text"
+                placeholder="Release Date"
+                v-model="model.releaseDate"
+                id="releaseDate"
+                required
+              />
+            </div>
+            <div class="col-md-6 form-it">
+              <label>Length</label>
+              <input
+                type="text"
+                placeholder="Lenght in minutes"
+                v-model="model.length"
+                id="length"
+                required
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 form-it">
+              <label>Synopsis</label>
+              <textarea
+                type="text"
+                placeholder="Synopsis"
+                v-model="model.synopsis"
+                id="synopsis"
+                required
+                rows="5"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-it">
+              <label>Classification Rating</label>
+              <input
+                type="text"
+                placeholder="Classification Rating (PG-15)"
+                v-model="model.classificationRating"
+                id="classificationRating"
+                required
+              />
+            </div>
+            <div class="col-md-6 form-it">
+              <label>Movie Trailer URL</label>
+              <input
+                type="text"
+                placeholder="Movie Trailer URL"
+                v-model="model.movieTrailerLink"
+                id="movieTrailerLink"
+                required
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-it">
+              <label>Is In Theaters</label>
+              <select v-model="model.isInTheaters" id="isInTheaters" required>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+            <div class="col-md-6 form-it">
+              <label>Is In Streaming</label>
+              <select v-model="model.isInStreaming" id="isInStreaming" required>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-it">
+              <label>Is Coming Soon</label>
+              <select v-model="model.isComingSoon" id="isComingSoon" required>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+            <div class="col-md-6 form-it">
+              <label>Where To Watch</label>
+              <input
+                type="text"
+                placeholder="Separated by comas (e.g. 'Netflix,Amazon Prime,Disney+')"
+                v-model="model.whereToWatch"
+                id="whereToWatch"
+                required
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <input class="submit" type="submit" value="Update" />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import Admin from '../services/admin.service.js'; 
-export default {
-    name:"adminUpdateMovie",
-    data(){
-        return{
-            object:{},
-            model:{
-                title:"",genre:"", releaseDate:"", length:"", synopsis:"", classificationRating:"", movieTrailerLink:"", isInTheaters:"", isInStreaming:"", isComingSoon:"", whereToWatch:""
-            },
-            result:""
-            
-        }
-    },
-    computed:{
-        id(){
-            return this.$route.params.id
-        }
-    },
-    methods:{
-        async getAmovie(){
-            try{
-                const response = await Admin.getMovieById(this.id);
-            
-            // this puts the value from the getAmovie function to the tempalte fields
-            this.model=response;
-            
-            console.log(response);
-            }catch(error){
-                this.object="ERROR";
-            }
-            
-            
-        },
+import Admin from "../services/admin.service.js";
 
-        updateMovie(){
-            try{
-               const response2= Admin.updateMovie(this.id, this.model);
-                this.result="nothing to see heree" + response2;
-            }catch(error){
-                this.result="ERROR";
-            }
-        },
-        deleteMovie(id){
-            const response=Admin.deleteaMovie(id);
-            this.result=response;
-        }
+// importing Modal Vue Component
+import Modal from "@/components/Modal.vue";
+
+export default {
+  name: "adminUpdateMovie",
+  components: {
+    Modal,
+  },
+  data() {
+    return {
+      object: {},
+      model: {
+        title: "",
+        genre: "",
+        releaseDate: "",
+        length: "",
+        synopsis: "",
+        classificationRating: "",
+        movieTrailerLink: "",
+        isInTheaters: "",
+        isInStreaming: "",
+        isComingSoon: "",
+        whereToWatch: "",
+      },
+      posterImage: null,
+      trailerImage: null,
+      isModalOpen: false,
+      modalTitle: "",
+      modalMessage: "",
+      modalStatus: "",
+    };
+  },
+  computed: {
+    id() {
+      return this.$route.params.id;
     },
-    mounted(){
+  },
+  methods: {
+    async getAmovie() {
+      try {
+        const response = await Admin.getMovieById(this.id);
+        this.model = response;
+
+        if (response.releaseDate == null) {
+          this.model.releaseDate(null);
+        } else {
+          let date = new Date(response.releaseDate);
+          let formattedDate = date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          });
+          this.model.releaseDate = formattedDate;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async updateMovie() {
+      try {
+        if (this.model.releaseDate != "") {
+          //validate if it's in the right format
+          const dateRegex =
+            /^(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])\/\d{4}$/;
+          const isValid = dateRegex.test(this.model.releaseDate);
+
+          if (isValid) {
+            const date = new Date(this.model.releaseDate);
+            const formattedDate = date.toISOString();
+            this.model.releaseDate = formattedDate;
+          } else {
+            console.log("not valid");
+            return;
+          }
+        } else {
+          this.model.releaseDate = null;
+          return;
+        }
+
+        await Admin.updateMovie(this.id, this.model);
+
+        this.modalTitle = "Success!";
+        this.modalTypeAction = "";
+        this.modalType = "";
+        this.modalMessage = "Movie information has been updated successfully!";
+        this.modalStatus = "success";
+        this.isModalOpen = true;
         this.getAmovie();
-        this.result="TEST"
-        
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    closeModal(){
+      this.isModalOpen = false;
     }
-} 
+  },
+  mounted() {
+    this.getAmovie();
+  },
+};
 </script>

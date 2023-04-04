@@ -1,5 +1,6 @@
 <template>
-  <transition name="modal">
+
+<transition name="modal">
     <modal
       :title="modalTitle"
       :status="modalStatus"
@@ -29,43 +30,23 @@
       </div>
     </modal>
   </transition>
-  <div class="hero common-hero">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="hero-ct">
-            <h1>My Watchlist</h1>
-            <ul class="breadcumb">
-              <li class="active"><a href="#">User</a></li>
-              <li><span class="ion-ios-arrow-right"></span> Watchlist</li>
-            </ul>
-          </div>
-        </div>
+<div class="col-md-9 col-sm-12 col-xs-12">
+  <div class="row">
+      <div class="col-md-12 user-hero-subtitle">
+        <h1>My Watchlist</h1>
       </div>
     </div>
-  </div>
-  <div class="page-single" style="padding-top: 0">
-    <div class="container">
       <div class="row ipad-width2">
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="row">
-            <div class="col-md-4">
+            <div v-for="(watchlist,index) in watchlists" :key="index" class="col-md-4">
               <div class="ceb-item-style-2">
                 <img src="../../public/images/uploads/ceb23.jpg" alt="" />
                 <div class="ceb-infor">
                   <h2>
-                    <a href="celebritysingle.html">My Favorite Action Movies</a>
+                    <router-link :to=" 'watchlistDetail/' + watchlist.id">{{ watchlist.name }}</router-link>
                   </h2>
-                  <span>13 movies</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="ceb-item-style-2">
-                <img src="../../public/images/uploads/ceb21.jpg" alt="" />
-                <div class="ceb-infor">
-                  <h2><a href="celebritysingle.html">Marvel Movies</a></h2>
-                  <span>10 movies</span>
+                  <span>{{ watchlist.totalMovies }} Movies</span>
                 </div>
               </div>
             </div>
@@ -78,16 +59,17 @@
             >New Watchlist</a
           >
         </div>
-      </div>
-    </div>
   </div>
+</div>
 </template>
 <script>
 // importing Modal Vue Component
 import Modal from "@/components/Modal.vue";
+import WatchlistService from "@/services/watchlist.service.js";
+import Watchlist from "@/models/watchlist";
 
 export default {
-  name: "UserWatchlists",
+  name: "UserProfileWatchlists",
   components: {
     Modal,
   },
@@ -99,7 +81,8 @@ export default {
       modalStatus: "",
       modalType: "",
       modalTypeAction: "",
-      watchlistNameInput:""
+      watchlistNameInput: "",
+      watchlists: [],
     };
   },
   methods: {
@@ -110,10 +93,48 @@ export default {
     closeModal() {
       this.isModalOpen = false;
     },
-    addNewWatchlist(){
-      alert("Inserting "+this.watchlistNameInput);
-      this.$router.push("/watchlistDetail");
-    }
+    addNewWatchlist() {
+      try {
+        WatchlistService.createUserWatchlist(
+          this.watchlistNameInput,
+          this.userId
+        ).then(
+          (response) => {
+            const newWatchlistId = response.id;
+            this.$router.push("watchlistDetail/" + newWatchlistId);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    getWatchlistsByUser() {
+      try {
+        WatchlistService.getWatchlistByUser(this.userId).then(
+          (response) => {
+            this.watchlists = response.map((watchlistData) => {
+              return new Watchlist(
+                watchlistData.id,
+                watchlistData.name,
+                watchlistData.watchlistDetails.length
+              );
+            });
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+  created() {
+    this.userId = this.$store.state.auth.user.id;
+    this.getWatchlistsByUser();
   },
 };
 </script>
