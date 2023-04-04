@@ -1,27 +1,9 @@
 <template>
-  <!-- <br><br><br><br> -->
-  <!-- <div>
-      <h1>Movie Search</h1>
-      <form @submit.prevent="handleSubmit">
-        <label for="search-type">Search By:</label>
-        <select v-model="searchType" id="search-type" name="search-type">
-          <option value="title">Title</option>
-          <option value="genre">Genre</option>
-          <option value="year">Release Year</option>
-        </select>
-        <br><br>
-        <label for="search-term">Search Term:</label>
-        <input v-model="submit" type="text" id="search-term" name="search-term">
-        <br><br>
-        <button type="submit">Search</button>
-
-        <ul>
-          <li v-for="movie in movies" :key="movie.id">
-            {{ movie }}
-          </li>
-        </ul>
-      </form>
-    </div> -->
+  <transition name="modal">
+    <modal :title="modalTitle" :status="modalStatus" v-if="isModalOpen" @close="closeModal">
+      <p>{{ modalMessage }}</p>
+    </modal>
+  </transition>
   <div class="hero common-hero">
     <div class="container">
       <div class="row">
@@ -52,8 +34,8 @@
                   <option value="year">Release Year</option>
                 </select>
 
-                <label for="search-term">Search Term:</label>
-                <input v-model="submit" type="text" id="search-term" name="search-term" />
+                <label for="search-term">Search Keywords:</label>
+                <input v-model="submit" type="text" id="search-term" name="search-term" placeholder="Keywords" />
               </div>
               <div class="col-md-12">
                 <a class="redbtn" value="submit" @click="handleSubmit(page, size)">Search</a>
@@ -64,7 +46,9 @@
       </div>
       <div class="row ipad-width2">
         <div class="col-md-12 col-sm-12 col-xs-12">
+          <!-- Display error message if it exists -->
           <div v-for="(movie, index) in moviesList" :key="index" class="movie-item-style-2">
+
             <img v-if="movie.posterImage != null" :src="
               $MOVIE_PHOTOS_URL + '/' + movie.posterImage
             " alt="" />
@@ -76,20 +60,22 @@
                 }}</router-link>
                 <span> ({{ movie.releaseDate }})</span>
               </h6>
-              <p class="rate">
+              <!-- <p class="rate">
                 <i class="ion-android-star"></i><span>{{ movie.avgRating }}</span> /5
-              </p>
+              </p> -->
 
               <p class="run-time">
                 Run Time: {{ movie.length }}
                 <span>MMPA: {{ movie.classificationRating }}</span>
                 <span>Release: {{ movie.releaseDate }}</span>
+
               </p>
               <br />
               <p class="describe">{{ movie.synopsis }}</p>
 
             </div>
           </div>
+
           <div class="topbar-filter">
             <label>Movies per page:</label>
             <select v-model="size" @change="handleSubmit(page, size)">
@@ -98,8 +84,7 @@
             </select>
             <div v-if="totalPages <= 10" class="pagination2">
               <span>Page {{ page + 1 }} of {{ totalPages }}:</span>
-              <a v-for="n in totalPages" :key="n" :class="{ active: n === page + 1 }"
-                @click="handleSubmit(n - 1, size)">
+              <a v-for="n in totalPages" :key="n" :class="{ active: n === page + 1 }" @click="handleSubmit(n - 1, size)">
                 {{ n }}
               </a>
               <a href="#"><i class="ion-arrow-right-b"></i></a>
@@ -114,10 +99,6 @@
             </div>
           </div>
         </div>
-
-
-        <!-- New -->
-
       </div>
     </div>
   </div>
@@ -126,11 +107,17 @@
 <script>
 import Movie from "@/models/movie";
 import MovieService from "@/services/movie.service.js";
+// import UserService from "@/services/user.service.js";
+import Modal from "@/components/Modal.vue";
 
 export default {
   name: "SearchPage",
+  components: {
+    Modal,
+  },
   data() {
     return {
+
       searchType: "title",
       submit: "",
       moviesList: [],
@@ -140,31 +127,37 @@ export default {
       totalElements: 0,
       numberElements: 0,
       listType: "",
+      isModalOpen: false,
+      modalTitle: "",
+      modalMessage: "",
+      modalStatus: "",
+      modalType: "",
+      modalTypeAction: "",
     };
   },
   methods: {
-    async getMovieListByType(page, size) {
-      switch (this.listType) {
-        case "1":
-          //Recommendations
-          this.getRecommendations(page, size);
-          break;
-        case "2":
-          //In Theaters
-          this.getInTheatersMovies(page, size);
-          break;
-        case "3":
-          //In Streaming
-          this.getInStreamingMovies(page, size);
-          break;
-        case "4":
-          //Coming Soon
-          this.getComingSoonMovies(page, size);
-          break;
-        default:
-          break;
-      }
-    },
+    // async getMovieListByType(page, size) {
+    //   switch (this.listType) {
+    //     case "1":
+    //       //Recommendations
+    //       this.getRecommendations(page, size);
+    //       break;
+    //     case "2":
+    //       //In Theaters
+    //       this.getInTheatersMovies(page, size);
+    //       break;
+    //     case "3":
+    //       //In Streaming
+    //       this.getInStreamingMovies(page, size);
+    //       break;
+    //     case "4":
+    //       //Coming Soon
+    //       this.getComingSoonMovies(page, size);
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    // },
     handleSubmit(page, size) {
       switch (this.searchType) {
         case "title":
@@ -177,52 +170,14 @@ export default {
           this.searchReleaseYear(page, size);
           break;
         default:
-          console.log("Invalid search type");
-          alert("Not found! Please try again.");
+          console.log("Invalid search");
           break;
       }
     },
-
-    // Pass this.submit to the method
-    // searchTitle() {
-    //   console.log(this.submit);
-    //   MovieService.getMoviesByTitle(this.submit).then(
-    //    async (response) => {
-
-    //     // this.totalPages = response.totalPages;
-    //     //   this.numberElements = response.numberOfElements;
-    //     //   this.page = response.number;
-
-    //       console.log(response.content)
-    //     const moviesListPromise = response.content.map(async (movieData) => {
-    //       const movie = new Movie(
-    //         movieData.id,
-    //         movieData.title,
-    //         movieData.genre.split(","),
-    //         movieData.releaseDate,
-    //         movieData.length,
-    //         movieData.synopsis,
-    //         movieData.classificationRating,
-    //         movieData.movieTrailerLink,
-    //         movieData.isInTheaters,
-    //         movieData.isInStreaming,
-    //         movieData.isComingSoon,
-    //         movieData.whereToWatch,
-    //         movieData.posterImage,
-    //         movieData.trailerImage
-    //       );
-    //       return movie;
-    //     }
-
-    //   );
-    //   this.moviesList = await Promise.all(moviesListPromise);
-    //    },
-    //     (error) => {
-    //       this.submit = "";
-    //       console.log(error);
-    //     })
-    // },
-
+    closeModal() {
+      this.isModalOpen = false;
+    }
+    ,
     searchTitle(page, size) {
       console.log(page + "," + size);
       MovieService.getMoviesByTitle(this.submit, page, size).then(
@@ -238,15 +193,15 @@ export default {
           const moviesListPromise = response.content.map(async (movieData) => {
             // //Getting the rating by movie
             // const ratingResponse = await UserService.getRatingByMovie(
-            //     movieData.id
-            //   );
+            //   movieData.id
+            // );
 
-            //   const movieRating = ratingResponse;
-            //   const totalRatings = movieRating.length;
-            //   const sumRatings = totalRatings == 0 ? 0 : movieRating.reduce(
-            //     (sum, rating) => sum + rating.userRating, 0
-            //   );
-            //   const avgRating = totalRatings > 0 ? sumRatings / totalRatings : 0;
+            // const movieRating = ratingResponse;
+            // const totalRatings = movieRating.length;
+            // const sumRatings = totalRatings == 0 ? 0 : movieRating.reduce(
+            //   (sum, rating) => sum + rating.userRating, 0
+            // );
+            // const avgRating = totalRatings > 0 ? sumRatings / totalRatings : 0;
             const movie = new Movie(
               movieData.id,
               movieData.title,
@@ -263,26 +218,47 @@ export default {
               movieData.posterImage,
               movieData.trailerImage
             );
+            // movie.setAvgRating(avgRating.toFixed(1));
             return movie;
           });
           this.moviesList = await Promise.all(moviesListPromise);
-        },
+          // this.moviesList.sort((a, b) => b.avgRating - a.avgRating);
+        }
+      ).catch(
         (error) => {
-          this.submit = "";
+          // this.submit = "";
+          this.modalTitle = "Error";
+          this.modalMessage =
+            "We couldn't find the movies. Insert or try other keywords.";
+          this.modalStatus = "error";
+          this.isModalOpen = true;
           console.log(error);
         }
       );
     },
-    searchGenre() {
-      console.log(this.submit);
-      MovieService.getMoviesByGenre(this.submit).then(
+    searchGenre(page, size) {
+      console.log(page + "," + size);
+      MovieService.getMoviesByGenre(this.submit, page, size).then(
         async (response) => {
-          // this.totalPages = response.totalPages;
-          //   this.numberElements = response.numberOfElements;
-          //   this.page = response.number;
+          this.totalPages = response.totalPages;
+          this.numberElements = response.numberOfElements;
+          this.page = response.number;
 
+          console.log(response);
           console.log(response.content);
+
           const moviesListPromise = response.content.map(async (movieData) => {
+            // //Getting the rating by movie
+            // const ratingResponse = await UserService.getRatingByMovie(
+            //   movieData.id
+            // );
+
+            // const movieRating = ratingResponse;
+            // const totalRatings = movieRating.length;
+            // const sumRatings = totalRatings == 0 ? 0 : movieRating.reduce(
+            //   (sum, rating) => sum + rating.userRating, 0
+            // );
+            // const avgRating = totalRatings > 0 ? sumRatings / totalRatings : 0;
             const movie = new Movie(
               movieData.id,
               movieData.title,
@@ -299,26 +275,48 @@ export default {
               movieData.posterImage,
               movieData.trailerImage
             );
+            // movie.setAvgRating(avgRating.toFixed(1));
             return movie;
           });
           this.moviesList = await Promise.all(moviesListPromise);
-        },
+          // this.moviesList.sort((a, b) => b.avgRating - a.avgRating);
+        }
+      ).catch(
         (error) => {
-          this.submit = "";
+          // this.submit = "";
+          this.modalTitle = "Error";
+          this.modalMessage =
+            "We couldn't find the movies. Insert or try other keywords.";
+          this.modalStatus = "error";
+          this.isModalOpen = true;
           console.log(error);
         }
       );
     },
-    searchReleaseYear() {
-      console.log(this.submit);
-      MovieService.getMoviesByYear(this.submit).then(
+    searchReleaseYear(page, size) {
+      console.log(page + "," + size);
+      MovieService.getMoviesByYear(this.submit, page, size).then(
         async (response) => {
-          // this.totalPages = response.totalPages;
-          //   this.numberElements = response.numberOfElements;
-          //   this.page = response.number;
 
+          this.totalPages = response.totalPages;
+          this.numberElements = response.numberOfElements;
+          this.page = response.number;
+
+          console.log(response);
           console.log(response.content);
+
           const moviesListPromise = response.content.map(async (movieData) => {
+            // //Getting the rating by movie
+            // const ratingResponse = await UserService.getRatingByMovie(
+            //   movieData.id
+            // );
+
+            // const movieRating = ratingResponse;
+            // const totalRatings = movieRating.length;
+            // const sumRatings = totalRatings == 0 ? 0 : movieRating.reduce(
+            //   (sum, rating) => sum + rating.userRating, 0
+            // );
+            // const avgRating = totalRatings > 0 ? sumRatings / totalRatings : 0;
             const movie = new Movie(
               movieData.id,
               movieData.title,
@@ -335,22 +333,30 @@ export default {
               movieData.posterImage,
               movieData.trailerImage
             );
+            // movie.setAvgRating(avgRating.toFixed(1));
             return movie;
           });
           this.moviesList = await Promise.all(moviesListPromise);
-        },
+          // this.moviesList.sort((a, b) => b.avgRating - a.avgRating);
+        }
+      ).catch(
         (error) => {
-          this.submit = "";
+          // this.submit = "";
+          this.modalTitle = "Error";
+          this.modalMessage =
+            "We couldn't find the movies. Insert or try other keywords.";
+          this.modalStatus = "error";
+          this.isModalOpen = true;
           console.log(error);
         }
       );
     },
-    watch: {
+  },
+  watch: {
       searchType: function () {
         this.submit = "";
       },
     },
-  },
 
   created() {
     this.listType = this.$route.params.listType;
@@ -358,7 +364,7 @@ export default {
     this.page = 0;
     this.size = 10;
     this.sortBy = "title-desc";
-    this.getMovieListByType(this.page, this.size);
+    // this.getMovieListByType(this.page, this.size);
   },
 };
 </script>

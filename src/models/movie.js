@@ -5,7 +5,12 @@ export default class Movie{
             this.id = id;
             this.title = title;
             this.genre = genre;
-            this.releaseDate = releaseDate;
+            this.releaseDate = new Date (releaseDate).toLocaleDateString("en-US", 
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+              });
             this.length = length;
             this.synopsis = synopsis;
             this.classificationRating = classificationRating;
