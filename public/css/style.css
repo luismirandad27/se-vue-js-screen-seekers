@@ -4232,13 +4232,13 @@ ul {
 .movie_list .movie-item-style-2 img,
 .movie_single .movie-item-style-2 img,
 .userfav_list .movie-item-style-2 img {
-  width: 30%;
+  width: 15%;
 }
 @media (max-width: 767px) {
   .movie_list .movie-item-style-2 img,
   .movie_single .movie-item-style-2 img,
   .userfav_list .movie-item-style-2 img {
-    width: auto;
+    width: 50%;
   }
 }
 .movie-item-style-2 {
@@ -4294,7 +4294,7 @@ ul {
 }
 .movie-item-style-2 .mv-item-infor .describe {
   padding-bottom: 25px;
-  border-bottom: 1px solid #405266;
+  /* border-bottom: 1px solid #405266; */
   margin-bottom: 25px;
 }
 .movie-item-style-2 .mv-item-infor .run-time span {
@@ -6423,6 +6423,10 @@ ul {
 .form-style-1 .form-it {
   margin-bottom: 15px;
 }
+
+.form-style-1 a.submit {
+  margin-bottom: 15px;
+}
 .form-style-1 label {
   font-family: 'Dosis', sans-serif;
   font-size: 14px;
@@ -6461,6 +6465,15 @@ ul {
   }
 }
 .form-style-1 input.submit {
+  font-family: 'Dosis', sans-serif;
+  font-size: 14px;
+  color: #ffffff;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: #dd003f;
+  width: 100%;
+}
+.row a.submit {
   font-family: 'Dosis', sans-serif;
   font-size: 14px;
   color: #ffffff;

@@ -31,10 +31,11 @@
         <div class="col-md-3 col-sm-12 col-xs-12">
           <div class="user-information">
             <div class="user-img">
-              <a v-if="user.profileImage == null" href="#"><img src="../../public/images/user-no-name.jpg"
-                  alt="No User Profile" /><br /></a>
               <a v-if="user.profileImage != null" href="#"><img :src="$USER_PHOTOS_URL + '/' + user.profileImage"
                   alt="No User Profile" /><br /></a>
+              <a v-if="user.profileImage == null" href="#"><img src="../../public/images/user-no-name.jpg"
+                  alt="No User Profile" /><br /></a>
+              
               <a href="#" class="redbtn" @click="updateProfileImage">Change avatar</a>
             </div>
             <div class="user-fav">
@@ -114,7 +115,8 @@ export default {
           this.user = new User(
             userData.username,
             userData.email,
-            userData.password
+            userData.password,
+            userData.profileImage,
           );
           this.user.setFirstName(userData.firstName);
           this.user.setLastName(userData.lastName);

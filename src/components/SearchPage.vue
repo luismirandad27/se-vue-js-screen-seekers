@@ -1,236 +1,370 @@
 <template>
+  <transition name="modal">
+    <modal :title="modalTitle" :status="modalStatus" v-if="isModalOpen" @close="closeModal">
+      <p>{{ modalMessage }}</p>
+    </modal>
+  </transition>
   <div class="hero common-hero">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="hero-ct">
-					<h1> movie listing - list</h1>
-					<ul class="breadcumb">
-						<li class="active"><a href="#">Home</a></li>
-						<li> <span class="ion-ios-arrow-right"></span> movie listing</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="page-single movie_list">
-	<div class="container">
-		<div class="row ipad-width2">
-			<div class="col-md-8 col-sm-12 col-xs-12">
-				<div class="topbar-filter">
-					<p>Found <span>1,608 movies</span> in total</p>
-					<label>Sort by:</label>
-					<select>
-						<option value="popularity">Popularity Descending</option>
-						<option value="popularity">Popularity Ascending</option>
-						<option value="rating">Rating Descending</option>
-						<option value="rating">Rating Ascending</option>
-						<option value="date">Release date Descending</option>
-						<option value="date">Release date Ascending</option>
-					</select>
-					<a href="movielist.html" class="list"><i class="ion-ios-list-outline active"></i></a>
-					<a  href="moviegrid.html" class="grid"><i class="ion-grid"></i></a>
-				</div>
-				<div v-for="(movie,index) in movies" :key="index" class="movie-item-style-2">
-					<img src="images/uploads/mv1.jpg" alt="">
-					<div class="mv-item-infor">
-						<h6><a href="moviesingle.html">{{movie.title}} <span>(2012)</span></a></h6>
-						<!--<p class="rate"><i class="ion-android-star"></i><span>8.1</span> /10</p>-->
-						<p class="describe">{{ movie.synopsis }}</p>
-						<p class="run-time"> Run Time: {{ movie.length }}    .     <span>MMPA: PG-13 </span>    .     <span>Release: 1 May 2015</span></p>
-						<p>Director: <a href="#">Joss Whedon</a></p>
-						<p>Stars: <a href="#">Robert Downey Jr.,</a> <a href="#">Chris Evans,</a> <a href="#">  Chris Hemsworth</a></p>
-					</div>
-				</div>
-				<div class="movie-item-style-2">
-					<img src="images/uploads/mv2.jpg" alt="">
-					<div class="mv-item-infor">
-						<h6><a href="moviesingle.html">into the wild <span>(2014)</span></a></h6>
-						<p class="rate"><i class="ion-android-star"></i><span>7.8</span> /10</p>
-						<p class="describe">As Steve Rogers struggles to embrace his role in the modern world, he teams up with a fellow Avenger and S.H.I.E.L.D agent, Black Widow, to battle a new threat...</p>
-						<p class="run-time"> Run Time: 2h21’    .     <span>MMPA: PG-13 </span>    .     <span>Release: 1 May 2015</span></p>
-						<p>Director: <a href="#">Anthony Russo,</a><a href="#">Joe Russo</a></p>
-						<p>Stars: <a href="#">Chris Evans,</a> <a href="#">Samuel L. Jackson,</a> <a href="#">  Scarlett Johansson</a></p>
-					</div>
-				</div>
-				<div class="movie-item-style-2">
-					<img src="images/uploads/mv3.jpg" alt="">
-					<div class="mv-item-infor">
-						<h6><a href="moviesingle.html">blade runner  <span>(2015)</span></a></h6>
-						<p class="rate"><i class="ion-android-star"></i><span>7.3</span> /10</p>
-						<p class="describe">Armed with a super-suit with the astonishing ability to shrink in scale but increase in strength, cat burglar Scott Lang must embrace his inner hero and help...</p>
-						<p class="run-time"> Run Time: 2h21’    .     <span>MMPA: PG-13 </span>    .     <span>Release: 1 May 2015</span></p>
-						<p>Director: <a href="#">Peyton Reed</a></p>
-						<p>Stars: <a href="#">Paul Rudd,</a> <a href="#"> Michael Douglas</a></p>
-					</div>
-				</div>
-				<div class="movie-item-style-2">
-					<img src="images/uploads/mv4.jpg" alt="">
-					<div class="mv-item-infor">
-						<h6><a href="moviesingle.html">Mulholland pride<span> (2013)  </span></a></h6>
-						<p class="rate"><i class="ion-android-star"></i><span>7.2</span> /10</p>
-						<p class="describe">When Tony Stark's world is torn apart by a formidable terrorist called the Mandarin, he starts an odyssey of rebuilding and retribution.</p>
-						<p class="run-time"> Run Time: 2h21’    .     <span>MMPA: PG-13 </span>    .     <span>Release: 1 May 2015</span></p>
-						<p>Director: <a href="#">Shane Black</a></p>
-						<p>Stars: <a href="#">Robert Downey Jr., </a> <a href="#">  Guy Pearce,</a><a href="#">Don Cheadle</a></p>
-					</div>
-				</div>
-				<div class="movie-item-style-2">
-					<img src="images/uploads/mv5.jpg" alt="">
-					<div class="mv-item-infor">
-						<h6><a href="moviesingle.html">skyfall: evil of boss<span> (2013)  </span></a></h6>
-						<p class="rate"><i class="ion-android-star"></i><span>7.0</span> /10</p>
-						<p class="describe">When Tony Stark's world is torn apart by a formidable terrorist called the Mandarin, he starts an odyssey of rebuilding and retribution.</p>
-						<p class="run-time"> Run Time: 2h21’    .     <span>MMPA: PG-13 </span>    .     <span>Release: 1 May 2015</span></p>
-						<p>Director: <a href="#">Alan Taylor</a></p>
-						<p>Stars: <a href="#">Chris Hemsworth,  </a> <a href="#">  Natalie Portman,</a><a href="#">Tom Hiddleston</a></p>
-					</div>
-				</div>
-				<div class="topbar-filter">
-					<label>Movies per page:</label>
-					<select>
-						<option value="range">5 Movies</option>
-						<option value="saab">10 Movies</option>
-					</select>
-					<div class="pagination2">
-						<span>Page 1 of 2:</span>
-						<a class="active" href="#">1</a>
-						<a href="#">2</a>
-						<a href="#"><i class="ion-arrow-right-b"></i></a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4 col-sm-12 col-xs-12">
-				<div class="sidebar">
-					<div class="searh-form">
-						<h4 class="sb-title">Search for movie</h4>
-						<form @submit.prevent="handleSubmit" class="form-style-1" action="#">
-							<div class="row">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="hero-ct">
+            <h1>Movie Search</h1>
+            <ul class="breadcumb">
+              <li class="active"><a href="#">Movie</a></li>
+              <li><span class="ion-ios-arrow-right"></span> Search</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-single movie_list">
+    <div class="container">
+      <div class="sidebar">
+        <div class="search-form">
+          <h4 class="sb-title">Search for movie</h4>
+          <div class="form-style-1">
+            <div class="row">
+              <div class="col-md-12 form-it">
+                <label for="search-type">Search By:</label>
+                <select v-model="searchType" id="search-type" name="search-type">
+                  <option value="title">Title</option>
+                  <option value="genre">Genre</option>
+                  <option value="year">Release Year</option>
+                </select>
 
-								<div class="col-md-12 form-it">
-									<label>Search Type</label>									
-									 <select >
-										<option value="range">-- Select the rating range below --</option>
-										<option value="saab">-- Title --</option>
-										<option value="saab">-- Genre --</option>
-										<option value="saab">-- Release Year --</option>
-									</select>
-									
-								</div>
-								<div class="col-md-12 form-it">
-									<label>Movie name</label>
-									<input type="text" placeholder="Enter keywords">
-								</div>
-								<div class="col-md-12 ">
-									<input class="submit" type="submit" value="submit">
-								</div>
-							</div>
-						</form>
-					</div>
-					<div class="ads">
-						<img src="images/uploads/ads1.png" alt="">
-					</div>
-					<div class="sb-facebook sb-it">
-						<h4 class="sb-title">Find us on Facebook</h4>
-						<iframe src="#" data-src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Ftemplatespoint.net%2F%3Ffref%3Dts&tabs=timeline&width=340&height=315px&small_header=true&adapt_container_width=false&hide_cover=false&show_facepile=true&appId"  height="315" style="width:100%;border:none;overflow:hidden" ></iframe>
-					</div>
-					<div class="sb-twitter sb-it">
-						<h4 class="sb-title">Tweet to us</h4>
-						<div class="slick-tw">
-							<div class="tweet item" id=""><!-- Put your twiter id here -->
-							</div>
-							<div class="tweet item" id=""><!-- Put your 2nd twiter account id here -->
-							</div>
-						</div>							
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+                <label for="search-term">Search Keywords:</label>
+                <input v-model="submit" type="text" id="search-term" name="search-term" placeholder="Keywords" />
+              </div>
+              <div class="col-md-12">
+                <a class="redbtn" value="submit" @click="handleSubmit(page, size)">Search</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row ipad-width2">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <!-- Display error message if it exists -->
+          <div v-for="(movie, index) in moviesList" :key="index" class="movie-item-style-2">
+
+            <img v-if="movie.posterImage != null" :src="
+              $MOVIE_PHOTOS_URL + '/' + movie.posterImage
+            " alt="" />
+            <img v-if="movie.posterImage == null" src="../../public/images/poster-template.jpeg" alt="" />
+            <div class="mv-item-infor">
+              <h6>
+                <router-link :to="'/movies/' + movie.id">{{
+                  movie.title
+                }}</router-link>
+                <span> ({{ movie.releaseDate }})</span>
+              </h6>
+              <!-- <p class="rate">
+                <i class="ion-android-star"></i><span>{{ movie.avgRating }}</span> /5
+              </p> -->
+
+              <p class="run-time">
+                Run Time: {{ movie.length }}
+                <span>MMPA: {{ movie.classificationRating }}</span>
+                <span>Release: {{ movie.releaseDate }}</span>
+
+              </p>
+              <br />
+              <p class="describe">{{ movie.synopsis }}</p>
+
+            </div>
+          </div>
+
+          <div class="topbar-filter">
+            <label>Movies per page:</label>
+            <select v-model="size" @change="handleSubmit(page, size)">
+              <option value="10">10 Movies</option>
+              <option value="20">20 Movies</option>
+            </select>
+            <div v-if="totalPages <= 10" class="pagination2">
+              <span>Page {{ page + 1 }} of {{ totalPages }}:</span>
+              <a v-for="n in totalPages" :key="n" :class="{ active: n === page + 1 }" @click="handleSubmit(n - 1, size)">
+                {{ n }}
+              </a>
+              <a href="#"><i class="ion-arrow-right-b"></i></a>
+            </div>
+            <div v-if="totalPages > 10" class="pagination2">
+              <span>Page {{ page + 1 }} of {{ totalPages }}:</span>
+              <a v-for="n in 8" :key="n" :class="{ active: n === page + 1 }" @click="handleSubmit(n - 1, size)">{{ n
+              }}</a>
+              <a>...</a>
+              <a v-for="n in 2" :key="n" @click="handleSubmit(n - 1, size)">{{ totalPages - 2 + n }}</a>
+              <a href="#"><i class="ion-arrow-right-b"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
   
 <script>
+import Movie from "@/models/movie";
 import MovieService from "@/services/movie.service.js";
-// import Movie from "@/models/movie";
+// import UserService from "@/services/user.service.js";
+import Modal from "@/components/Modal.vue";
 
 export default {
+  name: "SearchPage",
+  components: {
+    Modal,
+  },
   data() {
     return {
+
       searchType: "title",
-      searchTerm: "",
-      movies: [],
-      page:"",
-      size:"",
-      numberOfElements:"",
-      totalPages:"",
-      totalElements:""
+      submit: "",
+      moviesList: [],
+      page: "",
+      size: "",
+      totalPages: "",
+      totalElements: 0,
+      numberElements: 0,
+      listType: "",
+      isModalOpen: false,
+      modalTitle: "",
+      modalMessage: "",
+      modalStatus: "",
+      modalType: "",
+      modalTypeAction: "",
     };
   },
   methods: {
-    handleSubmit() {
+    // async getMovieListByType(page, size) {
+    //   switch (this.listType) {
+    //     case "1":
+    //       //Recommendations
+    //       this.getRecommendations(page, size);
+    //       break;
+    //     case "2":
+    //       //In Theaters
+    //       this.getInTheatersMovies(page, size);
+    //       break;
+    //     case "3":
+    //       //In Streaming
+    //       this.getInStreamingMovies(page, size);
+    //       break;
+    //     case "4":
+    //       //Coming Soon
+    //       this.getComingSoonMovies(page, size);
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    // },
+    handleSubmit(page, size) {
       switch (this.searchType) {
         case "title":
-          this.searchTitle(this.searchTerm);
+          this.searchTitle(page, size);
           break;
         case "genre":
-          this.searchGenre(this.searchTerm);
+          this.searchGenre(page, size);
           break;
         case "year":
-          this.searchReleaseYear(this.searchTerm);
+          this.searchReleaseYear(page, size);
           break;
         default:
-          console.log("Invalid search type");
-          alert("Not found! Please try again.");
+          console.log("Invalid search");
           break;
       }
     },
+    closeModal() {
+      this.isModalOpen = false;
+    }
+    ,
+    searchTitle(page, size) {
+      console.log(page + "," + size);
+      MovieService.getMoviesByTitle(this.submit, page, size).then(
+        async (response) => {
 
-    searchTitle() {
-      console.log(this.searchTerm);
-      MovieService.getMoviesByTitle(this.searchTerm)
-        .then((response) => {
+          this.totalPages = response.totalPages;
+          this.numberElements = response.numberOfElements;
+          this.page = response.number;
+
           console.log(response);
-          this.movies = response;
-        })
-        .catch((error) => {
-          this.searchTerm = "";
-          console.log(error.response.data);
-        });
+          console.log(response.content);
+
+          const moviesListPromise = response.content.map(async (movieData) => {
+            // //Getting the rating by movie
+            // const ratingResponse = await UserService.getRatingByMovie(
+            //   movieData.id
+            // );
+
+            // const movieRating = ratingResponse;
+            // const totalRatings = movieRating.length;
+            // const sumRatings = totalRatings == 0 ? 0 : movieRating.reduce(
+            //   (sum, rating) => sum + rating.userRating, 0
+            // );
+            // const avgRating = totalRatings > 0 ? sumRatings / totalRatings : 0;
+            const movie = new Movie(
+              movieData.id,
+              movieData.title,
+              movieData.genre.split(","),
+              movieData.releaseDate,
+              movieData.length,
+              movieData.synopsis,
+              movieData.classificationRating,
+              movieData.movieTrailerLink,
+              movieData.isInTheaters,
+              movieData.isInStreaming,
+              movieData.isComingSoon,
+              movieData.whereToWatch,
+              movieData.posterImage,
+              movieData.trailerImage
+            );
+            // movie.setAvgRating(avgRating.toFixed(1));
+            return movie;
+          });
+          this.moviesList = await Promise.all(moviesListPromise);
+          // this.moviesList.sort((a, b) => b.avgRating - a.avgRating);
+        }
+      ).catch(
+        (error) => {
+          // this.submit = "";
+          this.modalTitle = "Error";
+          this.modalMessage =
+            "We couldn't find the movies. Insert or try other keywords.";
+          this.modalStatus = "error";
+          this.isModalOpen = true;
+          console.log(error);
+        }
+      );
     },
-    searchGenre() {
-      console.log(this.searchTerm);
-      MovieService.getMoviesByGenre(this.searchTerm)
-        .then((response) => {
+    searchGenre(page, size) {
+      console.log(page + "," + size);
+      MovieService.getMoviesByGenre(this.submit, page, size).then(
+        async (response) => {
+          this.totalPages = response.totalPages;
+          this.numberElements = response.numberOfElements;
+          this.page = response.number;
+
           console.log(response);
-          this.movies = response;
-        })
-        .catch((error) => {
-          this.searchTerm = "";
-          console.log(error.response.data);
-        });
+          console.log(response.content);
+
+          const moviesListPromise = response.content.map(async (movieData) => {
+            // //Getting the rating by movie
+            // const ratingResponse = await UserService.getRatingByMovie(
+            //   movieData.id
+            // );
+
+            // const movieRating = ratingResponse;
+            // const totalRatings = movieRating.length;
+            // const sumRatings = totalRatings == 0 ? 0 : movieRating.reduce(
+            //   (sum, rating) => sum + rating.userRating, 0
+            // );
+            // const avgRating = totalRatings > 0 ? sumRatings / totalRatings : 0;
+            const movie = new Movie(
+              movieData.id,
+              movieData.title,
+              movieData.genre.split(","),
+              movieData.releaseDate,
+              movieData.length,
+              movieData.synopsis,
+              movieData.classificationRating,
+              movieData.movieTrailerLink,
+              movieData.isInTheaters,
+              movieData.isInStreaming,
+              movieData.isComingSoon,
+              movieData.whereToWatch,
+              movieData.posterImage,
+              movieData.trailerImage
+            );
+            // movie.setAvgRating(avgRating.toFixed(1));
+            return movie;
+          });
+          this.moviesList = await Promise.all(moviesListPromise);
+          // this.moviesList.sort((a, b) => b.avgRating - a.avgRating);
+        }
+      ).catch(
+        (error) => {
+          // this.submit = "";
+          this.modalTitle = "Error";
+          this.modalMessage =
+            "We couldn't find the movies. Insert or try other keywords.";
+          this.modalStatus = "error";
+          this.isModalOpen = true;
+          console.log(error);
+        }
+      );
     },
-    searchReleaseYear() {
-      console.log(this.searchTerm);
-      MovieService.getMoviesByYear(this.searchTerm)
-        .then((response) => {
+    searchReleaseYear(page, size) {
+      console.log(page + "," + size);
+      MovieService.getMoviesByYear(this.submit, page, size).then(
+        async (response) => {
+
+          this.totalPages = response.totalPages;
+          this.numberElements = response.numberOfElements;
+          this.page = response.number;
+
           console.log(response);
-          this.movies = response;
-        })
-        .catch((error) => {
-          this.searchTerm = "";
-          console.log(error.response.data);
-        });
+          console.log(response.content);
+
+          const moviesListPromise = response.content.map(async (movieData) => {
+            // //Getting the rating by movie
+            // const ratingResponse = await UserService.getRatingByMovie(
+            //   movieData.id
+            // );
+
+            // const movieRating = ratingResponse;
+            // const totalRatings = movieRating.length;
+            // const sumRatings = totalRatings == 0 ? 0 : movieRating.reduce(
+            //   (sum, rating) => sum + rating.userRating, 0
+            // );
+            // const avgRating = totalRatings > 0 ? sumRatings / totalRatings : 0;
+            const movie = new Movie(
+              movieData.id,
+              movieData.title,
+              movieData.genre.split(","),
+              movieData.releaseDate,
+              movieData.length,
+              movieData.synopsis,
+              movieData.classificationRating,
+              movieData.movieTrailerLink,
+              movieData.isInTheaters,
+              movieData.isInStreaming,
+              movieData.isComingSoon,
+              movieData.whereToWatch,
+              movieData.posterImage,
+              movieData.trailerImage
+            );
+            // movie.setAvgRating(avgRating.toFixed(1));
+            return movie;
+          });
+          this.moviesList = await Promise.all(moviesListPromise);
+          // this.moviesList.sort((a, b) => b.avgRating - a.avgRating);
+        }
+      ).catch(
+        (error) => {
+          // this.submit = "";
+          this.modalTitle = "Error";
+          this.modalMessage =
+            "We couldn't find the movies. Insert or try other keywords.";
+          this.modalStatus = "error";
+          this.isModalOpen = true;
+          console.log(error);
+        }
+      );
     },
-  },
-  mounted() {
-    this.searchTerm = "";
   },
   watch: {
-    searchType: function () {
-      this.searchTerm = "";
+      searchType: function () {
+        this.submit = "";
+      },
     },
+
+  created() {
+    this.listType = this.$route.params.listType;
+    this.userId = this.$store.state.auth.user.id;
+    this.page = 0;
+    this.size = 10;
+    this.sortBy = "title-desc";
+    // this.getMovieListByType(this.page, this.size);
   },
 };
 </script>
