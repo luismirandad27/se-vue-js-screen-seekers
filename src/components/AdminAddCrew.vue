@@ -67,11 +67,6 @@
 import Admin from "../services/admin.service.js";
 export default {
   name: "AdminAddCrew",
-  computed: {
-    id() {
-      return this.$route.params.id;
-    },
-  },
   data() {
     return {
       object: {},
@@ -108,9 +103,31 @@ export default {
       }
     },
   },
+  computed: {
+    loggedIn() {
+      var loggedInValue = this.$store.state.auth.status.loggedIn;
+      return loggedInValue;
+    },
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    isAdmin() {
+      if (this.currentUser != null)
+        return this.$store.state.auth.user.roles.includes("ROLE_ADMIN");
+      else return false;
+    },
+    id() {
+      return this.$route.params.id;
+    },
+  },
   mounted() {
-    this.getAmovie();
-    this.getAllCew();
+    if(this.loggedIn && this.isAdmin){
+      this.getAmovie();
+      this.getAllCew();
+    }else{
+      this.$router.push("/error");
+    }
+    
   },
 };
 </script>

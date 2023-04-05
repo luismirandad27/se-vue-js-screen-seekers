@@ -159,6 +159,7 @@
                 class="btn btn-default dropdown-toggle lv1"
                 data-toggle="dropdown"
                 data-hover="dropdown"
+                @click="$router.push('/movies/search')"
               >
                 movies
               </a>

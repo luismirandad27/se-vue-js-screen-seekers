@@ -1,23 +1,21 @@
 
 import { createWebHistory, createRouter } from "vue-router";
 import MainPage from './components/MainPage.vue'
-import UserMainPage from './components/UserMainPage.vue'
 import adminPage from './components/AdminPage.vue'
-// import admiPageCopy from './components/AdminPagecopy.vue'
 import adminPageViewId from './components/AdminPageViewId.vue'
 import adminAddMovie from './components/AdminAddMovie.vue'
 import adminUpdateMovie from './components/AdminUpdateMovie.vue'
-import adminPageaddCrew from './components/adminPageAddCrew.vue'
+import adminPageaddCrew from './components/AdminPageaddCrew.vue'
 import adminPageViewCrew from './components/AdminPageViewCrew.vue'
 import adminPageUpdateCrew from './components/AdminPageUpdateCrew.vue'
 import UserProfilePage from './components/UserProfilePage.vue'
-/* eslint-disable */
 import MovieList from './components/MovieList.vue'
 import MovieDetail from './components/MovieDetail.vue'
 import SearchPage from './components/SearchPage.vue'
 import UserWatchlistDetail from './components/UserWatchlistDetail.vue'
 import AdmingetAllCrew from './components/AdminGetAllCrew.vue'
 import AdminAddCrew from './components/AdminAddCrew.vue'
+import ErrorPage from './components/Error.vue'
 
 
 const routes = [
@@ -25,11 +23,6 @@ const routes = [
         path: '/',
         name: 'MainPage',
         component: MainPage
-    },
-    {
-        path: '/userMainPage',
-        name: 'UserMainPage',
-        component: UserMainPage
     },
     {
         path:"/admin/movies",
@@ -93,7 +86,7 @@ const routes = [
         component: AdminAddCrew
     },
     {
-        path: '/search',
+        path: '/movies/search',
         name: 'SearchPage',
         component: SearchPage
     },
@@ -101,6 +94,11 @@ const routes = [
         path: '/watchlistDetail/:watchlistId',
         name: 'UserWatchlistDetail',
         component: UserWatchlistDetail
+    },
+    {
+        path: '/error',
+        name: 'Error',
+        component: ErrorPage
     }
 ];
 

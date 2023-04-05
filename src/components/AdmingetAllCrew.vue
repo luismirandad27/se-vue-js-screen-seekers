@@ -127,6 +127,20 @@ export default {
       modalStatus: "",
     };
   },
+  computed: {
+    loggedIn() {
+      var loggedInValue = this.$store.state.auth.status.loggedIn;
+      return loggedInValue;
+    },
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    isAdmin() {
+      if (this.currentUser != null)
+        return this.$store.state.auth.user.roles.includes("ROLE_ADMIN");
+      else return false;
+    }
+  },
   methods: {
     async getAllCrew(page,size) {
       this.page = page;
@@ -154,7 +168,12 @@ export default {
     }
   },
   created() {
-    this.getAllCrew(this.page,this.size);
+    if(this.loggedIn && this.isAdmin){
+      this.getAllCrew(this.page,this.size);
+    }else{
+      this.$router.push("/error");
+    }
+    
   },
   watch:{
     size(newValue, oldValue){

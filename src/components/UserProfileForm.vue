@@ -239,34 +239,6 @@ export default {
         }
       );
     },
-    updateProfileImage() {
-      //trigger the upload file form
-      const input = document.createElement("input");
-      input.type = "file";
-      input.accept = "image/*";
-      //open the file upload form
-      input.onchange = () => {
-        const file = input.files[0];
-        UserService.updateUserProfileImage(this.userId, file).then(
-          (response) => {
-            this.user.profileImage = response.profileImage;
-            this.modalTitle = "Success!";
-            this.modalMessage = "User avatar has been changed successfully!";
-            this.modalStatus = "success";
-            this.isModalOpen = true;
-          },
-          (error) => {
-            this.modalTitle = "Error";
-            this.modalMessage =
-              "We couldn't perfom the operation. Try again later";
-            this.modalStatus = "error";
-            this.isModalOpen = true;
-            console.log(error);
-          }
-        );
-      };
-      input.click();
-    },
     handleUpdateProfile(e) {
       e.preventDefault();
       const inputElements = e.target.elements;
@@ -412,8 +384,27 @@ export default {
       this.$router.push("/watchlists/" + this.userId);
     },
   },
+  computed: {
+    loggedIn() {
+      var loggedInValue = this.$store.state.auth.status.loggedIn;
+      return loggedInValue;
+    },
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    isAdmin() {
+      if (this.currentUser != null)
+        return this.$store.state.auth.user.roles.includes("ROLE_ADMIN");
+      else return false;
+    },
+  },
   created() {
-    this.getUserProfileInfo();
+    if (this.loggedIn){
+      this.getUserProfileInfo();
+    }
+    else{
+      this.$router.push("/error");
+    }
   },
 };
 </script>

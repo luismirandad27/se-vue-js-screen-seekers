@@ -58,7 +58,6 @@
                 <router-link :to="'/movies/' + movie.id">{{
                   movie.title
                 }}</router-link>
-                <span> ({{ movie.releaseDate }})</span>
               </h6>
               <!-- <p class="rate">
                 <i class="ion-android-star"></i><span>{{ movie.avgRating }}</span> /5
@@ -135,29 +134,22 @@ export default {
       modalTypeAction: "",
     };
   },
+  computed: {
+    loggedIn() {
+      var loggedInValue = this.$store.state.auth.status.loggedIn;
+      return loggedInValue;
+    },
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    isAdmin(){
+      if( this.currentUser != null)
+        return this.$store.state.auth.user.roles.includes('ROLE_ADMIN');
+      else
+        return false;
+    }  
+  },
   methods: {
-    // async getMovieListByType(page, size) {
-    //   switch (this.listType) {
-    //     case "1":
-    //       //Recommendations
-    //       this.getRecommendations(page, size);
-    //       break;
-    //     case "2":
-    //       //In Theaters
-    //       this.getInTheatersMovies(page, size);
-    //       break;
-    //     case "3":
-    //       //In Streaming
-    //       this.getInStreamingMovies(page, size);
-    //       break;
-    //     case "4":
-    //       //Coming Soon
-    //       this.getComingSoonMovies(page, size);
-    //       break;
-    //     default:
-    //       break;
-    //   }
-    // },
     handleSubmit(page, size) {
       switch (this.searchType) {
         case "title":
@@ -186,22 +178,9 @@ export default {
           this.totalPages = response.totalPages;
           this.numberElements = response.numberOfElements;
           this.page = response.number;
-
-          console.log(response);
-          console.log(response.content);
-
+          
           const moviesListPromise = response.content.map(async (movieData) => {
-            // //Getting the rating by movie
-            // const ratingResponse = await UserService.getRatingByMovie(
-            //   movieData.id
-            // );
-
-            // const movieRating = ratingResponse;
-            // const totalRatings = movieRating.length;
-            // const sumRatings = totalRatings == 0 ? 0 : movieRating.reduce(
-            //   (sum, rating) => sum + rating.userRating, 0
-            // );
-            // const avgRating = totalRatings > 0 ? sumRatings / totalRatings : 0;
+            
             const movie = new Movie(
               movieData.id,
               movieData.title,
@@ -248,17 +227,7 @@ export default {
           console.log(response.content);
 
           const moviesListPromise = response.content.map(async (movieData) => {
-            // //Getting the rating by movie
-            // const ratingResponse = await UserService.getRatingByMovie(
-            //   movieData.id
-            // );
-
-            // const movieRating = ratingResponse;
-            // const totalRatings = movieRating.length;
-            // const sumRatings = totalRatings == 0 ? 0 : movieRating.reduce(
-            //   (sum, rating) => sum + rating.userRating, 0
-            // );
-            // const avgRating = totalRatings > 0 ? sumRatings / totalRatings : 0;
+            
             const movie = new Movie(
               movieData.id,
               movieData.title,
@@ -275,15 +244,14 @@ export default {
               movieData.posterImage,
               movieData.trailerImage
             );
-            // movie.setAvgRating(avgRating.toFixed(1));
+            
             return movie;
           });
           this.moviesList = await Promise.all(moviesListPromise);
-          // this.moviesList.sort((a, b) => b.avgRating - a.avgRating);
         }
       ).catch(
         (error) => {
-          // this.submit = "";
+          
           this.modalTitle = "Error";
           this.modalMessage =
             "We couldn't find the movies. Insert or try other keywords.";
@@ -306,17 +274,6 @@ export default {
           console.log(response.content);
 
           const moviesListPromise = response.content.map(async (movieData) => {
-            // //Getting the rating by movie
-            // const ratingResponse = await UserService.getRatingByMovie(
-            //   movieData.id
-            // );
-
-            // const movieRating = ratingResponse;
-            // const totalRatings = movieRating.length;
-            // const sumRatings = totalRatings == 0 ? 0 : movieRating.reduce(
-            //   (sum, rating) => sum + rating.userRating, 0
-            // );
-            // const avgRating = totalRatings > 0 ? sumRatings / totalRatings : 0;
             const movie = new Movie(
               movieData.id,
               movieData.title,
@@ -337,11 +294,9 @@ export default {
             return movie;
           });
           this.moviesList = await Promise.all(moviesListPromise);
-          // this.moviesList.sort((a, b) => b.avgRating - a.avgRating);
         }
       ).catch(
         (error) => {
-          // this.submit = "";
           this.modalTitle = "Error";
           this.modalMessage =
             "We couldn't find the movies. Insert or try other keywords.";
@@ -357,14 +312,21 @@ export default {
         this.submit = "";
       },
     },
-
   created() {
     this.listType = this.$route.params.listType;
-    this.userId = this.$store.state.auth.user.id;
-    this.page = 0;
-    this.size = 10;
-    this.sortBy = "title-desc";
-    // this.getMovieListByType(this.page, this.size);
+    if (this.loggedIn){
+      //check the role
+      if (!this.isAdmin){
+        this.userId = this.$store.state.auth.user.id;
+        this.page = 0;
+        this.size = 10;
+        this.sortBy = "title-desc";
+      }else{
+        this.$router.push("/error");  
+      }
+    }else{
+      this.$router.push("/error");
+    }
   },
 };
 </script>

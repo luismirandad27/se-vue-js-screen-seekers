@@ -286,9 +286,28 @@ export default {
       this.isModalOpen=false;
     }
   },
+  computed: {
+    loggedIn() {
+      var loggedInValue = this.$store.state.auth.status.loggedIn;
+      return loggedInValue;
+    },
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    isAdmin() {
+      if (this.currentUser != null)
+        return this.$store.state.auth.user.roles.includes("ROLE_ADMIN");
+      else return false;
+    }
+  },
   created(){
-    document.title = 'SS - Admin - Movies';
-    this.getAllMovies(this.page,this.size);
+    if (this.loggedIn && this.isAdmin){
+      document.title = 'SS - Admin - Movies';
+      this.getAllMovies(this.page,this.size);
+    }else{
+      this.$router.push("/error");
+    }
+    
   },
 
   watch:{
