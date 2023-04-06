@@ -13,7 +13,7 @@ import MovieList from './components/MovieList.vue'
 import MovieDetail from './components/MovieDetail.vue'
 import SearchPage from './components/SearchPage.vue'
 import UserWatchlistDetail from './components/UserWatchlistDetail.vue'
-import AdmingetAllCrew from './components/AdminGetAllCrew.vue'
+import AdminGetAllCrew from './components/AdminGetAllCrew.vue'
 import AdminAddCrew from './components/AdminAddCrew.vue'
 import ErrorPage from './components/Error.vue'
 
@@ -78,7 +78,7 @@ const routes = [
     {
         path:"/admin/crews",
         name:"getAllCrew",
-        component: AdmingetAllCrew
+        component: AdminGetAllCrew
     },
     {
         path:"/addCrew/:id",
