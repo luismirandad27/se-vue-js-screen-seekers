@@ -792,7 +792,7 @@
 	</div>
 </div>
 <!-- footer section-->
-<footer class="ht-footer">
+<!-- <footer class="ht-footer">
 	<div class="container">
 		<div class="flex-parent-ft">
 			<div class="flex-child-ft item1">
@@ -847,7 +847,7 @@
 			<p><a href="#" id="back-to-top">Back to top  <i class="ion-ios-arrow-thin-up"></i></a></p>
 		</div>
 	</div>
-</footer>
+</footer> -->
 <!-- end of footer section-->
 
 </body>
