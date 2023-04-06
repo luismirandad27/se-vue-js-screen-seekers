@@ -4,7 +4,8 @@
             <form class="user">
 						<h4>Add Movie
                             <br>
-                            {{ result }}
+                            <!-- {{ img }}{{ img2 }} -->
+							{{ result }}
                         </h4>
 						<div class="row">
 							<div class="col-md-6 form-it">
@@ -101,6 +102,7 @@
 </template>
 
 <script>
+// import { tSExpressionWithTypeArguments } from '@babel/types';
 import Admin from '../services/admin.service.js'; 
 export default {
     name:"adminUpdateMovie",
@@ -112,7 +114,9 @@ export default {
             },
             result:"",
 			posterImage:null,
-			trailerImage:null
+			trailerImage:null,
+			img:"",
+			img2:""
             
         }
     },
@@ -145,17 +149,22 @@ export default {
 		this.trailerImage=event.target.files[0];
 	},
 
-        updateMovie(){
+     async   updateMovie(){
             try{
-               const response2= Admin.updateMovie(this.id, this.model);
+               const response2=await Admin.updateMovie(this.id, this.model);
                 this.result="nothing to see heree" + response2;
 				
 				const formData = new FormData();
 				formData.append('poster-image', this.posterImage);
 				formData.append('trailer-image', this.trailerImage);
-				const res = Admin.uploadImage(this.id, formData);
-				console.log(res);
-
+				const res =await Admin.uploadImage(this.id, formData);
+				
+				console.log(res.data);
+				this.result=res.data;
+				this.img=res.data.posterImage;
+				this.img2=res.data.trailerImage;
+				localStorage.setItem("img", this.img);
+				localStorage.setItem("img2",this.img2);
 			
 
             }catch(error){

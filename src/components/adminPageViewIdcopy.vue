@@ -33,7 +33,8 @@
 		<div class="row ipad-width2">
 			<div class="col-md-4 col-sm-12 col-xs-12">
 				<div class="movie-img sticky-sb">
-					<img src="images/uploads/movie-single.jpg" alt="">
+					<!-- this is where to show photo -->
+					<img :src="$MOVIE_PHOTOS_URL + '/' + 'poster.jpg'" alt="">
 					<div class="movie-btn" >	
 						<div class="btn-transform transform-vertical red" >
 							<div><a href="#" class="item item-1 redbtn" > <i class="ion-trash-a" ></i>DELETE THIS MOVIE</a></div>
