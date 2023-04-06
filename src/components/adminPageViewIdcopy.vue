@@ -53,7 +53,7 @@
 			</div>
 			<div class="col-md-8 col-sm-12 col-xs-12">
 				<div class="movie-single-ct main-content">
-					<h1 class="bd-hd">{{object.title}}<span>{{object.releaseDate}}</span></h1>
+					<h1 class="bd-hd">{{object.title}}&nbsp;<span>{{year}}</span></h1>
 					<div class="social-btn">
 						<a href="#" class="parent-btn"><i class="ion-heart"></i><router-link :to="'/addCrew/'+object.id">Add to a Crew</router-link> </a>
 						<div class="hover-bnt">
@@ -873,7 +873,8 @@
           movieRole:"",
           characterName:""
         },
-        crewForThisMovie:{}
+        crewForThisMovie:{},
+		year:""
       }
     },
     computed: {
@@ -888,6 +889,7 @@
             
             this.object=response;
             console.log(response);
+			this.year=response.releaseDate.substring(0, 4);
             }catch(error){
                 this.object="ERROR";
             }

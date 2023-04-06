@@ -91,10 +91,10 @@
 					<!-- <img src="images/uploads/mv1.jpg" alt=""> -->
 					<img :src="`${$MOVIE_PHOTOS_URL}/${movie.trailerImage}`" alt="">
 					<div class="mv-item-infor">
-						<h6><a href="moviesingle.html"><router-link :to="'/adminPage/'+movie.id">{{ movie.title }} </router-link><span>{{ movie.releaseDate }}</span></a></h6>
+						<h6><a href="moviesingle.html"><router-link :to="'/adminPage/'+movie.id">{{ movie.title }}</router-link>&nbsp;<span  class="release-year">{{ getReleaseYear(movie.releaseDate) }}</span></a></h6>
 						<p class="rate"><i class="ion-android-star"></i><span>8.1</span> /10</p>
 						<p class="describe">{{ movie.synopsis }}</p>
-						<p class="run-time"> {{movie.length}}    .     <span>{{movie.classificationRating}}</span>    .     <span>{{ movie.releaseDate }}</span></p>
+						<p class="run-time"> {{movie.length}}    .     <span>{{movie.classificationRating}}</span>    .     <span>{{ getReleaseYear(movie.releaseDate) }}</span></p>
 						<p>Director: <a href="#">Joss Whedon</a></p>
 						<p>Stars: <a href="#">Robert Downey Jr.,</a> <a href="#">Chris Evans,</a> <a href="#">  Chris Hemsworth</a></p>
 					</div>
@@ -271,14 +271,26 @@ export default{
     data(){
         return{
             result:{},
-            resultCrew:{}
+            resultCrew:{},
+			year:""
         }
     },
+	computed: {
+  getReleaseYear() {
+    return function(releaseDate) {
+      if (releaseDate) {
+        return releaseDate.slice(0, 4);
+      }
+      return '';
+    }
+  }
+},
     methods:{
         async getAllMovies(){
             const response = await Admin.getMovies();
             this.result=response;
-            console.log(response);
+			console.log(response.content.releaseDate);
+			
            
         },
         addMovie(){
@@ -308,8 +320,9 @@ export default{
         deleteAllCrew(){
             const response = Admin.deleteAllCrew();
             this.resultCrew=response;
-        },
+        }
         
-    }
+    },
+	
 }
   </script>
