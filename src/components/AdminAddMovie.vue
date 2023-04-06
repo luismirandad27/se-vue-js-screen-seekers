@@ -169,11 +169,22 @@ export default {
     };
   },
   computed: {
+    loggedIn() {
+      var loggedInValue = this.$store.state.auth.status.loggedIn;
+      return loggedInValue;
+    },
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    isAdmin() {
+      if (this.currentUser != null)
+        return this.$store.state.auth.user.roles.includes("ROLE_ADMIN");
+      else return false;
+    },
     id() {
       return this.$route.params.id;
     },
   },
-
   methods: {
     saveMovie() {
       try {
@@ -217,5 +228,10 @@ export default {
       }
     }
   },
+  created(){
+    if(!this.loggedIn || !this.isAdmin){
+      this.$router.push("/error");
+    }
+  }
 };
 </script>

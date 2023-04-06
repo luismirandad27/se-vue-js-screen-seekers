@@ -1,4 +1,14 @@
 <template>
+  <transition name="modal">
+    <modal
+      :title="modalTitle"
+      :status="modalStatus"
+      v-if="isModalOpen"
+      @close="closeModal"
+    >
+      <p>{{ modalMessage }}</p>
+    </modal>
+  </transition>
   <div class="hero user-hero">
     <div class="container">
       <div class="row">
@@ -36,7 +46,7 @@
               <a v-if="user.profileImage == null" href="#"><img src="../../public/images/user-no-name.jpg"
                   alt="No User Profile" /><br /></a>
               
-              <a href="#" class="redbtn" @click="updateProfileImage">Change avatar</a>
+              <a class="redbtn" @click="updateProfileImage">Change avatar</a>
             </div>
             <div class="user-fav">
               <p>Account Details</p>
@@ -44,13 +54,13 @@
                 <li class="active">
                   <a @click="activeTab = 1">Profile</a>
                 </li>
-                <li>
+                <li v-if="!isAdmin">
                   <a @click="activeTab = 2">Recommendations</a>
                 </li>
-                <li>
+                <li v-if="!isAdmin">
                   <a @click="activeTab = 3">Rated Movies</a>
                 </li>
-                <li>
+                <li v-if="!isAdmin">
                   <a @click="activeTab = 4">My Watchlist</a>
                 </li>
               </ul>
@@ -77,9 +87,9 @@ import UserProfileRecommendations from '@/components/UserProfileRecommendations.
 import UserProfileWatchlists from '@/components/UserProfileWatchlists.vue'
 import UserProfileRatings from '@/components/UserProfileRatings.vue'
 
-
 import UserService from "@/services/user.service.js";
 import User from "@/models/user";
+import Modal from '@/components/Modal.vue'
 
 export default {
   name: "UserProfilePage",
@@ -87,7 +97,8 @@ export default {
     UserProfileForm,
     UserProfileRecommendations,
     UserProfileWatchlists,
-    UserProfileRatings
+    UserProfileRatings,
+    Modal
   },
   data(){
     return {
@@ -150,12 +161,61 @@ export default {
         }
       );
     },
+    updateProfileImage() {
+      //trigger the upload file form
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "image/*";
+      //open the file upload form
+      input.onchange = () => {
+        const file = input.files[0];
+        UserService.updateUserProfileImage(this.userId, file).then(
+          (response) => {
+            this.user.profileImage = response.profileImage;
+            this.modalTitle = "Success!";
+            this.modalMessage = "User avatar has been changed successfully!";
+            this.modalStatus = "success";
+            this.isModalOpen = true;
+          },
+          (error) => {
+            this.modalTitle = "Error";
+            this.modalMessage =
+              "We couldn't perfom the operation. Try again later";
+            this.modalStatus = "error";
+            this.isModalOpen = true;
+            console.log(error);
+          }
+        );
+      };
+      input.click();
+    },
+    closeModal(){
+      this.isModalOpen = false;
+    }
+  },
+  computed: {
+    loggedIn() {
+      var loggedInValue = this.$store.state.auth.status.loggedIn;
+      return loggedInValue;
+    },
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    isAdmin() {
+      if (this.currentUser != null)
+        return this.$store.state.auth.user.roles.includes("ROLE_ADMIN");
+      else return false;
+    },
   },
   created() {
-    document.title = 'SS - My Account';
-    this.activeTab = this.$route.query.activeTab || 1;
-    console.log(this.activeTab);
-    this.getUserProfileInfo()
+    if (this.loggedIn){
+      document.title = 'SS - My Account';
+      this.activeTab = this.$route.query.activeTab || 1;
+      this.getUserProfileInfo()
+    }else{
+      this.$router.push("/error");
+    }
+    
   },
 }
 </script>

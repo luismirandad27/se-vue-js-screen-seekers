@@ -1,20 +1,10 @@
 <template>
-    <transition name="modal">
-    <modal
-      :title="modalTitle"
-      :status="modalStatus"
-      v-if="isModalOpen"
-      @close="closeModal"
-    >
-      <p>{{ modalMessage }}</p>
-    </modal>
-  </transition>
   <div class="hero common-hero">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
           <div class="hero-ct">
-            <h1>CREW UPDATE</h1>
+            <h1>NEW CREW</h1>
             <ul class="breadcumb">
               <!--- <li class="active"><a href="#">User</a></li> -->
               <li class="active">
@@ -28,8 +18,9 @@
     </div>
   </div>
   <div class="page-single" style="padding-top: 0; padding-bottom: 15px">
-    <div class="container">
-        <form @submit.prevent="UpdateCrew()">
+    
+      <div class="container">
+        <form @submit.prevent="saveCrew">
           <div class="form-style-1 user-pro">
             <div class="user">
               <div class="row">
@@ -40,6 +31,7 @@
                     placeholder="First Name"
                     v-model="model.firstName"
                     id="firstName"
+                    required
                   />
                 </div>
                 <div class="col-md-6 form-it">
@@ -49,17 +41,19 @@
                     placeholder="Last Name"
                     v-model="model.lastName"
                     id="lastName"
+                    required
                   />
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-6 form-it">
-                  <label>Date of Birth (MM/DD/YYYY)</label>
+                  <label>Date Of Birth (MM/DD/YYYY)</label>
                   <input
                     type="text"
                     placeholder="Date of Birth"
                     v-model="model.dateOfBirth"
                     id="dateOfBirth"
+                    required
                   />
                 </div>
                 <div class="col-md-6 form-it">
@@ -69,6 +63,7 @@
                     placeholder="Nationality"
                     v-model="model.nationality"
                     id="nationality"
+                    required
                   />
                 </div>
               </div>
@@ -77,7 +72,7 @@
                   <label>Award</label>
                   <input
                     type="text"
-                    placeholder="Award(s)"
+                    placeholder="Any Award"
                     v-model="model.award"
                     id="award"
                   />
@@ -89,8 +84,7 @@
                 <input
                   class="submit"
                   type="submit"
-                  value="Update"
-                  @click="UpdateCrew"
+                  value="save"
                 />
               </div>
             </div>
@@ -101,19 +95,12 @@
         </div>
       </div>
     </div>
-
 </template>
 <script>
-import Admin from "../services/admin.service.js";
-
-// importing Modal Vue Component
-import Modal from "@/components/Modal.vue";
+import Admin from '../services/admin.service.js'
 
 export default {
-  name: "AdminPageUpdateCrew",
-  components: {
-    Modal,
-  },
+  name: "AdminPageAddCrew",
   data() {
     return {
       model: {
@@ -125,79 +112,55 @@ export default {
         createdAt: "",
       },
       result: {},
-      isModalOpen: false,
-      modalTitle: "",
-      modalMessage: "",
-      modalStatus: "",
     };
   },
   computed: {
-    id() {
-      return this.$route.params.id;
+    loggedIn() {
+      var loggedInValue = this.$store.state.auth.status.loggedIn;
+      return loggedInValue;
     },
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    isAdmin() {
+      if (this.currentUser != null)
+        return this.$store.state.auth.user.roles.includes("ROLE_ADMIN");
+      else return false;
+    },
+    id () {
+      return this.$route.params.id
+    }
   },
   methods: {
-    async UpdateCrew() {
-        if (this.model.dateOfBirth != "") {
-          //validate if it's in the right format
-          const dateRegex =
-            /^(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])\/\d{4}$/;
-          const isValid = dateRegex.test(this.model.dateOfBirth);
-
-          if (isValid) {
-            const date = new Date(this.model.dateOfBirth);
-            const formattedDate = date.toISOString();
-            this.model.dateOfBirth = formattedDate;
-          } else {
-            console.log("not valid");
-            return;
-          }
+    async saveCrew() {
+      if (this.model.dateOfBirth != "") {
+        //validate if it's in the right format
+        const dateRegex =
+          /^(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])\/\d{4}$/;
+        const isValid = dateRegex.test(this.model.dateOfBirth);
+        
+        if (isValid) {
+          const date = new Date(this.model.dateOfBirth);
+          const formattedDate = date.toISOString();
+          this.model.dateOfBirth = formattedDate;
         } else {
-          this.model.dateOfBirth = null;
           return;
         }
-        
-        await Admin.UpdateCrew(this.id, this.model);
-        this.modalTitle = "Success!";
-        this.modalTypeAction = "";
-        this.modalType = "";
-        this.modalMessage = "Crew information has been updated successfully!";
-        this.modalStatus = "success";
-        this.isModalOpen = true;
-        this.getACrew();
-
-      
-    },
-    closeModal(){
-        this.isModalOpen = false;
-    },
-    async getACrew() {
-      try {
-        const response = await Admin.getCrewById(this.id);
-        this.model = response;
-        if (response.dateOfBirth == null) {
-          this.model.dateOfBirth(null);
-        } else {
-          let date = new Date(response.dateOfBirth);
-          let formattedDate = date.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-          });
-          this.model.dateOfBirth = formattedDate;
-        }
-        
-      } catch (error) {
-        this.object = "ERROR";
+      } else {
+        this.model.dateOfBirth = null;
+        return;
       }
-    },
-    deleteCrew() {
-      const response = Admin.deleteCrew(this.id);
-      this.resultCrew = response;
+
+      await Admin.saveCrew(this.model);
+      
+      this.$router.push("/admin/crews")
+
     },
   },
-  mounted() {
-    this.getACrew();
-  },
+  created(){
+    if(!this.loggedIn || !this.isAdmin){
+      this.$router.push("/error");
+    }
+  }
 };
 </script>

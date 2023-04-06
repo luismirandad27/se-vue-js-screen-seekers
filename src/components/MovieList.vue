@@ -33,9 +33,7 @@
             >
               <img
                 v-if="movie.posterImage != null"
-                :src="
-                  $MOVIE_PHOTOS_URL + '/' + movie.id + '/' + movie.posterImage
-                "
+                :src="$MOVIE_PHOTOS_URL + '/' + movie.posterImage"
                 alt=""
               />
               <img
@@ -169,24 +167,28 @@ export default {
             const ratingResponse = await UserService.getRatingByMovie(
               movieData.id
             );
-            const movieRating = ratingResponse;
-            const totalRatings = movieRating.length;
+            const movieRating = ratingResponse.content;
+            if (movieRating != null) {
+              const totalRatings = movieRating.length;
 
-            if (totalRatings > 0) {
-              const sumRatings =
-                totalRatings == 0
-                  ? 0
-                  : movieRating.reduce(
-                      (sum, rating) => sum + rating.userRating,
-                      0
-                    );
+              if (totalRatings > 0) {
+                const sumRatings =
+                  totalRatings == 0
+                    ? 0
+                    : movieRating.reduce(
+                        (sum, rating) => sum + rating.userRating,
+                        0
+                      );
 
-              const avgRating =
-                totalRatings > 0 ? sumRatings / totalRatings : 0;
+                const avgRating =
+                  totalRatings > 0 ? sumRatings / totalRatings : 0;
 
-              movie.setAvgRating(avgRating.toFixed(1));
+                movie.setAvgRating(avgRating.toFixed(1));
+              } else {
+                movie.setAvgRating(0);
+              }
             } else {
-              movie.setAvgRating(null);
+              movie.setAvgRating(0);
             }
 
             return movie;
@@ -227,24 +229,29 @@ export default {
             const ratingResponse = await UserService.getRatingByMovie(
               movieData.id
             );
-            const movieRating = ratingResponse;
-            const totalRatings = movieRating.length;
+            const movieRating = ratingResponse.content;
 
-            if (totalRatings > 0) {
-              const sumRatings =
-                totalRatings == 0
-                  ? 0
-                  : movieRating.reduce(
-                      (sum, rating) => sum + rating.userRating,
-                      0
-                    );
+            if (movieRating != null) {
+              const totalRatings = movieRating.length;
 
-              const avgRating =
-                totalRatings > 0 ? sumRatings / totalRatings : 0;
+              if (totalRatings > 0) {
+                const sumRatings =
+                  totalRatings == 0
+                    ? 0
+                    : movieRating.reduce(
+                        (sum, rating) => sum + rating.userRating,
+                        0
+                      );
 
-              movie.setAvgRating(avgRating.toFixed(1));
+                const avgRating =
+                  totalRatings > 0 ? sumRatings / totalRatings : 0;
+
+                movie.setAvgRating(avgRating.toFixed(1));
+              } else {
+                movie.setAvgRating(0);
+              }
             } else {
-              movie.setAvgRating(null);
+              movie.setAvgRating(0);
             }
 
             return movie;
@@ -285,24 +292,30 @@ export default {
             const ratingResponse = await UserService.getRatingByMovie(
               movieData.id
             );
-            const movieRating = ratingResponse;
-            const totalRatings = movieRating.length;
 
-            if (totalRatings > 0) {
-              const sumRatings =
-                totalRatings == 0
-                  ? 0
-                  : movieRating.reduce(
-                      (sum, rating) => sum + rating.userRating,
-                      0
-                    );
+            const movieRating = ratingResponse.content;
 
-              const avgRating =
-                totalRatings > 0 ? sumRatings / totalRatings : 0;
+            if (movieRating != null) {
+              const totalRatings = movieRating.length;
 
-              movie.setAvgRating(avgRating.toFixed(1));
+              if (totalRatings > 0) {
+                const sumRatings =
+                  totalRatings == 0
+                    ? 0
+                    : movieRating.reduce(
+                        (sum, rating) => sum + rating.userRating,
+                        0
+                      );
+
+                const avgRating =
+                  totalRatings > 0 ? sumRatings / totalRatings : 0;
+
+                movie.setAvgRating(avgRating.toFixed(1));
+              } else {
+                movie.setAvgRating(0);
+              }
             } else {
-              movie.setAvgRating(null);
+              movie.setAvgRating(0);
             }
 
             return movie;
@@ -316,12 +329,44 @@ export default {
       );
     },
   },
+  computed: {
+    loggedIn() {
+      var loggedInValue = this.$store.state.auth.status.loggedIn;
+      return loggedInValue;
+    },
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    isAdmin() {
+      if (this.currentUser != null)
+        return this.$store.state.auth.user.roles.includes("ROLE_ADMIN");
+      else return false;
+    },
+  },
   created() {
-    this.listType = this.$route.params.listType;
-    this.page = 0;
-    this.size = 10;
-    this.sortBy = "title-desc";
-    this.getMovieListByType(this.page, this.size);
+    if (!this.loggedIn || !this.isAdmin) {
+      this.listType = this.$route.params.listType;
+      switch (this.listType) {
+        case "1":
+          document.title = "SS - In Theaters";
+          break;
+        case "2":
+          document.title = "SS - Streaming Now";
+          break;
+        case "3":
+          document.title = "SS - Coming Soon";
+          break;
+        default:
+          document.title = "Screen Seekers";
+          break;
+      }
+      this.page = 0;
+      this.size = 10;
+      this.sortBy = "title-desc";
+      this.getMovieListByType(this.page, this.size);
+    } else {
+      this.$router.push("/error");
+    }
   },
 };
 </script>

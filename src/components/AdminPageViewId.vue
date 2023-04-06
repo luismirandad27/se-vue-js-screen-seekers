@@ -72,7 +72,10 @@
             <div class="movie-btn">
               <div class="btn-transform red">
                 <div>
-                  <a @click="deleteMovieConfirmation()" class="item item-1 redbtn">
+                  <a
+                    @click="deleteMovieConfirmation()"
+                    class="item item-1 redbtn"
+                  >
                     <i class="ion-trash-a"></i>DELETE THIS MOVIE</a
                   >
                 </div>
@@ -103,10 +106,9 @@
               >
             </h1>
             <div class="social-btn">
-              <router-link :to="'/addCrew/' + movieObj.id"  class="parent-btn"
-                ><i class="ion-plus"></i
-                >Add a Crew Member</router-link
-                >
+              <router-link :to="'/addCrew/' + movieObj.id" class="parent-btn"
+                ><i class="ion-plus"></i>Add a Crew Member</router-link
+              >
             </div>
             <div class="movie-tabs">
               <div class="tabs">
@@ -138,7 +140,13 @@
                               <a href="#">{{ x.charName }} </a>
                             </div>
                             <p>{{ x.firstName }} {{ x.lastName }}</p>
-                            <a @click="remove(x.crewId)" class="redbtn" style="margin-right: 0px;color: white;"> Remove </a>
+                            <a
+                              @click="remove(x.crewId)"
+                              class="redbtn"
+                              style="margin-right: 0px; color: white"
+                            >
+                              Remove
+                            </a>
                           </div>
                         </div>
                       </div>
@@ -152,7 +160,12 @@
                             <a href="#">{{
                               director.firstName + " " + director.lastName
                             }}</a>
-                            <a @click="remove(director.crewId)" style="margin-right: 0px;color: Red;"> (Remove) </a>
+                            <a
+                              @click="remove(director.crewId)"
+                              style="margin-right: 0px; color: Red"
+                            >
+                              (Remove)
+                            </a>
                           </p>
                         </div>
                         <div class="sb-it">
@@ -164,7 +177,12 @@
                             <a href="#">{{
                               writer.firstName + " " + writer.lastName
                             }}</a>
-                            <a @click="remove(writer.crewId)" style="margin-right: 0px;color: Red;"> (Remove) </a>
+                            <a
+                              @click="remove(writer.crewId)"
+                              style="margin-right: 0px; color: Red"
+                            >
+                              (Remove)
+                            </a>
                           </p>
                         </div>
                         <div class="sb-it">
@@ -249,7 +267,7 @@ export default {
     async getAmovie() {
       try {
         const responseMovie = await MovieService.getMovieById(this.movieId);
-        
+
         this.movieObj = new Movie(
           responseMovie.id,
           responseMovie.title,
@@ -293,7 +311,7 @@ export default {
                 prodMember.crewMember.profileImage
               );
             });
-          }else{
+          } else {
             this.directorsArray = [];
           }
 
@@ -316,7 +334,7 @@ export default {
                 prodMember.crewMember.profileImage
               );
             });
-          }else{
+          } else {
             this.writersArray = [];
           }
 
@@ -339,10 +357,10 @@ export default {
                 prodMember.crewMember.profileImage
               );
             });
-          }else{
+          } else {
             this.castsArray = [];
           }
-        }else{
+        } else {
           this.directorsArray = [];
           this.writersArray = [];
           this.castsArray = [];
@@ -364,7 +382,6 @@ export default {
           const avgRating = totalRatings > 0 ? sumRatings / totalRatings : 0;
           this.movieObj.setAvgRating(avgRating.toFixed(1));
         }
-
       } catch (error) {
         console.log(error);
       }
@@ -382,7 +399,7 @@ export default {
             this.movieObj.posterImage = response.data.posterImage;
             this.modalTitle = "Success!";
             this.modalTypeAction = "";
-			      this.modalType = "";
+            this.modalType = "";
             this.modalMessage = "Poster Image has been added successfully!";
             this.modalStatus = "success";
             this.isModalOpen = true;
@@ -390,7 +407,7 @@ export default {
           (error) => {
             this.modalTitle = "Error";
             this.modalTypeAction = "";
-			this.modalType = "";
+            this.modalType = "";
             this.modalMessage =
               "We couldn't perfom the operation. Try again later";
             this.modalStatus = "error";
@@ -414,7 +431,7 @@ export default {
             this.movieObj.trailerImage = response.data.trailerImage;
             this.modalTitle = "Success!";
             this.modalTypeAction = "";
-			this.modalType = "";
+            this.modalType = "";
             this.modalMessage = "Trailer Image has been added successfully!";
             this.modalStatus = "success";
             this.isModalOpen = true;
@@ -422,7 +439,7 @@ export default {
           (error) => {
             this.modalTitle = "Error";
             this.modalTypeAction = "";
-			this.modalType = "";
+            this.modalType = "";
             this.modalMessage =
               "We couldn't perfom the operation. Try again later";
             this.modalStatus = "error";
@@ -441,7 +458,7 @@ export default {
         await Admin.removeCrew(crewId, this.movieId);
         this.modalTitle = "Success!";
         this.modalTypeAction = "";
-		    this.modalType = "";
+        this.modalType = "";
         this.modalMessage =
           "Crew Member has been remove from the movie successfully!";
         this.modalStatus = "success";
@@ -452,32 +469,48 @@ export default {
       }
     },
     deleteMovieConfirmation() {
-	    this.modalType = "confirmation";
+      this.modalType = "confirmation";
       this.modalTypeAction = "deleteMovie";
       this.modalTitle = "Warning";
-      this.modalMessage =
-        "Are you sure you want to delete the movie?";
+      this.modalMessage = "Are you sure you want to delete the movie?";
       this.modalStatus = "confirmation";
       this.isModalOpen = true;
       //const response = Admin.deleteaMovie(id);
       //console.log(response);
     },
-	deleteMovie(){
-		Admin.deleteaMovie(this.movieId).then(
-			(response)=>{
-				console.log(response);
-				this.$router.push("/admin/movies");
-			},
-			(error) =>{
-				console.log(error);
-			}
-		);
-	}
+    deleteMovie() {
+      Admin.deleteaMovie(this.movieId).then(
+        (response) => {
+          console.log(response);
+          this.$router.push("/admin/movies");
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+  },
+  computed: {
+    loggedIn() {
+      var loggedInValue = this.$store.state.auth.status.loggedIn;
+      return loggedInValue;
+    },
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    isAdmin() {
+      if (this.currentUser != null)
+        return this.$store.state.auth.user.roles.includes("ROLE_ADMIN");
+      else return false;
+    },
   },
   created() {
-    this.movieId = this.$route.params.id;
-    this.getAmovie();
-    console.log(this.movieObj);
+    if (this.loggedIn && this.isAdmin) {
+      this.movieId = this.$route.params.id;
+      this.getAmovie();
+    } else {
+      this.$router.push("/error");
+    }
   },
 };
 </script>

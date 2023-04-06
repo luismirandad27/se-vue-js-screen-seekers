@@ -1,6 +1,5 @@
 <template>
-
-<transition name="modal">
+  <transition name="modal">
     <modal
       :title="modalTitle"
       :status="modalStatus"
@@ -19,48 +18,50 @@
               />
             </div>
             <div class="col-md-2 modal-buttons">
-              <input
-                type="submit"
-                class="modal-confirm"
-                value="Create"
-              />
+              <input type="submit" class="modal-confirm" value="Create" />
             </div>
           </div>
         </form>
       </div>
     </modal>
   </transition>
-<div class="col-md-9 col-sm-12 col-xs-12">
-  <div class="row">
+  <div class="col-md-9 col-sm-12 col-xs-12">
+    <div class="row">
       <div class="col-md-12 user-hero-subtitle">
         <h1>My Watchlist</h1>
       </div>
     </div>
-      <div class="row ipad-width2">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-          <div class="row">
-            <div v-for="(watchlist,index) in watchlists" :key="index" class="col-md-4">
-              <div class="ceb-item-style-2">
-                <img src="../../public/images/uploads/ceb23.jpg" alt="" />
-                <div class="ceb-infor">
-                  <h2>
-                    <router-link :to=" 'watchlistDetail/' + watchlist.id">{{ watchlist.name }}</router-link>
-                  </h2>
-                  <span>{{ watchlist.totalMovies }} Movies</span>
-                </div>
+    <div class="row ipad-width2">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="row">
+          <div
+            v-for="(watchlist, index) in watchlists"
+            :key="index"
+            class="col-md-4"
+          >
+            <div class="ceb-item-style-2">
+              <img src="../../public/images/uploads/ceb23.jpg" alt="" />
+              <div class="ceb-infor">
+                <h2>
+                  <router-link :to="'watchlistDetail/' + watchlist.id">{{
+                    watchlist.name
+                  }}</router-link>
+                </h2>
+                <span>{{ watchlist.totalMovies }} Movies</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <a @click="openWatchlistModal()" class="item item-1 redbtn"
-            >New Watchlist</a
-          >
-        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <a @click="openWatchlistModal()" class="item item-1 redbtn"
+          >New Watchlist</a
+        >
+      </div>
+    </div>
   </div>
-</div>
 </template>
 <script>
 // importing Modal Vue Component
@@ -132,9 +133,27 @@ export default {
       }
     },
   },
+  computed: {
+    loggedIn() {
+      var loggedInValue = this.$store.state.auth.status.loggedIn;
+      return loggedInValue;
+    },
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    isAdmin() {
+      if (this.currentUser != null)
+        return this.$store.state.auth.user.roles.includes("ROLE_ADMIN");
+      else return false;
+    },
+  },
   created() {
-    this.userId = this.$store.state.auth.user.id;
-    this.getWatchlistsByUser();
+    if (this.loggedIn && !this.isAdmin) {
+      this.userId = this.$store.state.auth.user.id;
+      this.getWatchlistsByUser();
+    } else {
+      this.$router.push("/error");
+    }
   },
 };
 </script>

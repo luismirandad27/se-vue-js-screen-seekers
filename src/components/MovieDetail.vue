@@ -343,7 +343,7 @@ export default {
   data() {
     return {
       movieId: "",
-      movieObj: null,
+      movieObj: "",
       directorsArray: [],
       writersArray: [],
       castsArray: [],
@@ -524,9 +524,9 @@ export default {
         }
       }
     },
-    addNewRating() {
+    async addNewRating() {
       const userId = this.currentUser.id;
-      UserService.addUserRating(
+      await UserService.addUserRating(
         userId,
         this.movieId,
         this.ratingInput,
@@ -558,24 +558,39 @@ export default {
       this.isModalOpen = false;
     },
   },
-  created() {
-    this.movieId = this.$route.params.id;
-    this.page = 0;
-    this.size = 5;
-    this.getMovieDetail();
-    this.getRatingList(this.page, this.size);
-    this.validateUserRatedMovie();
-  },
   computed: {
     loggedIn() {
-      return this.$store.state.auth.status.loggedIn;
+      var loggedInValue = this.$store.state.auth.status.loggedIn;
+      return loggedInValue;
     },
     currentUser() {
       return this.$store.state.auth.user;
     },
+    isAdmin() {
+      if (this.currentUser != null)
+        return this.$store.state.auth.user.roles.includes("ROLE_ADMIN");
+      else return false;
+    },
+  },
+  created() {
+    
+    if (!this.loggedIn || !this.isAdmin){
+      this.movieId = this.$route.params.id;
+      this.page = 0;
+      this.size = 5;
+      this.getMovieDetail();
+      this.getRatingList(this.page, this.size);
+      this.validateUserRatedMovie();
+    }else{
+      this.$router.push("/error");
+    }
   },
   mounted() {
-    this.activeTabs();
+    if (!this.loggedIn || (this.loggedIn && !this.isAdmin)){
+      this.activeTabs();
+    }else{
+      this.$router.push("/error");
+    }
   },
 };
 </script>

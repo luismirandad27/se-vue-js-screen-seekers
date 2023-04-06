@@ -339,10 +339,29 @@ export default {
       )
     }
   },
+  computed: {
+    loggedIn() {
+      var loggedInValue = this.$store.state.auth.status.loggedIn;
+      return loggedInValue;
+    },
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    isAdmin() {
+      if (this.currentUser != null)
+        return this.$store.state.auth.user.roles.includes("ROLE_ADMIN");
+      else return false;
+    },
+  },
   created() {
-    this.userId = this.$store.state.auth.user.id;
-    this.watchlistId = this.$route.params.watchlistId;
-    this.getWatchlistDetail();
+    if (this.loggedIn && !this.isAdmin){
+      this.userId = this.$store.state.auth.user.id;
+      this.watchlistId = this.$route.params.watchlistId;
+      this.getWatchlistDetail();
+    }
+    else{
+      this.$router.push("/error");
+    }
   },
 };
 </script>
