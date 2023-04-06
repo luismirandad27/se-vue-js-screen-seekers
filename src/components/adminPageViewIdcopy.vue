@@ -34,7 +34,8 @@
 			<div class="col-md-4 col-sm-12 col-xs-12">
 				<div class="movie-img sticky-sb">
 					<!-- this is where to show photo -->
-					<img :src="$MOVIE_PHOTOS_URL + '/' + 'poster.jpg'" alt="">
+					<!-- <img :src="$MOVIE_PHOTOS_URL + '/' + 'poster.jpg'" alt=""> -->
+					<img :src="`${$MOVIE_PHOTOS_URL}/${object.posterImage}`" alt="">
 					<div class="movie-btn" >	
 						<div class="btn-transform transform-vertical red" >
 							<div><a href="#" class="item item-1 redbtn" > <i class="ion-trash-a" ></i>DELETE THIS MOVIE</a></div>

@@ -88,7 +88,8 @@
 				</div>
         <!-- movie details here -->
 				<div class="movie-item-style-2" v-for="movie in result.content" :key="movie.id">
-					<img src="images/uploads/mv1.jpg" alt="">
+					<!-- <img src="images/uploads/mv1.jpg" alt=""> -->
+					<img :src="`${$MOVIE_PHOTOS_URL}/${movie.trailerImage}`" alt="">
 					<div class="mv-item-infor">
 						<h6><a href="moviesingle.html"><router-link :to="'/adminPage/'+movie.id">{{ movie.title }} </router-link><span>{{ movie.releaseDate }}</span></a></h6>
 						<p class="rate"><i class="ion-android-star"></i><span>8.1</span> /10</p>
