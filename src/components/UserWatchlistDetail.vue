@@ -45,6 +45,7 @@
               placeholder="Type the watchlist's name"
               v-model="watchlistNameInput"
               :required="true"
+              maxlength="50"
             />
           </div>
           <div class="col-md-2 form-it">

@@ -15,7 +15,7 @@
         <div class="row">
           <div class="col-md-6 form-it">
             <label>Username</label>
-            <input type="text" placeholder="username" v-model="user.username" />
+            <input type="text" placeholder="username" v-model="user.username" disabled />
           </div>
           <div class="col-md-6 form-it">
             <label>Email Address</label>
@@ -23,6 +23,7 @@
               type="text"
               placeholder="edward@kennedy.com"
               v-model="user.email"
+              disabled
             />
           </div>
         </div>
@@ -109,7 +110,7 @@
                 <label>Old Password</label>
                 <input
                   type="password"
-                  placeholder="**********"
+                  placeholder="Previous Password"
                   v-model="oldPassword"
                   required
                 />
@@ -119,8 +120,8 @@
               <div class="col-md-12 form-it">
                 <label>New Password</label>
                 <input
-                  type="text"
-                  placeholder="***************"
+                  type="password"
+                  placeholder="New Password"
                   v-model="newPassword"
                   required
                 />
@@ -130,8 +131,8 @@
               <div class="col-md-12 form-it">
                 <label>Confirm New Password</label>
                 <input
-                  type="text"
-                  placeholder="***************"
+                  type="password"
+                  placeholder="Type again your new password"
                   v-model="newPassword2"
                   required
                 />
@@ -338,10 +339,6 @@ export default {
       if (!isValid) {
         console.log("not valid");
       }
-    },
-    logout() {
-      this.$store.dispatch("auth/logout");
-      this.$router.push("/");
     },
     goToRecommendations() {
       this.userId = this.$store.state.auth.user.id;

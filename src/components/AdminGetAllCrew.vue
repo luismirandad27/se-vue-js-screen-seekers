@@ -16,7 +16,7 @@
           <div class="hero-ct">
             <h1>celebrity listing - list</h1>
             <ul class="breadcumb">
-              <li class="active"><a href="#">Home</a></li>
+              <li class="active"><router-link to="/admin/movies">Admin</router-link></li>
               <li>
                 <span class="ion-ios-arrow-right"></span> celebrity listing
               </li>
@@ -165,6 +165,7 @@ export default {
     },
     closeModal(){
       this.isModalOpen = false;
+      this.$router.push("/admin/crews");
     }
   },
   created() {

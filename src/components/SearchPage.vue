@@ -11,8 +11,8 @@
           <div class="hero-ct">
             <h1>Movie Search</h1>
             <ul class="breadcumb">
-              <li class="active"><a href="#">Movie</a></li>
-              <li><span class="ion-ios-arrow-right"></span> Search</li>
+              <li class="active"><router-link to="/">Home</router-link></li>
+              <li><span class="ion-ios-arrow-right"></span> Movie's Search</li>
             </ul>
           </div>
         </div>

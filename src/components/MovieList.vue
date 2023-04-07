@@ -142,59 +142,63 @@ export default {
     getComingSoonMovies(page, size) {
       MovieService.getComingSoonMovies(page, size).then(
         async (response) => {
-          this.totalPages = response.totalPages;
-          this.numberElements = response.numberOfElements;
-          this.page = response.number;
-          const moviesListPromise = response.content.map(async (movieData) => {
-            const movie = new Movie(
-              movieData.id,
-              movieData.title,
-              movieData.genre.split(","),
-              movieData.releaseDate,
-              movieData.length,
-              movieData.synopsis,
-              movieData.classificationRating,
-              movieData.movieTrailerLink,
-              movieData.isInTheaters,
-              movieData.isInStreaming,
-              movieData.isComingSoon,
-              movieData.whereToWatch,
-              movieData.posterImage,
-              movieData.trailerImage
-            );
+          if (response != "") {
+            this.totalPages = response.totalPages;
+            this.numberElements = response.numberOfElements;
+            this.page = response.number;
+            const moviesListPromise = response.content.map(
+              async (movieData) => {
+                const movie = new Movie(
+                  movieData.id,
+                  movieData.title,
+                  movieData.genre.split(","),
+                  movieData.releaseDate,
+                  movieData.length,
+                  movieData.synopsis,
+                  movieData.classificationRating,
+                  movieData.movieTrailerLink,
+                  movieData.isInTheaters,
+                  movieData.isInStreaming,
+                  movieData.isComingSoon,
+                  movieData.whereToWatch,
+                  movieData.posterImage,
+                  movieData.trailerImage
+                );
 
-            //Getting the rating by movie
-            const ratingResponse = await UserService.getRatingByMovie(
-              movieData.id
-            );
-            const movieRating = ratingResponse.content;
-            if (movieRating != null) {
-              const totalRatings = movieRating.length;
+                //Getting the rating by movie
+                const ratingResponse = await UserService.getRatingByMovie(
+                  movieData.id
+                );
+                const movieRating = ratingResponse.content;
+                if (movieRating != null) {
+                  const totalRatings = movieRating.length;
 
-              if (totalRatings > 0) {
-                const sumRatings =
-                  totalRatings == 0
-                    ? 0
-                    : movieRating.reduce(
-                        (sum, rating) => sum + rating.userRating,
-                        0
-                      );
+                  if (totalRatings > 0) {
+                    const sumRatings =
+                      totalRatings == 0
+                        ? 0
+                        : movieRating.reduce(
+                            (sum, rating) => sum + rating.userRating,
+                            0
+                          );
 
-                const avgRating =
-                  totalRatings > 0 ? sumRatings / totalRatings : 0;
+                    const avgRating =
+                      totalRatings > 0 ? sumRatings / totalRatings : 0;
 
-                movie.setAvgRating(avgRating.toFixed(1));
-              } else {
-                movie.setAvgRating(0);
+                    movie.setAvgRating(avgRating.toFixed(1));
+                  } else {
+                    movie.setAvgRating(0);
+                  }
+                } else {
+                  movie.setAvgRating(0);
+                }
+
+                return movie;
               }
-            } else {
-              movie.setAvgRating(0);
-            }
-
-            return movie;
-          });
-          this.moviesList = await Promise.all(moviesListPromise);
-          this.moviesList.sort((a, b) => b.avgRating - a.avgRating);
+            );
+            this.moviesList = await Promise.all(moviesListPromise);
+            this.moviesList.sort((a, b) => b.avgRating - a.avgRating);
+          }
         },
         (error) => {
           console.log(error);
@@ -204,60 +208,64 @@ export default {
     getInStreamingMovies(page, size) {
       MovieService.getInStreamingMovies(page, size).then(
         async (response) => {
-          this.totalPages = response.totalPages;
-          this.numberElements = response.totalElements;
-          this.page = response.number;
-          const moviesListPromise = response.content.map(async (movieData) => {
-            const movie = new Movie(
-              movieData.id,
-              movieData.title,
-              movieData.genre.split(","),
-              movieData.releaseDate,
-              movieData.length,
-              movieData.synopsis,
-              movieData.classificationRating,
-              movieData.movieTrailerLink,
-              movieData.isInTheaters,
-              movieData.isInStreaming,
-              movieData.isComingSoon,
-              movieData.whereToWatch,
-              movieData.posterImage,
-              movieData.trailerImage
-            );
+          if (response != "") {
+            this.totalPages = response.totalPages;
+            this.numberElements = response.totalElements;
+            this.page = response.number;
+            const moviesListPromise = response.content.map(
+              async (movieData) => {
+                const movie = new Movie(
+                  movieData.id,
+                  movieData.title,
+                  movieData.genre.split(","),
+                  movieData.releaseDate,
+                  movieData.length,
+                  movieData.synopsis,
+                  movieData.classificationRating,
+                  movieData.movieTrailerLink,
+                  movieData.isInTheaters,
+                  movieData.isInStreaming,
+                  movieData.isComingSoon,
+                  movieData.whereToWatch,
+                  movieData.posterImage,
+                  movieData.trailerImage
+                );
 
-            //Getting the rating by movie
-            const ratingResponse = await UserService.getRatingByMovie(
-              movieData.id
-            );
-            const movieRating = ratingResponse.content;
+                //Getting the rating by movie
+                const ratingResponse = await UserService.getRatingByMovie(
+                  movieData.id
+                );
+                const movieRating = ratingResponse.content;
 
-            if (movieRating != null) {
-              const totalRatings = movieRating.length;
+                if (movieRating != null) {
+                  const totalRatings = movieRating.length;
 
-              if (totalRatings > 0) {
-                const sumRatings =
-                  totalRatings == 0
-                    ? 0
-                    : movieRating.reduce(
-                        (sum, rating) => sum + rating.userRating,
-                        0
-                      );
+                  if (totalRatings > 0) {
+                    const sumRatings =
+                      totalRatings == 0
+                        ? 0
+                        : movieRating.reduce(
+                            (sum, rating) => sum + rating.userRating,
+                            0
+                          );
 
-                const avgRating =
-                  totalRatings > 0 ? sumRatings / totalRatings : 0;
+                    const avgRating =
+                      totalRatings > 0 ? sumRatings / totalRatings : 0;
 
-                movie.setAvgRating(avgRating.toFixed(1));
-              } else {
-                movie.setAvgRating(0);
+                    movie.setAvgRating(avgRating.toFixed(1));
+                  } else {
+                    movie.setAvgRating(0);
+                  }
+                } else {
+                  movie.setAvgRating(0);
+                }
+
+                return movie;
               }
-            } else {
-              movie.setAvgRating(0);
-            }
-
-            return movie;
-          });
-          this.moviesList = await Promise.all(moviesListPromise);
-          this.moviesList.sort((a, b) => b.avgRating - a.avgRating);
+            );
+            this.moviesList = await Promise.all(moviesListPromise);
+            this.moviesList.sort((a, b) => b.avgRating - a.avgRating);
+          }
         },
         (error) => {
           console.log(error);
@@ -267,61 +275,65 @@ export default {
     getInTheatersMovies(page, size) {
       MovieService.getInTheatersMovies(page, size).then(
         async (response) => {
-          this.totalPages = response.totalPages;
-          this.numberElements = response.totalElements;
-          this.page = response.number;
-          const moviesListPromise = response.content.map(async (movieData) => {
-            const movie = new Movie(
-              movieData.id,
-              movieData.title,
-              movieData.genre.split(","),
-              movieData.releaseDate,
-              movieData.length,
-              movieData.synopsis,
-              movieData.classificationRating,
-              movieData.movieTrailerLink,
-              movieData.isInTheaters,
-              movieData.isInStreaming,
-              movieData.isComingSoon,
-              movieData.whereToWatch,
-              movieData.posterImage,
-              movieData.trailerImage
-            );
+          if (response != "") {
+            this.totalPages = response.totalPages;
+            this.numberElements = response.totalElements;
+            this.page = response.number;
+            const moviesListPromise = response.content.map(
+              async (movieData) => {
+                const movie = new Movie(
+                  movieData.id,
+                  movieData.title,
+                  movieData.genre.split(","),
+                  movieData.releaseDate,
+                  movieData.length,
+                  movieData.synopsis,
+                  movieData.classificationRating,
+                  movieData.movieTrailerLink,
+                  movieData.isInTheaters,
+                  movieData.isInStreaming,
+                  movieData.isComingSoon,
+                  movieData.whereToWatch,
+                  movieData.posterImage,
+                  movieData.trailerImage
+                );
 
-            //Getting the rating by movie
-            const ratingResponse = await UserService.getRatingByMovie(
-              movieData.id
-            );
+                //Getting the rating by movie
+                const ratingResponse = await UserService.getRatingByMovie(
+                  movieData.id
+                );
 
-            const movieRating = ratingResponse.content;
+                const movieRating = ratingResponse.content;
 
-            if (movieRating != null) {
-              const totalRatings = movieRating.length;
+                if (movieRating != null) {
+                  const totalRatings = movieRating.length;
 
-              if (totalRatings > 0) {
-                const sumRatings =
-                  totalRatings == 0
-                    ? 0
-                    : movieRating.reduce(
-                        (sum, rating) => sum + rating.userRating,
-                        0
-                      );
+                  if (totalRatings > 0) {
+                    const sumRatings =
+                      totalRatings == 0
+                        ? 0
+                        : movieRating.reduce(
+                            (sum, rating) => sum + rating.userRating,
+                            0
+                          );
 
-                const avgRating =
-                  totalRatings > 0 ? sumRatings / totalRatings : 0;
+                    const avgRating =
+                      totalRatings > 0 ? sumRatings / totalRatings : 0;
 
-                movie.setAvgRating(avgRating.toFixed(1));
-              } else {
-                movie.setAvgRating(0);
+                    movie.setAvgRating(avgRating.toFixed(1));
+                  } else {
+                    movie.setAvgRating(0);
+                  }
+                } else {
+                  movie.setAvgRating(0);
+                }
+
+                return movie;
               }
-            } else {
-              movie.setAvgRating(0);
-            }
-
-            return movie;
-          });
-          this.moviesList = await Promise.all(moviesListPromise);
-          this.moviesList.sort((a, b) => b.avgRating - a.avgRating);
+            );
+            this.moviesList = await Promise.all(moviesListPromise);
+            this.moviesList.sort((a, b) => b.avgRating - a.avgRating);
+          }
         },
         (error) => {
           console.log(error);
