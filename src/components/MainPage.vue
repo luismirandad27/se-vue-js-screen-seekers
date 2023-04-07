@@ -251,74 +251,81 @@ export default {
   methods: {
     getAllMovies() {
       //handle get random movies api method
-      MovieService.getAllMovies().then((response) => {
-        const inTheatersData = response.content.filter(
-          (movieData) => movieData.isInTheaters === true
-        );
-        const inStreamingData = response.content.filter(
-          (movieData) => movieData.isInStreaming === true
-        );
-        const inComingSoonData = response.content.filter(
-          (movieData) => movieData.isComingSoon === true
-        );
+      MovieService.getAllMovies().then( async (response) => {
 
-        //To translate into a Movie object, we can use response.map
-        this.inTheatersMovies = inTheatersData.map((movieData) => {
-          return new Movie(
-            movieData.id,
-            movieData.title,
-            movieData.genre.split(","),
-            movieData.releaseDate,
-            movieData.length,
-            movieData.synopsis,
-            movieData.classificationRating,
-            movieData.movieTrailerLink,
-            movieData.isInTheaters,
-            movieData.isInStreaming,
-            movieData.isComingSoon,
-            movieData.whereToWatch,
-            movieData.posterImage,
-            movieData.trailerImage
-          );
-        });
+        if (response != ""){
 
-        this.inStreamingMovies = inStreamingData.map((movieData) => {
-          return new Movie(
-            movieData.id,
-            movieData.title,
-            movieData.genre.split(","),
-            movieData.releaseDate,
-            movieData.length,
-            movieData.synopsis,
-            movieData.classificationRating,
-            movieData.movieTrailerLink,
-            movieData.isInTheaters,
-            movieData.isInStreaming,
-            movieData.isComingSoon,
-            movieData.whereToWatch,
-            movieData.posterImage,
-            movieData.trailerImage
+          const inTheatersData = await response.content.filter(
+            (movieData) => movieData.isInTheaters === true
           );
-        });
+          const inStreamingData = await response.content.filter(
+            (movieData) => movieData.isInStreaming === true
+          );
+          const inComingSoonData = await response.content.filter(
+            (movieData) => movieData.isComingSoon === true
+          );
+          
+          //To translate into a Movie object, we can use response.map
+          this.inTheatersMovies = inTheatersData.map((movieData) => {
+            return new Movie(
+              movieData.id,
+              movieData.title,
+              movieData.genre.split(","),
+              movieData.releaseDate,
+              movieData.length,
+              movieData.synopsis,
+              movieData.classificationRating,
+              movieData.movieTrailerLink,
+              movieData.isInTheaters,
+              movieData.isInStreaming,
+              movieData.isComingSoon,
+              movieData.whereToWatch,
+              movieData.posterImage,
+              movieData.trailerImage
+            );
+          });
 
-        this.inComminSoonMovies = inComingSoonData.map((movieData) => {
-          return new Movie(
-            movieData.id,
-            movieData.title,
-            movieData.genre.split(","),
-            movieData.releaseDate,
-            movieData.length,
-            movieData.synopsis,
-            movieData.classificationRating,
-            movieData.movieTrailerLink,
-            movieData.isInTheaters,
-            movieData.isInStreaming,
-            movieData.isComingSoon,
-            movieData.whereToWatch,
-            movieData.posterImage,
-            movieData.trailerImage
-          );
-        });
+          this.inStreamingMovies = inStreamingData.map((movieData) => {
+            return new Movie(
+              movieData.id,
+              movieData.title,
+              movieData.genre.split(","),
+              movieData.releaseDate,
+              movieData.length,
+              movieData.synopsis,
+              movieData.classificationRating,
+              movieData.movieTrailerLink,
+              movieData.isInTheaters,
+              movieData.isInStreaming,
+              movieData.isComingSoon,
+              movieData.whereToWatch,
+              movieData.posterImage,
+              movieData.trailerImage
+            );
+          });
+
+          this.inComminSoonMovies = inComingSoonData.map((movieData) => {
+            return new Movie(
+              movieData.id,
+              movieData.title,
+              movieData.genre.split(","),
+              movieData.releaseDate,
+              movieData.length,
+              movieData.synopsis,
+              movieData.classificationRating,
+              movieData.movieTrailerLink,
+              movieData.isInTheaters,
+              movieData.isInStreaming,
+              movieData.isComingSoon,
+              movieData.whereToWatch,
+              movieData.posterImage,
+              movieData.trailerImage
+            );
+          });
+          
+          console.log(this.inComminSoonMovies);
+
+        }
       });
     },
     configuringThumbnailSplide() {

@@ -4,8 +4,11 @@
     <div class="login-content">
       <a href="#" class="close">x</a>
       <h3>Login</h3>
-      <div class="alert alert-danger close" role="alert" id="alert-dialog-signin">
-      </div>
+      <div
+        class="alert alert-danger close"
+        role="alert"
+        id="alert-dialog-signin"
+      ></div>
       <form @submit="handleLogin">
         <div class="row">
           <label for="username">
@@ -15,6 +18,7 @@
               name="username"
               v-model="username"
               id="username"
+              required
             />
           </label>
         </div>
@@ -26,6 +30,7 @@
               name="password"
               v-model="password"
               id="password"
+              required
             />
           </label>
         </div>
@@ -42,21 +47,26 @@
     <div class="login-content">
       <a href="#" class="close">x</a>
       <h3>sign up</h3>
-      <div class="alert alert-danger close" role="alert" id="alert-dialog-signup">
-      </div>
+      <div
+        class="alert alert-danger close"
+        role="alert"
+        id="alert-dialog-signup"
+      ></div>
       <form @submit.prevent="handleSignup">
         <div class="row">
-          <label for="username-2">Username:
+          <label for="username-2"
+            >Username:
             <input
               type="text"
               name="username"
               id="username-2"
               required="required"
               minlength="8"
+              maxlength="20"
               pattern="^[a-zA-Z][a-zA-Z0-9\-\.]{7,19}$"
-              title="Username must start with a letter and only can have words and numbers"
+              title="Username must start with a letter and only can have words and numbers (min 8 - max 20)"
               v-model="usernameSignup"
-              />
+            />
           </label>
         </div>
         <div class="row">
@@ -128,7 +138,7 @@
             </div>
           </div>
           <router-link to="/">
-          <img
+            <img
               class="logo"
               src="../../public/images/logo1.png"
               alt=""
@@ -164,16 +174,6 @@
                 movies
               </a>
             </li>
-            <li v-if="loggedIn" class="dropdown first">
-              <router-link
-                class="btn btn-default dropdown-toggle lv1"
-                data-toggle="dropdown"
-                data-hover="dropdown"
-                :to="{name:'UserProfilePage', query:{activeTab: 4}}"
-              >
-                my watchlists
-              </router-link>
-            </li>
           </ul>
           <ul v-if="isAdmin" class="nav navbar-nav flex-child-menu menu-left">
             <li class="hidden">
@@ -183,6 +183,7 @@
               <a
                 class="btn btn-default dropdown-toggle lv1"
                 data-toggle="dropdown"
+                @click="$router.push('/')"
               >
                 Home
               </a>
@@ -195,7 +196,7 @@
                 data-hover="dropdown"
               >
                 movies administration
-            </router-link>
+              </router-link>
             </li>
           </ul>
           <ul class="nav navbar-nav flex-child-menu menu-right">
@@ -233,15 +234,15 @@ import $ from "jquery";
 
 export default {
   name: "Header",
-  data(){
-    return{
-      username:"",
-      usernameSignup:"",
-      password:"",
-      passwordSignup:"",
-      password2Signup:"",
-      emailSignup:""
-    }
+  data() {
+    return {
+      username: "",
+      usernameSignup: "",
+      password: "",
+      passwordSignup: "",
+      password2Signup: "",
+      emailSignup: "",
+    };
   },
   computed: {
     loggedIn() {
@@ -251,13 +252,11 @@ export default {
     currentUser() {
       return this.$store.state.auth.user;
     },
-    isAdmin(){
-      if( this.currentUser != null)
-        return this.$store.state.auth.user.roles.includes('ROLE_ADMIN');
-      else
-        return false;
-    }
-    
+    isAdmin() {
+      if (this.currentUser != null)
+        return this.$store.state.auth.user.roles.includes("ROLE_ADMIN");
+      else return false;
+    },
   },
   methods: {
     handleLogin(e) {
@@ -266,44 +265,56 @@ export default {
       if (this.user.username && this.user.password) {
         this.$store.dispatch("auth/login", this.user).then(
           (response) => {
-            
             const objOverlayLogin = $(".openform");
             objOverlayLogin.removeClass("openform");
             this.$router.push("/userProfilePage");
           },
           (error) => {
-            document.getElementById("alert-dialog-signin").classList.remove("close");
-            document.getElementById("alert-dialog-signin").innerText = error.response.data.message;
+            document
+              .getElementById("alert-dialog-signin")
+              .classList.remove("close");
+            document.getElementById("alert-dialog-signin").innerText =
+              error.response.data.message;
           }
         );
       }
     },
-    handleSignup(e){
+    handleSignup(e) {
       e.preventDefault();
-      if(this.passwordSignup == this.password2Signup){
-        this.newUser = new User(this.usernameSignup, this.emailSignup, this.passwordSignup);
-        this.$store.dispatch("auth/register",this.newUser).then(
+      if (this.passwordSignup == this.password2Signup) {
+        this.newUser = new User(
+          this.usernameSignup,
+          this.emailSignup,
+          this.passwordSignup
+        );
+        this.$store.dispatch("auth/register", this.newUser).then(
           (response) => {
-              const objOverlaySignup = $(".openform");
-              objOverlaySignup.removeClass("openform");
-              //now, let's signin
-              this.$store.dispatch("auth/login", this.newUser).then(
-                () => {
-                  this.$router.push("/userProfilePage");
-                },
-                (error) => {
-                  console.log(error);
-                }
-              );
+            const objOverlaySignup = $(".openform");
+            objOverlaySignup.removeClass("openform");
+            //now, let's signin
+            this.$store.dispatch("auth/login", this.newUser).then(
+              () => {
+                this.$router.push("/userProfilePage");
+              },
+              (error) => {
+                console.log(error);
+              }
+            );
           },
           (error) => {
-            document.getElementById("alert-dialog-signup").classList.remove("close");
-            document.getElementById("alert-dialog-signup").innerText = error.response.data.message;
+            document
+              .getElementById("alert-dialog-signup")
+              .classList.remove("close");
+            document.getElementById("alert-dialog-signup").innerText =
+              error.response.data.message;
           }
-        )
-      }else{
-        document.getElementById("alert-dialog-signup").classList.remove("close");
-        document.getElementById("alert-dialog-signup").innerText = "Passwords are not matching! Try again!";
+        );
+      } else {
+        document
+          .getElementById("alert-dialog-signup")
+          .classList.remove("close");
+        document.getElementById("alert-dialog-signup").innerText =
+          "Passwords are not matching! Try again!";
       }
     },
     logout() {
@@ -342,7 +353,7 @@ export default {
     },
     addingSignupClickListener() {
       var signupLink = $(".signupLink");
-      var signupct= $("#signup-content");
+      var signupct = $("#signup-content");
       var overlay = $(".overlay");
 
       //pop up for signup form
@@ -396,9 +407,9 @@ export default {
         });
       }
     },
-    goToUserProfile(){
-      this.$router.push("/userProfilePage")
-    }
+    goToUserProfile() {
+      this.$router.push("/userProfilePage");
+    },
   },
   mounted() {
     this.addingOverlay();

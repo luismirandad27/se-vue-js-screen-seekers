@@ -127,10 +127,10 @@ class Admin {
     }
   }
 
-  UpdateCrew(id, crewModel) {
+  async UpdateCrew(id, crewModel) {
     try {
       // const response =  axios.put(API_URL+`movies/${id}`, movieModel, id, {headers: authHeader() })
-      const response = axios.put(`${API_URL}movies/crew-members/${id}`, crewModel, {
+      const response = await axios.put(`${API_URL}movies/crew-members/${id}`, crewModel, {
         headers: authHeader()
       })
       console.log("NO ERRORS!");
@@ -140,15 +140,14 @@ class Admin {
       return "ERROR IS " + error.message;
     }
   }
-  deleteCrew(id) {
+  async deleteCrew(id) {
     try {
-      const response = axios.delete(API_URL + `movies/crew-members/${id}`, {
+      const response = await axios.delete(API_URL + `movies/crew-members/${id}`, {
         headers: authHeader()
       })
-      console.log("NO ERRORS!");
       return response;
     } catch (error) {
-      console.log("THERE IS AN ERROR!!!");
+      console.log(error);
       return "ERROR IS " + error.message;
     }
   }
@@ -165,9 +164,9 @@ class Admin {
     }
   }
 
-  addCrewMemberToMovie(crewId, ProdModel, movieId) {
+  async addCrewMemberToMovie(crewId, ProdModel, movieId) {
     try {
-      const response = axios.post(API_URL + `movies/${movieId}/add-crew-member/${crewId}`, ProdModel, {
+      const response = await axios.post(API_URL + `movies/${movieId}/add-crew-member/${crewId}`, ProdModel, {
         headers: authHeader()
       })
       console.log("ALL good from adding production crew");
@@ -178,9 +177,9 @@ class Admin {
     }
   }
 
-  showCrewForThisMovie(id) {
+  async showCrewForThisMovie(id) {
     try {
-      const response = axios.get(API_URL + `movies/${id}/crew-members`, {
+      const response = await axios.get(API_URL + `movies/${id}/crew-members`, {
         headers: authHeader()
       });
       console.log("ALL good from getting production crew");

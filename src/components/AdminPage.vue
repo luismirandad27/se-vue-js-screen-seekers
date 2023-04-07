@@ -33,7 +33,7 @@
           <div class="hero-ct">
             <h1>Movie Listing (ADMIN)</h1>
             <ul class="breadcumb">
-              <li class="active"><a href="#">Home</a></li>
+              <li class="active"><router-link to="/admin/movies">Admin</router-link></li>
               <li><span class="ion-ios-arrow-right"></span> movie admin</li>
             </ul>
           </div>
@@ -94,10 +94,10 @@
                 <h6>
                   <a href="moviesingle.html"
                     ><router-link :to="'/admin/movies/' + movie.id"
-                      >{{ movie.title }}
+                      >{{ movie.title }} 
                     </router-link>
                     <span
-                      >({{
+                      > ({{
                         new Date(movie.releaseDate).toLocaleDateString(
                           "en-US",
                           {
@@ -109,6 +109,7 @@
                   >
                 </h6>
                 <p class="describe">{{ movie.synopsis }}</p>
+                <p>Movie Characteristics </p>
                 <p class="run-time">
                   {{ movie.length }} min
                   <span>{{ movie.classificationRating }}</span>
@@ -120,11 +121,7 @@
                     })
                   }}</span>
                 </p>
-                <p>Director: <a href="#">Joss Whedon</a></p>
-                <p>
-                  Stars: <a href="#">Robert Downey Jr.,</a>
-                  <a href="#">Chris Evans,</a> <a href="#"> Chris Hemsworth</a>
-                </p>
+                
               </div>
             </div>
             <!--end movie details here -->
@@ -284,6 +281,7 @@ export default {
     },
     closeModal(){
       this.isModalOpen=false;
+      this.$router.push("/admin/movies");
     }
   },
   computed: {

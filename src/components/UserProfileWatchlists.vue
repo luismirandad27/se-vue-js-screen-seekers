@@ -9,12 +9,13 @@
       <div class="container">
         <form @submit.prevent="addNewWatchlist">
           <div class="row">
-            <div class="col-md-6 col-md-offset-2">
+            <div class="col-md-8 col-md-offset-1">
               <input
                 type="text"
-                placeholder="Type the watchlist's name"
+                placeholder="Watchlist's name (50 character max)"
                 v-model="watchlistNameInput"
-                :required="true"
+                maxlength="50"
+                required="true"
               />
             </div>
             <div class="col-md-2 modal-buttons">
@@ -40,7 +41,7 @@
             class="col-md-4"
           >
             <div class="ceb-item-style-2">
-              <img src="../../public/images/uploads/ceb23.jpg" alt="" />
+              <img src="../../public/images/watchlist-template.jpg" alt="" height="200" width="150" />
               <div class="ceb-infor">
                 <h2>
                   <router-link :to="'watchlistDetail/' + watchlist.id">{{
@@ -116,13 +117,15 @@ export default {
       try {
         WatchlistService.getWatchlistByUser(this.userId).then(
           (response) => {
-            this.watchlists = response.map((watchlistData) => {
-              return new Watchlist(
-                watchlistData.id,
-                watchlistData.name,
-                watchlistData.watchlistDetails.length
-              );
-            });
+            if (response != "") {
+              this.watchlists = response.map((watchlistData) => {
+                return new Watchlist(
+                  watchlistData.id,
+                  watchlistData.name,
+                  watchlistData.watchlistDetails.length
+                );
+              });
+            }
           },
           (error) => {
             console.log(error);

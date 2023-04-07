@@ -6,7 +6,6 @@ import adminPageViewId from './components/AdminPageViewId.vue'
 import adminAddMovie from './components/AdminAddMovie.vue'
 import adminUpdateMovie from './components/AdminUpdateMovie.vue'
 import adminPageaddCrew from './components/AdminPageaddCrew.vue'
-import adminPageViewCrew from './components/AdminPageViewCrew.vue'
 import adminPageUpdateCrew from './components/AdminPageUpdateCrew.vue'
 import UserProfilePage from './components/UserProfilePage.vue'
 import MovieList from './components/MovieList.vue'
@@ -14,7 +13,7 @@ import MovieDetail from './components/MovieDetail.vue'
 import SearchPage from './components/SearchPage.vue'
 import UserWatchlistDetail from './components/UserWatchlistDetail.vue'
 import AdminGetAllCrew from './components/AdminGetAllCrew.vue'
-import AdminAddCrew from './components/AdminAddCrew.vue'
+import AdminAddCrewMovie from './components/AdminAddCrewMovie.vue'
 import ErrorPage from './components/Error.vue'
 
 
@@ -50,11 +49,6 @@ const routes = [
         component: adminPageaddCrew
     },
     {
-        path:"/admin/crews/:id",
-        name: "adminPageViewCrew",
-        component: adminPageViewCrew
-    },
-    {
         path:"/admin/crews/update/:id",
         name: "adminPageUpdateCrew",
         component: adminPageUpdateCrew
@@ -83,7 +77,7 @@ const routes = [
     {
         path:"/addCrew/:id",
         name:"addCrew",
-        component: AdminAddCrew
+        component: AdminAddCrewMovie
     },
     {
         path: '/movies/search',

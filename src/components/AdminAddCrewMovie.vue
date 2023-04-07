@@ -1,8 +1,17 @@
 <template>
+  <transition name="modal">
+    <modal
+      :title="modalTitle"
+      :status="modalStatus"
+      v-if="isModalOpen"
+      @close="closeModal"
+    >
+      <p>{{ modalMessage }}</p>
+    </modal>
+  </transition>
   <div class="slider movie-items">
     <div class="container">
       <!-- <h1>This is the admin page, Adding a Crew</h1> -->
-
       <div class="container">
         <form @submit.prevent="sendForm">
           <div class="form-style-1 user-pro">
@@ -63,10 +72,16 @@
 </template>
 
 <script>
-// import { defineComponent } from '@vue/composition-api'
 import Admin from "../services/admin.service.js";
+
+// importing Modal Vue Component
+import Modal from "@/components/Modal.vue";
+
 export default {
-  name: "AdminAddCrew",
+  name: "AdminAddCrewMovie",
+  components:{
+    Modal
+  },
   data() {
     return {
       object: {},
@@ -76,6 +91,10 @@ export default {
         movieRole: "",
         characterName: "",
       },
+      isModalOpen: false,
+      modalTitle: "",
+      modalMessage: "",
+      modalStatus: "",
     };
   },
   methods: {
@@ -92,16 +111,27 @@ export default {
     async getAllCew() {
       // this.crewNames.push(Admin.getCrews());
       const response = await Admin.getCrews();
-      this.crewNames = response.content;
+      
+      if (response != ""){
+        this.crewNames = response.content;
+      }
     },
     async sendForm() {
       try {
         await Admin.addCrewMemberToMovie(this.crewId, this.model, this.id);
         this.$router.push("/admin/movies/" + this.id);
       } catch (error) {
+          this.modalTitle = "Error";
+          this.modalMessage =
+          "We couldn't perform the action. It's possible that you are trying to add member already added";
+          this.modalStatus = "error";
+          this.isModalOpen = true;
         console.log("Error is " + error);
       }
     },
+    closeModal(){
+      this.isModalOpen=false;
+    }
   },
   computed: {
     loggedIn() {

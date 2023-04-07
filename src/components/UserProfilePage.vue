@@ -191,6 +191,10 @@ export default {
     },
     closeModal(){
       this.isModalOpen = false;
+    },
+    logout() {
+      this.$store.dispatch("auth/logout");
+      this.$router.push("/");
     }
   },
   computed: {
