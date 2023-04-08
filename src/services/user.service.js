@@ -193,6 +193,16 @@ class UserService {
       throw new Error("Failed to update user profile information");
     }
   }
+  async deleteUserRating(id){
+    try {
+      const response = await axios.delete(API_URL + `users/ratings/${id}`, {
+        headers: authHeader()
+      })
+      return response.data;
+    } catch (error) {
+      return "ERROR IS " + error.message;
+    }
+  }
 }
 
 export default new UserService();

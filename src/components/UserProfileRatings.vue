@@ -1,4 +1,13 @@
 <template>
+<transition name="modal">
+    <modal :title="modalTitle" :status="modalStatus" v-if="isModalOpen" @close="closeModal">
+      <p>{{ modalMessage }}</p>
+      <div v-if="modalType == 'confirmation'" class="modal-buttons">
+        <button v-if="modalTypeAction == 'deleteRating'" class="modal-confirm" @click="deleteRating()">Confirm</button>
+        <button class="modal-cancel" @click="closeModal">Cancel</button>
+      </div>
+    </modal>
+  </transition>
   <div class="col-md-9 col-sm-12 col-xs-12">
     <div class="row">
       <div class="col-md-12 user-hero-subtitle">
@@ -28,7 +37,8 @@
         />
         <div class="mv-item-infor">
           <h6>
-            <a href="#">{{ rating.movie.title }} </a>
+            {{ rating.movie.title }}
+            <span ><a @click="removeRatingConfirmation(rating.id)" style="color:red"> (Delete)</a></span>
           </h6>
           <p class="time sm-text">your rate:</p>
           <p class="rate">
@@ -87,8 +97,14 @@
 <script>
 import UserService from "@/services/user.service";
 
+// importing Modal Vue Component
+import Modal from "@/components/Modal.vue";
+
 export default {
   name: "UserProfileRatings",
+  components:{
+    Modal
+  },
   data() {
     return {
       userId: "",
@@ -98,6 +114,13 @@ export default {
       totalPages: "",
       totalElements: 0,
       numberElements: 0,
+      ratingIdToDelete:0,
+      isModalOpen: false,
+      modalTitle: "",
+      modalMessage: "",
+      modalStatus: "",
+      modalType: "",
+      modalTypeAction: "",
     };
   },
   methods: {
@@ -113,6 +136,35 @@ export default {
       this.totalElements = response.totalElements;
       this.userRatings = response.content;
     },
+    removeRatingConfirmation(ratingId){
+      this.ratingIdToDelete = ratingId;
+      this.modalType = "confirmation";
+      this.modalTitle = "Confirmation";
+      this.modalMessage = "Are you sure you want to delete your rating?";
+      this.modalStatus = "confirmation";
+      this.modalTypeAction = "deleteRating";
+      this.isModalOpen = true;
+    },
+    deleteRating(){
+      UserService.deleteUserRating(this.ratingIdToDelete).then(
+        () =>{
+          this.modalType = "";
+          this.modalTitle = "Success!";
+          this.modalMessage = "Rating has been deleted successfully!";
+          this.modalStatus = "success";
+          this.isModalOpen = true;
+          this.page = 0;
+          this.size = 5;
+          this.getUserRatings(this.page, this.size);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    closeModal(){
+      this.isModalOpen = false;
+    }
   },
   computed: {
     loggedIn() {

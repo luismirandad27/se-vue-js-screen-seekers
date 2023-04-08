@@ -51,7 +51,7 @@
             <div class="user-fav">
               <p>Account Details</p>
               <ul>
-                <li class="active">
+                <li>
                   <a @click="activeTab = 1">Profile</a>
                 </li>
                 <li v-if="!isAdmin">
@@ -114,7 +114,11 @@ export default {
       modalStatus: "",
       modalType:"",
       modalTypeAction:"",
-      activeTab: 1
+      activeTab: 1,
+      tab1Class:"",
+      tab2Class:"",
+      tab3Class:"",
+      tab4Class:"",
     };
   },
   methods:{
