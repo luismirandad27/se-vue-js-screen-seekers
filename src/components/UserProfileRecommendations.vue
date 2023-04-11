@@ -31,9 +31,9 @@
               alt=""
             />
             <div class="hvr-inner">
-              <a href="moviesingle.html">
+              <router-link :to="'/movies/' + movie.id">
                 Read more <i class="ion-android-arrow-dropright"></i>
-              </a>
+              </router-link>
             </div>
             <div class="mv-item-infor">
               <h6>
@@ -134,9 +134,10 @@ export default {
 
             //Getting the rating by movie
             const ratingResponse = await UserService.getRatingByMovie(
-              movieData.id
+              movie.id
             );
-            const movieRating = ratingResponse;
+
+            const movieRating = ratingResponse.content;
             const totalRatings = movieRating.length;
 
             if (totalRatings > 0) {
@@ -152,6 +153,7 @@ export default {
                 totalRatings > 0 ? sumRatings / totalRatings : 0;
 
               movie.setAvgRating(avgRating.toFixed(1));
+
             } else {
               movie.setAvgRating(null);
             }
