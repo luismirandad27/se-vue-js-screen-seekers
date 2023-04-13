@@ -228,10 +228,10 @@ export default {
       thumbnailOptions: {
         type: "slide",
         width: "100%",
-        perPage: 3,
+        perPage: 4,
         perMove: 1,
         focus: "center",
-        heightRatio: 0.6,
+        heightRatio: 1,
         arrows: true,
         drag: true,
         pagination: false,
@@ -358,6 +358,7 @@ export default {
     document.title = 'Screen Seekers';
     this.getAllMovies();
     this.configuringThumbnailSplide();
+    
   }
 };
 </script>
