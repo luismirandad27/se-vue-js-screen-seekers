@@ -60,7 +60,7 @@
       </div>
     </div>
   </div>
-  <div class="movie-items">
+  <div class="slider movie-items">
     <div class="container">
       <div class="row">
         <div class="title-hd">

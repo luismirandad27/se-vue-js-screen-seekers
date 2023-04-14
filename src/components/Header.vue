@@ -164,7 +164,7 @@
                 Home
               </a>
             </li>
-            <li class="dropdown first">
+            <li v-if="loggedIn" class="dropdown first">
               <a
                 class="btn btn-default dropdown-toggle lv1"
                 data-toggle="dropdown"

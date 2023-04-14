@@ -110,7 +110,6 @@ export default {
     getRecommendations(page, size) {
       UserService.getRecommendationsByUser(this.userId, page, size).then(
         async (response) => {
-          console.log(response.content);
           this.totalPages = response.totalPages;
           this.numberElements = response.numberOfElements;
           this.page = response.number;

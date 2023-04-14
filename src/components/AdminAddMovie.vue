@@ -92,7 +92,7 @@
               <label>Movie Trailer URL</label>
               <input
                 type="text"
-                placeholder="Trailer Video URL"
+                placeholder="Trailer Video URL (Example: https://www.youtube.com/embed/TcMBFSGVi1c)"
                 v-model="model.movieTrailerLink"
                 id="movieTrailerLink"
                 required
